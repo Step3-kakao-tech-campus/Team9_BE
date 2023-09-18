@@ -13,12 +13,8 @@ spring:
     
     url:  jdbc:h2:mem:test;MODE=MySQL #h2 연결 url 모드는 mySQL => 실제 서비스시의 RDBMS은 mySQL일 것이므로
          #jdbc:mariadb://localhost:3306/your_database_name   # MariaDB 연결 URL port는 mysql 의 디폴트 포트인 3306
-
-    username: your_username # h2설정시 id,
-                            # mysql설정시 mysql 어드민 id
-    password: your_password  # h2설정시 password
-                            # musql설정시 mysql 어드민 password
-
+    username: sa
+    password:
   jpa:
     hibernate:
       ddl-auto: update # 애플리케이션 시작 시 테이블을 자동으로 업데이트
