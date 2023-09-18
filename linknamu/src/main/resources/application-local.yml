@@ -1,0 +1,104 @@
+
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true #  응답에 대해 UTF-8 문자 인코딩을 강제로 적용하게 됩니다.
+  port: 8000 # 원하는 포트 번호로 변경 저 같은 경우는 8000으로 함
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver  #h2 인메모리 db를 사용하는 경우
+                      #org.mariadb.jdbc.Driver  # MariaDB를 사용할 경우
+    
+    url:  jdbc:h2:mem:test;MODE=MySQL #h2 연결 url 모드는 mySQL => 실제 서비스시의 RDBMS은 mySQL일 것이므로
+         #jdbc:mariadb://localhost:3306/your_database_name   # MariaDB 연결 URL port는 mysql 의 디폴트 포트인 3306
+
+    username: your_username # h2설정시 id,
+                            # mysql설정시 mysql 어드민 id
+    password: your_password  # h2설정시 password
+                            # musql설정시 mysql 어드민 password
+
+  jpa:
+    hibernate:
+      ddl-auto: update # 애플리케이션 시작 시 테이블을 자동으로 업데이트
+    show-sql: true  # SQL 쿼리 로깅 활성화
+    database-platform: org.hibernate.dialect.MySQLDialect # MySQL방식 사용
+    properties:
+      # Hibernate 설정 부분
+      hibernate:
+        # format_sql은 Hibernate이 SQL 쿼리를 로그에 출력할 때 이를 보기 쉽게 포맷팅할지 여부를 의미.
+        format_sql: true
+      # Hibernate의 기본 배치 페치 크기를 지정하는 설정입니다. 배치 페치 크기는 데이터베이스에서 여러 엔티티를 한 번에 가져올 때 사용되는 일괄 처리 크기를 나타냅니다.
+      default_batch_fetch_size: 100
+
+    # Open-in-view 설정 부분
+    open-in-view: false
+    # open-in-view는 데이터베이스 트랜잭션을 활성 상태에서 뷰(예: JSP)에서 지연로딩된 Hibernate 엔티티에 접근할 수 있는지 여부를 나타냅니다.
+    # "false"로 설정하면 지연로딩된 엔티티에 접근할 수 없으며, "true"로 설정하면 트랜잭션이 종료될 때까지 엔티티에 접근할 수 있습니다.
+    # 디폴트값은 true이며, 보다 자세한 내용은 2단계 했떤 메타코딩님 ppt에 설명되어있으니 참고해 주세요!
+
+application:
+  # 애플리케이션의 이름을 설정합니다.
+  name: YourApplicationName
+
+h2:
+  console:
+    # H2 데이터베이스 콘솔을 활성화합니다.
+    enabled: true
+
+data:
+  redis:
+    # Redis 데이터베이스에 연결할 때 사용할 포트 번호를 지정합니다.
+    port: 6379
+    # Redis 데이터베이스에 연결할 때 사용할 호스트 주소를 지정합니다.
+    host: localhost
+
+logging:
+  level:
+    # Spring Framework 패키지의 로깅 레벨을 INFO로 설정합니다.
+    org.springframework: INFO
+    # com.example 패키지의 로깅 레벨을 DEBUG로 설정합니다.
+    com.example: DEBUG
+
+security:
+  basic:
+    # 기본 보안 설정을 비활성화합니다. => 즉 2단계 처럼 사용자정의보안코드를 작성하라는 말이겠죠?
+    enabled: false
+
+
+##access랑 refresh token은 이경님이 맘대로 설정해주세요...ㅎ
+
+
+###사족(볼필요 없습니다)
+#true로 한다면 기본 보안설정을 yml에서 셋팅할수잇습니다...
+#    security:
+#      basic:
+#        enabled: true
+#
+#      # 사용자 정의 인증 및 권한 부여를 위한 설정
+#      user:
+#        name: user
+#        password: password
+#        roles: USER
+#
+#      # 특정 URL에 대한 접근 제어
+#      filter-chain:
+#        - pattern: /public/**
+#          security: none
+#        - pattern: /admin/**
+#          security: authenticated
+#
+#      # CSRF(Cross-Site Request Forgery) 방어 설정
+#      csrf:
+#        enabled: true
+#
+#      # XSS(Cross-Site Scripting) 방어 설정
+#      headers:
+#        content-security-policy: "default-src 'self'"
+#
+#      # 보안 헤더 설정
+#      headers:
+#        hsts:
+#          max-age-seconds: 31536000
+
