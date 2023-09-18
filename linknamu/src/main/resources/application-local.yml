@@ -36,7 +36,7 @@ spring:
 
 application:
   # 애플리케이션의 이름을 설정합니다.
-  name: YourApplicationName
+  name: LinkNamuApplication
 
 h2:
   console:
