@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LinknamuApplication {
+public class LinkNamuApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LinknamuApplication.class, args);
+        SpringApplication.run(LinkNamuApplication.class, args);
     }
 
 }
