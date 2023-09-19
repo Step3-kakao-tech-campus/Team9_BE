@@ -21,7 +21,7 @@ public class Bookmark {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(length = 100, nullable = false, unique = true, name = "bookmark_name")
+    @Column(length = 100, nullable = false, name = "bookmark_name")
     private String bookmark_name;
 
     @Column(length = 1024, nullable = false, name = "bookmark_link")
