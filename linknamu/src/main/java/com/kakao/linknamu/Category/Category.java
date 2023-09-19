@@ -15,15 +15,15 @@ public class Category {
     @Id
     @GeneratedValue
     @Column(name = "category_id")
-    private Long categoryId;
+    private Long category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category parentId;
+    private Category parentCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(length = 100, nullable = false, name = "category_name")
     private String categoryName;
@@ -31,9 +31,9 @@ public class Category {
 
     @Builder
     public Category(Long categoryId, Category category, User user, String categoryName) {
-        this.categoryId = categoryId;
-        this.parentId = category;
-        this.userId = user;
+        this.category = categoryId;
+        this.parentCategory = category;
+        this.user = user;
         this.categoryName = categoryName;
     }
 }

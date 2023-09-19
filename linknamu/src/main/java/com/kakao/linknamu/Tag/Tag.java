@@ -19,7 +19,7 @@ public class Tag {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(length = 50, nullable = false, unique = true, name = "tag_name")
     private String tagName;
@@ -28,7 +28,7 @@ public class Tag {
     @Builder
     public Tag(Long tagId, User user, String tagName) {
         this.tagId = tagId;
-        this.userId = user;
+        this.user = user;
         this.tagName = tagName;
     }
 }
