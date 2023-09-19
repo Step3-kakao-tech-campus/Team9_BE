@@ -16,11 +16,13 @@ public class Bookmark_Tag {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookmark_id")
+    @Column(unique = true)
     private Bookmark bookmark;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
+    @Column(unique = true)
     private Tag tag;
 
 
