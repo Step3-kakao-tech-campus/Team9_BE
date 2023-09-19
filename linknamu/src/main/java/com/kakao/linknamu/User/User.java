@@ -14,7 +14,7 @@ public class User {
     @Id
     @GeneratedValue
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
 
     @Column(length = 100, nullable = false, unique = true, name = "email")
     private String email;
@@ -33,8 +33,8 @@ public class User {
 
 
     @Builder
-    public User(Long user_id, String email, String password, String provider, String roles, String nickname) {
-        this.user_id = user_id;
+    public User(Long userId, String email, String password, String provider, String roles, String nickname) {
+        this.userId = userId;
         this.email = email;
         this.password = password;
         this.provider = provider;

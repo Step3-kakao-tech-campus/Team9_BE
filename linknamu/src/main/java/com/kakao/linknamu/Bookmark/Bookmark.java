@@ -15,32 +15,32 @@ public class Bookmark {
     @Id
     @GeneratedValue
     @Column(name = "bookmark_id")
-    private Long bookmark_id;
+    private Long bookmarkId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(length = 100, nullable = false, name = "bookmark_name")
-    private String bookmark_name;
+    private String bookmarkName;
 
     @Column(length = 1024, nullable = false, name = "bookmark_link")
-    private String bookmark_link;
+    private String bookmarkLink;
 
     @Column(length = 200, name = "bookmark_description")
-    private String bookmark_description;
+    private String bookmarkDescription;
 
     @Column(length = 512, name = "bookmark_thumbnail")
-    private String bookmark_thumbnail;
+    private String bookmarkThumbnail;
 
 
     @Builder
-    public Bookmark(Long bookmark_id, Category category, String bookmark_name, String bookmark_link, String bookmark_description, String bookmark_thumbnail) {
-        this.bookmark_id = bookmark_id;
+    public Bookmark(Long bookmarkId, Category category, String bookmarkName, String bookmarkLink, String bookmarkDescription, String bookmarkThumbnail) {
+        this.bookmarkId = bookmarkId;
         this.category = category;
-        this.bookmark_name = bookmark_name;
-        this.bookmark_link = bookmark_link;
-        this.bookmark_description = bookmark_description;
-        this.bookmark_thumbnail = bookmark_thumbnail;
+        this.bookmarkName = bookmarkName;
+        this.bookmarkLink = bookmarkLink;
+        this.bookmarkDescription = bookmarkDescription;
+        this.bookmarkThumbnail = bookmarkThumbnail;
     }
 }
