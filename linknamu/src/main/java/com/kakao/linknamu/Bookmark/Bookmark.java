@@ -17,7 +17,7 @@ public class Bookmark {
     @Column(name = "bookmark_id")
     private Long bookmark_id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
