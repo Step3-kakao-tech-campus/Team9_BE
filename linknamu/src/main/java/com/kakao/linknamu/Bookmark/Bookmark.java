@@ -9,7 +9,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="bookmark_tb")
+@Table(
+        name="bookmark_tb",
+        uniqueConstraints={
+                @UniqueConstraint(
+                        name = "categoryId_bookmarkLink unique constraint",
+                        columnNames = {
+                                "category_id",
+                                "bookmark_link"
+                        }
+                )
+        }
+)
 public class Bookmark {
 
     @Id

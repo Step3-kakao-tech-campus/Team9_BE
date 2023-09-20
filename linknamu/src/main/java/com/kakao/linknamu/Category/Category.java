@@ -9,7 +9,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="category_tb")
+@Table(
+        name="category_tb",
+        uniqueConstraints={
+                @UniqueConstraint(
+                        name = "parentCategory_categoryName unique constraint",
+                        columnNames = {
+                                "parent_category",
+                                "category_name"
+                        }
+                )
+        }
+)
 public class Category {
 
     @Id
@@ -19,13 +30,14 @@ public class Category {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @Column(name = "parent_category")
     private Category parentCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(length = 100, nullable = false, unique = true, name = "category_name")
+    @Column(length = 100, nullable = false, name = "category_name")
     private String categoryName;
 
 

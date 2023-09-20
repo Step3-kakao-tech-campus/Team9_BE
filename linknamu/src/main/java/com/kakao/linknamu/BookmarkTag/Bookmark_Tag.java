@@ -10,19 +10,28 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="bookmark_tab_tb")
+@Table(
+        name="bookmark_tab_tb",
+        uniqueConstraints={
+                @UniqueConstraint(
+                        name = "categoryId_bookmarkLink unique constraint",
+                        columnNames = {
+                                "category_id",
+                                "bookmark_link"
+                        }
+                )
+        }
+)
 public class Bookmark_Tag {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookmark_id")
-    @Column(unique = true)
     private Bookmark bookmark;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
-    @Column(unique = true)
     private Tag tag;
 
 

@@ -9,7 +9,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="tag_tb")
+@Table(
+        name="tag_tb",
+        uniqueConstraints={
+                @UniqueConstraint(
+                        name = "userId_tagName unique constraint",
+                        columnNames = {
+                                "user_id",
+                                "tag_name"
+                        }
+                )
+        }
+)
 public class Tag {
 
     @Id
