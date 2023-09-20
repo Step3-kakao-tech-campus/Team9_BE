@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -41,5 +43,18 @@ public class Tag {
         this.tagId = tagId;
         this.user = user;
         this.tagName = tagName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return Objects.equals(tagId, tag.tagId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tagId);
     }
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
                 @UniqueConstraint(
                         name = "parentCategory_categoryName unique constraint",
                         columnNames = {
-                                "parent_category",
+                                "parent_category_id",
                                 "category_name"
                         }
                 )
@@ -29,8 +31,7 @@ public class Category {
     private Long category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    @Column(name = "parent_category")
+    @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,5 +48,18 @@ public class Category {
         this.parentCategory = category;
         this.user = user;
         this.categoryName = categoryName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category1 = (Category) o;
+        return Objects.equals(category, category1.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(category);
     }
 }
