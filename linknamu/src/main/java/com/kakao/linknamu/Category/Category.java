@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -46,5 +48,18 @@ public class Category {
         this.parentCategory = category;
         this.user = user;
         this.categoryName = categoryName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category1 = (Category) o;
+        return Objects.equals(category, category1.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(category);
     }
 }

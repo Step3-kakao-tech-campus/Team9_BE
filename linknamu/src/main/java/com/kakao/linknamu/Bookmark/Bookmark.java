@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -53,5 +55,18 @@ public class Bookmark {
         this.bookmarkLink = bookmarkLink;
         this.bookmarkDescription = bookmarkDescription;
         this.bookmarkThumbnail = bookmarkThumbnail;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bookmark bookmark = (Bookmark) o;
+        return Objects.equals(bookmarkId, bookmark.bookmarkId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookmarkId);
     }
 }

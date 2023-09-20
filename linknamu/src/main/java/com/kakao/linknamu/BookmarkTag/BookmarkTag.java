@@ -7,24 +7,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(
-        name="bookmark_tab_tb",
-        uniqueConstraints={
-                @UniqueConstraint(
-                        name = "categoryId_bookmarkLink unique constraint",
-                        columnNames = {
-                                "bookmark_id",
-                                "tag_id"
-                        }
-                )
-        }
-)
-public class Bookmark_Tag {
+@Table(name="bookmark_tab_tb")
+public class BookmarkTag {
 
     @EmbeddedId
     private BookmarkTagId bookmarkTagId;
@@ -41,8 +30,21 @@ public class Bookmark_Tag {
 
 
     @Builder
-    public Bookmark_Tag(Bookmark bookmark, Tag tag) {
+    public BookmarkTag(Bookmark bookmark, Tag tag) {
         this.bookmark = bookmark;
         this.tag = tag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookmarkTag that = (BookmarkTag) o;
+        return Objects.equals(bookmarkTagId, that.bookmarkTagId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookmarkTagId);
     }
 }
