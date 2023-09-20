@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -16,20 +18,23 @@ import lombok.NoArgsConstructor;
                 @UniqueConstraint(
                         name = "categoryId_bookmarkLink unique constraint",
                         columnNames = {
-                                "category_id",
-                                "bookmark_link"
+                                "bookmark_id",
+                                "tag_id"
                         }
                 )
         }
 )
 public class Bookmark_Tag {
 
-    @Id
+    @EmbeddedId
+    private BookmarkTagId bookmarkTagId;
+
+    @MapsId("bookmarkId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookmark_id")
     private Bookmark bookmark;
 
-    @Id
+    @MapsId("tagId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;

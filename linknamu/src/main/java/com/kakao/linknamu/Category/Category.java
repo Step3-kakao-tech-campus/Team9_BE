@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
                 @UniqueConstraint(
                         name = "parentCategory_categoryName unique constraint",
                         columnNames = {
-                                "parent_category",
+                                "parent_category_id",
                                 "category_name"
                         }
                 )
@@ -29,8 +29,7 @@ public class Category {
     private Long category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    @Column(name = "parent_category")
+    @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
