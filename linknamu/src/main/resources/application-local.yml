@@ -64,7 +64,8 @@ security:
 
 
 ##access랑 refresh token은 이경님이 맘대로 설정해주세요...ㅎ
-
+access-jwt-secret-key: KakaoTechCampusLinkNamu
+refresh-jwt-secret-key: KakaoTechCampusLinkNamu1234
 
 ###사족(볼필요 없습니다)
 #true로 한다면 기본 보안설정을 yml에서 셋팅할수잇습니다...
