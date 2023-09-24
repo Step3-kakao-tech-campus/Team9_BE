@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakao.linknamu._core.exception.Exception400;
 import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu._core.redis.RedisExceptionStatus;
+import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu._core.redis.service.RefreshTokenService;
 import com.kakao.linknamu._core.security.JwtProvider;
 import com.kakao.linknamu.user.UserExceptionStatus;
@@ -31,6 +32,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserJPARepository userJPARepository;
     private final RefreshTokenService refreshTokenService;
+    private final BlackListTokenService blackListTokenService;
 
     @Transactional
     public LoginResponseDto socialLogin(OauthUserInfo userInfo) {
@@ -69,14 +71,17 @@ public class UserService {
 
     public void logout(String accessToken) {
         refreshTokenService.deleteByAccessToken(accessToken);
+        blackListTokenService.save(accessToken);
     }
 
 
-    public void withdrawal(User user) {
+    public void withdrawal(User user, String accessToken) {
         userJPARepository.findById(user.getUserId()).ifPresentOrElse(
                 userJPARepository::delete,
                 () -> {throw new Exception404(UserExceptionStatus.USER_NOT_FOUND);}
         );
+        refreshTokenService.deleteByAccessToken(accessToken);
+        blackListTokenService.save(accessToken);
     }
 
     // ---- private ----

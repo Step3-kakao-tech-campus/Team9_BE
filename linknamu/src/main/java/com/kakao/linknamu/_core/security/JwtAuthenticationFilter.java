@@ -5,6 +5,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.kakao.linknamu._core.exception.Exception403;
+import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,14 +18,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    private final BlackListTokenService blackListTokenService;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, BlackListTokenService blackListTokenService) {
         super(authenticationManager);
+        this.blackListTokenService = blackListTokenService;
     }
 
     @Override
@@ -39,6 +45,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             log.error("잘못된 토큰");
             throw new JWTDecodeException("토큰 형식이 잘못되었습니다.");
         }
+
+        // accessToken이 블랙 리스트에 있는지 확인
+        blackListTokenService.validAccessToken(jwt);
 
         try {
             DecodedJWT decodedJWT = JwtProvider.verify(jwt);
