@@ -1,4 +1,4 @@
-package com.kakao.linknamu.BookmarkTag;
+package com.kakao.linknamu.bookmarkTag;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

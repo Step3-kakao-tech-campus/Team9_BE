@@ -1,6 +1,6 @@
-package com.kakao.linknamu.Category;
+package com.kakao.linknamu.category;
 
-import com.kakao.linknamu.User.User;
+import com.kakao.linknamu.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

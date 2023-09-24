@@ -1,4 +1,4 @@
-package com.kakao.linknamu.Tag;
+package com.kakao.linknamu.tag;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package com.kakao.linknamu.User;
+package com.kakao.linknamu.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

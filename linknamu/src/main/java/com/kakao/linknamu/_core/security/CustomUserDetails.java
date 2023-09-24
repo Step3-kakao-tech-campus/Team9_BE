@@ -1,6 +1,6 @@
 package com.kakao.linknamu._core.security;
 
-import com.kakao.linknamu.User.User;
+import com.kakao.linknamu.user.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
