@@ -24,7 +24,7 @@ public class RefreshToken {
     private String accessToken;
 
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
-    private Long expiraition = 1000L;
+    private Long expiraition = JwtProvider.REFRESH_EXP;
 
     @Builder
     public RefreshToken(String refreshToken, Long userId, String email, String accessToken) {
