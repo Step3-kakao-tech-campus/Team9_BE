@@ -1,5 +1,7 @@
 package com.kakao.linknamu._core.security;
 
+import com.kakao.linknamu._core.exception.Exception401;
+import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.util.FilterResponseUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,14 +67,14 @@ public class SecurityConfig {
         // 인증 실패 처리
         http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint((request, response, authException) ->
-                        FilterResponseUtils.unAuthorized(response, new RuntimeException("인증되지 않았습니다.")
+                        FilterResponseUtils.unAuthorized(response, new Exception401(SecurityExceptionStatus.UNAUTHORIZED_USER)
                 ))
         );
 
         // 권한 실패 처리
         http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.accessDeniedHandler((request, response, authException) ->
-                        FilterResponseUtils.forbidden(response, new RuntimeException("권한이 없습니다.")
+                        FilterResponseUtils.forbidden(response, new Exception403(SecurityExceptionStatus.FORBIDDEN_USER)
                 ))
         );
 
