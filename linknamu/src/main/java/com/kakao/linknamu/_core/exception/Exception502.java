@@ -9,7 +9,7 @@ public class Exception502 extends ServerException{
     }
 
     @Override
-    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), HttpStatus.BAD_GATEWAY);}
+    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), HttpStatus.BAD_GATEWAY.value());}
 
     @Override
     public HttpStatus status() { return HttpStatus.BAD_GATEWAY;}

@@ -9,7 +9,7 @@ public class Exception403 extends ClientException{
     }
 
     @Override
-    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), HttpStatus.FORBIDDEN);}
+    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), HttpStatus.FORBIDDEN.value());}
 
     @Override
     public HttpStatus status() { return HttpStatus.UNAUTHORIZED;}
