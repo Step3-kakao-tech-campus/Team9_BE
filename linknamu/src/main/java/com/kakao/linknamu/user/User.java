@@ -1,4 +1,4 @@
-package com.kakao.linknamu.User;
+package com.kakao.linknamu.user;
 
 import jakarta.persistence.*;
 import lombok.Builder;

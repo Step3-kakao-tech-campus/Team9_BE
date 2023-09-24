@@ -1,6 +1,6 @@
-package com.kakao.linknamu.Bookmark;
+package com.kakao.linknamu.bookmark;
 
-import com.kakao.linknamu.User.User;
+import com.kakao.linknamu.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookmarkJPARepository extends JpaRepository<User, Integer> {

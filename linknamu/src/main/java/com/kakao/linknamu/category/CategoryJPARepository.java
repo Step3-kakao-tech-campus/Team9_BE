@@ -1,4 +1,4 @@
-package com.kakao.linknamu.Category;
+package com.kakao.linknamu.category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
