@@ -2,7 +2,9 @@ package com.kakao.linknamu._core.security;
 
 import com.kakao.linknamu._core.exception.Exception401;
 import com.kakao.linknamu._core.exception.Exception403;
+import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu._core.util.FilterResponseUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +20,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final BlackListTokenService blackListTokenService;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -29,7 +33,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
+            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, blackListTokenService));
             builder.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class); // JwtAuthenticationFilter 전에 JwtExceptionFilter가 적용된다.
             super.configure(builder);
         }

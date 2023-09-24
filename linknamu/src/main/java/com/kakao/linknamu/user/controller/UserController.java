@@ -31,8 +31,9 @@ public class UserController {
     }
 
     @PostMapping("/withdrawal")
-    public ResponseEntity<?> withdrawal(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        userService.withdrawal(userDetails.getUser());
+    public ResponseEntity<?> withdrawal(HttpServletRequest request,
+                                        @AuthenticationPrincipal CustomUserDetails userDetails) {
+        userService.withdrawal(userDetails.getUser(), request.getHeader("accessToken"));
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 }

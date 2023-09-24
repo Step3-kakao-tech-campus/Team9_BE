@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakao.linknamu._core.exception.Exception401;
+import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.util.ApiUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,6 +31,8 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (JWTVerificationException | JWTCreationException e) {
             setJwtExceptionResponse(request, response, e);
+        } catch (Exception403 e) {
+            setForbiddenResponse(request, response, e);
         }
     }
 
@@ -37,5 +40,11 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getOutputStream().write(om.writeValueAsBytes(ApiUtils.error(exception.getMessage(), HttpStatus.UNAUTHORIZED.value())));
+    }
+
+    private void setForbiddenResponse(HttpServletRequest request, HttpServletResponse response, Exception403 exception) throws IOException {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.getOutputStream().write(om.writeValueAsBytes(exception.body()));
     }
 }
