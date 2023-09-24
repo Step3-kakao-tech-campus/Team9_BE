@@ -15,7 +15,6 @@ public class BlackListTokenService {
 
     public void save(String accessToken) {
         Long remainTime = JwtProvider.getRemainExpiration(accessToken);
-        System.out.println(remainTime);
         BlackListToken blackListToken = BlackListToken.builder()
                 .accessToken(accessToken)
                 .expiraition(remainTime)
