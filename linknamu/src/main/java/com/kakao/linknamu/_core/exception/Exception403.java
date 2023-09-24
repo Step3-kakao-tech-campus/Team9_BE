@@ -1,11 +1,10 @@
 package com.kakao.linknamu._core.exception;
 
-import com.kakao.linknamu._core.BaseStatus;
 import com.kakao.linknamu._core.util.ApiUtils;
 import org.springframework.http.HttpStatus;
 
 public class Exception403 extends ClientException{
-    public Exception403(BaseStatus exception) {
+    public Exception403(BaseExceptionStatus exception) {
         super(exception.getMessage());
     }
 
