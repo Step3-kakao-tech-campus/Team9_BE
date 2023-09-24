@@ -1,5 +1,6 @@
 package com.kakao.linknamu.user.entity;
 
+import com.kakao.linknamu.user.entity.constant.Provider;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
@@ -25,7 +26,8 @@ public class User {
     private String password;
 
     @Column(length = 30, nullable = false, name = "provider")
-    private String provider;
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 
     @Column(length = 30, nullable = false, name = "roles")
     private String roles;
@@ -33,7 +35,7 @@ public class User {
 
 
     @Builder
-    public User(Long userId, String email, String password, String provider, String roles) {
+    public User(Long userId, String email, String password, Provider provider, String roles) {
         this.userId = userId;
         this.email = email;
         this.password = password;
