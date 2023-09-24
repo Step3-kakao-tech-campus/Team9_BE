@@ -1,9 +1,11 @@
-package com.kakao.linknamu.user;
+package com.kakao.linknamu.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -28,17 +30,27 @@ public class User {
     @Column(length = 30, nullable = false, name = "roles")
     private String roles;
 
-    @Column(length = 10, nullable = false, unique = true, name = "nickname")
-    private String nickname;
 
 
     @Builder
-    public User(Long userId, String email, String password, String provider, String roles, String nickname) {
+    public User(Long userId, String email, String password, String provider, String roles) {
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.provider = provider;
         this.roles = roles;
-        this.nickname = nickname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(getUserId(), user.getUserId()) && Objects.equals(getEmail(), user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserId(), getEmail());
     }
 }
