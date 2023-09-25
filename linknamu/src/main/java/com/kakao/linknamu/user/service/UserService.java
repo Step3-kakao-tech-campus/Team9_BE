@@ -74,7 +74,7 @@ public class UserService {
         blackListTokenService.save(accessToken);
     }
 
-
+    @Transactional
     public void withdrawal(User user, String accessToken) {
         userJPARepository.findById(user.getUserId()).ifPresentOrElse(
                 userJPARepository::delete,
