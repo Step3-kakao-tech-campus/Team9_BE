@@ -1,6 +1,6 @@
-package com.kakao.linknamu.Bookmark;
+package com.kakao.linknamu.bookmark;
 
-import com.kakao.linknamu.Category.Category;
+import com.kakao.linknamu.category.Category;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class Bookmark {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bookmark_id")
     private Long bookmarkId;
 

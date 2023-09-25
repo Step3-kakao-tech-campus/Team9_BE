@@ -67,6 +67,15 @@ security:
 access-jwt-secret-key: KakaoTechCampusLinkNamu
 refresh-jwt-secret-key: KakaoTechCampusLinkNamu1234
 
+oauth2:
+  google:
+    client_id : ${google-client-id}
+    auth_uri : ${google-auth-uri}
+    token_uri : ${google-token-uri}
+    client_secret : ${google-client-secret}
+    redirect_uri : ${google-redirect-uri}
+
+
 ###사족(볼필요 없습니다)
 #true로 한다면 기본 보안설정을 yml에서 셋팅할수잇습니다...
 #    security:

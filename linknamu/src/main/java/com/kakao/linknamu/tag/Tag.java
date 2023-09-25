@@ -1,6 +1,6 @@
-package com.kakao.linknamu.Tag;
+package com.kakao.linknamu.tag;
 
-import com.kakao.linknamu.User.User;
+import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class Tag {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tag_id")
     private Long tagId;
 

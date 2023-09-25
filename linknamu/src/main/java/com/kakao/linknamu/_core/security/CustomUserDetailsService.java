@@ -1,6 +1,6 @@
 package com.kakao.linknamu._core.security;
 
-import com.kakao.linknamu.User.UserJPARepository;
+import com.kakao.linknamu.user.repository.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
