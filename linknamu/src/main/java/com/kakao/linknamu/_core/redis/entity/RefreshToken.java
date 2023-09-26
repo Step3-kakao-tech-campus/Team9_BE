@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -41,5 +42,18 @@ public class RefreshToken {
                 .userId(user.getUserId())
                 .email(user.getEmail())
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RefreshToken that = (RefreshToken) o;
+        return Objects.equals(getRefreshToken(), that.getRefreshToken());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRefreshToken());
     }
 }
