@@ -4,6 +4,7 @@ import com.kakao.linknamu._core.exception.Exception401;
 import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu._core.util.FilterResponseUtils;
+import com.kakao.linknamu.user.entity.constant.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -90,6 +91,7 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/api/category/**"),
                                         new AntPathRequestMatcher("/api/tag/**"),
                                         new AntPathRequestMatcher("/api/auth/**")).authenticated()
+//                                .hasRole(Role.ROLE_USER.getRoleName())
                                 .anyRequest().permitAll()
         );
 

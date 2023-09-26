@@ -15,6 +15,7 @@ import com.kakao.linknamu.user.dto.LoginResponseDto;
 import com.kakao.linknamu.user.dto.ReissueDto;
 import com.kakao.linknamu.user.dto.oauth.OauthUserInfo;
 import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class UserService {
                 () -> userJPARepository.save(User.builder()
                         .email(userInfo.email())
                         .password(passwordEncoder.encode(UUID.randomUUID().toString()))
-                        .roles("user")
+                        .role(Role.ROLE_USER)
                         .provider(userInfo.provider())
                         .build()));
 
@@ -97,8 +98,8 @@ public class UserService {
             DecodedJWT decodedJWT = JwtProvider.verifyRefreshToken(refreshToken);
             String email = decodedJWT.getClaim("email").asString();
             Long id = decodedJWT.getClaim("id").asLong();
-            String roles = decodedJWT.getClaim("role").asString();
-            return User.builder().userId(id).email(email).roles(roles).build();
+            Role role = decodedJWT.getClaim("role").as(Role.class);
+            return User.builder().userId(id).email(email).role(role).build();
         } catch (SignatureVerificationException | JWTDecodeException e) {
             log.error(e.getMessage());
             throw new Exception400(UserExceptionStatus.REFRESH_TOKEN_INVALID);

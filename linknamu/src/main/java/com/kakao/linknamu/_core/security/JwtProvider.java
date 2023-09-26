@@ -36,7 +36,7 @@ public class JwtProvider {
                 .withSubject(user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + ACCESS_EXP))
                 .withClaim("id", user.getUserId())
-                .withClaim("role", user.getRoles())
+                .withClaim("role", user.getRole().name())
                 .sign(Algorithm.HMAC512(ACCESS_SECRET));
         return TOKEN_PREFIX + jwt;
     }
@@ -46,7 +46,7 @@ public class JwtProvider {
                 .withSubject(user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + REFRESH_EXP))
                 .withClaim("id", user.getUserId())
-                .withClaim("role", user.getRoles())
+                .withClaim("role", user.getRole().name())
                 .sign(Algorithm.HMAC512(REFRESH_SECRET));
     }
 
