@@ -8,7 +8,7 @@ import com.kakao.linknamu.bookmarkTag.BookmarkTagJPARepository;
 import com.kakao.linknamu.category.Category;
 import com.kakao.linknamu.category.CategoryJPARepository;
 import com.kakao.linknamu.tag.Tag;
-import com.kakao.linknamu.tag.TagJPARepository;
+import com.kakao.linknamu.tag.repository.TagJPARepository;
 import com.kakao.linknamu.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
