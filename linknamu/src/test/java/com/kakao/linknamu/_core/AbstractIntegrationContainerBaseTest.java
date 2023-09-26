@@ -31,8 +31,8 @@ public abstract class AbstractIntegrationContainerBaseTest {
             new GenericContainer<>(DockerImageName.parse(DOCKER_REDIS_IMAGE))
                     .withExposedPorts(TEST_REDIS_PORT);
 
-    @Autowired
-    private RefreshTokenService refreshTokenService;
+//    @Autowired
+//    private RefreshTokenService refreshTokenService;
 
     static{
         MY_REDIS_CONTAINER.start();
