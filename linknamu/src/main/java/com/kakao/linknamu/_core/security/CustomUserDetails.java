@@ -19,7 +19,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(user.getRoles().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        return Arrays.stream(user.getRole().name().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Override

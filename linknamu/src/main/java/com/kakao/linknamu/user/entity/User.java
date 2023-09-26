@@ -1,6 +1,7 @@
 package com.kakao.linknamu.user.entity;
 
 import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,18 +30,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
-    @Column(length = 30, nullable = false, name = "roles")
-    private String roles;
+    @Column(length = 30, nullable = false, name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
 
     @Builder
-    public User(Long userId, String email, String password, Provider provider, String roles) {
+    public User(Long userId, String email, String password, Provider provider, Role role) {
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.provider = provider;
-        this.roles = roles;
+        this.role = role;
     }
 
     @Override
