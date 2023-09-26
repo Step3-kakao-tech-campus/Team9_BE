@@ -1,7 +1,7 @@
 package com.kakao.linknamu.bookmarkTag;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.tag.Tag;
+import com.kakao.linknamu.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

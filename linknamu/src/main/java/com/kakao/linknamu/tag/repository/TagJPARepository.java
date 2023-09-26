@@ -1,6 +1,6 @@
 package com.kakao.linknamu.tag.repository;
 
-import com.kakao.linknamu.tag.Tag;
+import com.kakao.linknamu.tag.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
