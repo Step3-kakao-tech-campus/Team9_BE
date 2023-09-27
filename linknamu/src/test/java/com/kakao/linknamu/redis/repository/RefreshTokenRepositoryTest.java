@@ -1,6 +1,6 @@
 package com.kakao.linknamu.redis.repository;
 
-import com.kakao.linknamu._core.AbstractIntegrationContainerBaseTest;
+import com.kakao.linknamu._core.RedisContainerExtension;
 import com.kakao.linknamu._core.redis.entity.RefreshToken;
 import com.kakao.linknamu._core.redis.repository.RefreshTokenRepository;
 import com.kakao.linknamu._core.security.JwtProvider;
@@ -9,14 +9,20 @@ import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RefreshTokenRepositoryTest extends AbstractIntegrationContainerBaseTest {
+@ActiveProfiles("test")
+@SpringBootTest
+@ExtendWith(RedisContainerExtension.class)
+public class RefreshTokenRepositoryTest{
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
