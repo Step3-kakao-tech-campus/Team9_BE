@@ -13,10 +13,7 @@ public class CategorySaveService {
     private final CategoryService categoryService;
 
     public void save(CategorySaveRequestDto requestDto, User user) {
-        Category parentCategory = null;
-        if (requestDto.parentCategoryId() != -1){
-            parentCategory = categoryService.findById(requestDto.parentCategoryId());
-        }
+        Category parentCategory = categoryService.findById(requestDto.parentCategoryId());
         categoryService.save(requestDto.categoryName(), parentCategory, user);
     }
 
