@@ -14,17 +14,17 @@ public class CategoryService {
 
     private final CategoryJPARepository categoryJPARepository;
 
-    public void save(String categoryName, Category parentCategory, User user){
+    public Category save(String categoryName, Category parentCategory, User user){
         Category category = Category.builder()
                 .categoryName(categoryName)
                 .parentCategory(parentCategory)
                 .user(user)
                 .build();
-        categoryJPARepository.save(category);
+        return categoryJPARepository.save(category);
     }
 
-    public Category findByParentCategoryId(Long parentCategoryId) {
-        Category category = categoryJPARepository.findByParentCategoryId(parentCategoryId).orElseThrow(
+    public Category findById(Long id) {
+        Category category = categoryJPARepository.findById(id).orElseThrow(
                 () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
         );
         return category;

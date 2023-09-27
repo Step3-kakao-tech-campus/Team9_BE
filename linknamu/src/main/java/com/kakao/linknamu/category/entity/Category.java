@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import java.util.Objects;
 
@@ -32,6 +34,7 @@ public class Category {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Category parentCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
