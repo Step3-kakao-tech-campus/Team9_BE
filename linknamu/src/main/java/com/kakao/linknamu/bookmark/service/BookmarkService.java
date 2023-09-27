@@ -58,12 +58,12 @@ public class BookmarkService {
         }
 
         /* BookmarkTag 테이블에 등록 */
-        for(Tag tag : tagEntities){
-            BookmarkTag bookmarkTag = BookmarkTag.builder()
-                    .bookmark(bookmark)
-                    .tag(tag)
-                    .build();
-            bookmarkTagJPARepository.save(bookmarkTag);
-        }
+        List<BookmarkTag> bookmarkTagList = tagEntities.stream()
+                .map(tag -> BookmarkTag.builder()
+                        .bookmark(bookmark)
+                        .tag(tag)
+                        .build())
+                .toList();
+        bookmarkTagJPARepository.saveAll(bookmarkTagList);
     }
 }
