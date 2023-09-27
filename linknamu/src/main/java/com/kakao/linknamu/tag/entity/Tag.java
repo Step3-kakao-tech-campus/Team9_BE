@@ -1,4 +1,4 @@
-package com.kakao.linknamu.tag;
+package com.kakao.linknamu.tag.entity;
 
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.kakao.linknamu.bookmark;
+package com.kakao.linknamu.bookmark.entity;
 
 import com.kakao.linknamu.category.entity.Category;
 import jakarta.persistence.*;
