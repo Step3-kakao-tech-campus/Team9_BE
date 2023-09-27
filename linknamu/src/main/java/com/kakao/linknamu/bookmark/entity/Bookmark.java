@@ -1,6 +1,6 @@
 package com.kakao.linknamu.bookmark.entity;
 
-import com.kakao.linknamu.category.Category;
+import com.kakao.linknamu.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

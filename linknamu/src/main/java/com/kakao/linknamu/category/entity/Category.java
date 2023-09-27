@@ -1,10 +1,12 @@
-package com.kakao.linknamu.category;
+package com.kakao.linknamu.category.entity;
 
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import java.util.Objects;
 
@@ -32,6 +34,7 @@ public class Category {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Category parentCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,9 +46,9 @@ public class Category {
 
 
     @Builder
-    public Category(Long categoryId, Category category, User user, String categoryName) {
+    public Category(Long categoryId, Category parentCategory, User user, String categoryName) {
         this.categoryId = categoryId;
-        this.parentCategory = category;
+        this.parentCategory = parentCategory;
         this.user = user;
         this.categoryName = categoryName;
     }
