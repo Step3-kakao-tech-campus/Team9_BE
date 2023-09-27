@@ -46,15 +46,9 @@ public class Category {
 
 
     @Builder
-<<<<<<< HEAD:linknamu/src/main/java/com/kakao/linknamu/category/entity/Category.java
     public Category(Long categoryId, Category parentCategory, User user, String categoryName) {
         this.categoryId = categoryId;
         this.parentCategory = parentCategory;
-=======
-    public Category(Long categoryId, Category category, User user, String categoryName) {
-        this.categoryId = categoryId;
-        this.parentCategory = category;
->>>>>>> weekly:linknamu/src/main/java/com/kakao/linknamu/category/Category.java
         this.user = user;
         this.categoryName = categoryName;
     }

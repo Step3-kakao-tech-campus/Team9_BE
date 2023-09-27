@@ -1,7 +1,7 @@
 package com.kakao.linknamu.bookmark.dto;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.category.Category;
+import com.kakao.linknamu.category.entity.Category;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
