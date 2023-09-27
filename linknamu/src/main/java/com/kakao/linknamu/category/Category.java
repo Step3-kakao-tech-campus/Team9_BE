@@ -28,7 +28,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private Long category;
+    private Long categoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
@@ -44,7 +44,7 @@ public class Category {
 
     @Builder
     public Category(Long categoryId, Category category, User user, String categoryName) {
-        this.category = categoryId;
+        this.categoryId = categoryId;
         this.parentCategory = category;
         this.user = user;
         this.categoryName = categoryName;
@@ -55,11 +55,11 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category1 = (Category) o;
-        return Objects.equals(category, category1.category);
+        return Objects.equals(categoryId, category1.categoryId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category);
+        return Objects.hash(categoryId);
     }
 }
