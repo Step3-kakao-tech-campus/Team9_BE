@@ -3,6 +3,7 @@ package com.kakao.linknamu.bookmark.dto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.Category;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ public class BookmarkRequestDTO {
         private String bookmarkName;
 
         @NotEmpty
+        @Pattern(regexp = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$", message = "잘못된 웹 링크입니다.")
         private String bookmarkLink;
 
         private String bookmarkDescription;
