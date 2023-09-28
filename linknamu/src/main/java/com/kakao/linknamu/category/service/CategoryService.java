@@ -41,13 +41,13 @@ public class CategoryService {
         return categoryJPARepository.findByUserId(user.getUserId(), pageable);
     }
 
-    public Page<Category> findByUserIdAndParentCategoryId(Pageable pageable, User user, Long parentCategoryId){
+    public Page<Category> findByParentCategoryId(Pageable pageable, User user, Long parentCategoryId){
         // 부모 카테고리가 로그인 유저의 카테고리가 아닌 경우 예외처리
         Category parentCategory = findById(parentCategoryId);
         if (!parentCategory.getUser().getUserId().equals(user.getUserId())){
             throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
         }
-        return categoryJPARepository.findByUserIdAndParentCategoryId(user.getUserId(), parentCategoryId, pageable);
+        return categoryJPARepository.findByParentCategoryId(parentCategoryId, pageable);
     }
 
 }

@@ -53,7 +53,7 @@ public class CategoryController {
             @AuthenticationPrincipal CustomUserDetails user){
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        ChildCategoryListResponseDto responseDto = categoryReadService.findByUserIdAndParentCategoryId(pageable, user.getUser(), categoryId);
+        ChildCategoryListResponseDto responseDto = categoryReadService.findByParentCategoryId(pageable, user.getUser(), categoryId);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 
