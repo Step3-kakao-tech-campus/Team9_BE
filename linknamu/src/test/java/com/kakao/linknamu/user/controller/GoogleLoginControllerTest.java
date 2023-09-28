@@ -43,10 +43,10 @@ public class GoogleLoginControllerTest extends RestDocs {
     private RestTemplate restTemplate;
 
     @DisplayName("구글 소셜 로그인 통합 테스트")
+    @Transactional
     @Nested
     class GoogleSocialLoginTest {
         @DisplayName("회원가입이 되어있지 않다면, 회원가입을 한 뒤 로그인을 한다")
-        @Transactional
         @Test
         void successNoUserInDB() throws Exception {
             // given
