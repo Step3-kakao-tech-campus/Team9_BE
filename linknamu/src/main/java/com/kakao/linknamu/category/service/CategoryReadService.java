@@ -1,6 +1,7 @@
 package com.kakao.linknamu.category.service;
 
 import com.kakao.linknamu.category.dto.CategoryListResponseDto;
+import com.kakao.linknamu.category.dto.ChildCategoryListResponseDto;
 import com.kakao.linknamu.category.dto.PageInfoDto;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.user.entity.User;
@@ -12,13 +13,19 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class CategoryListService {
+public class CategoryReadService {
 
     private final CategoryService categoryService;
 
     public CategoryListResponseDto findByUserId(Pageable pageable, User user) {
         Page<Category> categoryPage = categoryService.findByUserId(pageable, user);
-        PageInfoDto pageInfoDto = PageInfoDto.of(pageable, categoryPage.getTotalElements(), categoryPage.getTotalPages());
+        PageInfoDto pageInfoDto = PageInfoDto.of(categoryPage);
         return CategoryListResponseDto.of(pageInfoDto, categoryPage.getContent());
+    }
+
+    public ChildCategoryListResponseDto findByUserIdAndParentCategoryId(Pageable pageable, User user, Long parentCategoryId){
+        Page<Category> childCategoryPage = categoryService.findByUserIdAndParentCategoryId(pageable, user, parentCategoryId);
+        PageInfoDto pageInfoDto = PageInfoDto.of(childCategoryPage);
+        return ChildCategoryListResponseDto.of(pageInfoDto, childCategoryPage.getContent());
     }
 }

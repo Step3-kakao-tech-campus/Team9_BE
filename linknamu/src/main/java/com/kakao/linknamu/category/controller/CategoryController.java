@@ -2,10 +2,9 @@ package com.kakao.linknamu.category.controller;
 
 import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
-import com.kakao.linknamu.category.dto.CategoryDetailResponseDto;
 import com.kakao.linknamu.category.dto.CategoryListResponseDto;
 import com.kakao.linknamu.category.dto.CategorySaveRequestDto;
-import com.kakao.linknamu.category.service.CategoryListService;
+import com.kakao.linknamu.category.service.CategoryReadService;
 import com.kakao.linknamu.category.service.CategorySaveService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class CategoryController {
 
     private static final int PAGE_SIZE = 10;
     private final CategorySaveService categorySaveService;
-    private final CategoryListService categoryListService;
+    private final CategoryReadService categoryReadService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createCategory(
@@ -42,7 +41,7 @@ public class CategoryController {
             @AuthenticationPrincipal CustomUserDetails user){
 
         Pageable pageable= PageRequest.of(page, PAGE_SIZE);
-        CategoryListResponseDto responseDto = categoryListService.findByUserId(pageable, user.getUser());
+        CategoryListResponseDto responseDto = categoryReadService.findByUserId(pageable, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 

@@ -35,8 +35,8 @@ public class CategoryService {
         return categoryJPARepository.findByUserId(user.getUserId(), pageable);
     }
 
-    public Page<Category> findByUserIdAndParentCategoryId(Pageable pageable, User user, Category parentCategory){
-        return categoryJPARepository.findByUserIdAndParentCategoryId(user.getUserId(), parentCategory.getCategoryId(), pageable);
+    public Page<Category> findByUserIdAndParentCategoryId(Pageable pageable, User user, Long parentCategoryId){
+        return categoryJPARepository.findByUserIdAndParentCategoryId(user.getUserId(), parentCategoryId, pageable);
     }
 
 }

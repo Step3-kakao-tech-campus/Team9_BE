@@ -1,6 +1,7 @@
 package com.kakao.linknamu.category.dto;
 
 import lombok.Builder;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public record PageInfoDto(
@@ -14,12 +15,12 @@ public record PageInfoDto(
     public PageInfoDto {
     }
 
-    public static PageInfoDto of(Pageable pageable, long totalCount, int totalPages){
+    public static PageInfoDto of(Page<?> page){
         return PageInfoDto.builder()
-                .totalCount(totalCount)
-                .size(pageable.getPageSize())
-                .currentPage(pageable.getPageNumber())
-                .totalPages(totalPages)
+                .totalCount(page.getTotalElements())
+                .size(page.getSize())
+                .currentPage(page.getPageable().getPageNumber())
+                .totalPages(page.getTotalPages())
                 .build();
     }
 }
