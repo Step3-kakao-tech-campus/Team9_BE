@@ -10,4 +10,7 @@ public interface CategoryJPARepository extends JpaRepository<Category, Long> {
 
     @Query("select c from Category c where c.user.userId = :userId")
     Page<Category> findByUserId(Long userId, Pageable pageable);
+
+    @Query("select c from Category c where c.user.userId = :userId and c.parentCategory.categoryId = :parentCategoryId")
+    Page<Category> findByUserIdAndParentCategoryId(Long userId, Long parentCategoryId, Pageable pageable);
 }

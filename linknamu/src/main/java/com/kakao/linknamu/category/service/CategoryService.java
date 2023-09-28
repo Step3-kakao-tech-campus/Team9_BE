@@ -26,15 +26,17 @@ public class CategoryService {
     }
 
     public Category findById(Long id) {
-        Category category = categoryJPARepository.findById(id).orElseThrow(
+        return categoryJPARepository.findById(id).orElseThrow(
                 () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
         );
-        return category;
     }
 
     public Page<Category> findByUserId(Pageable pageable, User user){
         return categoryJPARepository.findByUserId(user.getUserId(), pageable);
     }
 
+    public Page<Category> findByUserIdAndParentCategoryId(Pageable pageable, User user, Category parentCategory){
+        return categoryJPARepository.findByUserIdAndParentCategoryId(user.getUserId(), parentCategory.getCategoryId(), pageable);
+    }
 
 }
