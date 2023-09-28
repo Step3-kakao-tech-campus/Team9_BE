@@ -1,5 +1,6 @@
 package com.kakao.linknamu.category.entity;
 
+import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -25,7 +26,7 @@ import java.util.Objects;
                 )
         }
 )
-public class Category {
+public class Category extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +45,10 @@ public class Category {
     @Column(length = 100, nullable = false, name = "category_name")
     private String categoryName;
 
+    // 루트 카테고리 지정
+    public void setRootCategory() {
+        this.parentCategory = this;
+    }
 
     @Builder
     public Category(Long categoryId, Category parentCategory, User user, String categoryName) {
