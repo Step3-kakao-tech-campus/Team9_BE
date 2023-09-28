@@ -6,6 +6,8 @@ import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJPARepository;
 import com.kakao.linknamu.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +30,10 @@ public class CategoryService {
                 () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
         );
         return category;
+    }
+
+    public Page<Category> findByUserId(Pageable pageable, User user){
+        return categoryJPARepository.findByUserId(user.getUserId(), pageable);
     }
 
 
