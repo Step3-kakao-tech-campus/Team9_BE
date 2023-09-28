@@ -4,6 +4,7 @@ import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.category.dto.CategoryListResponseDto;
 import com.kakao.linknamu.category.dto.CategorySaveRequestDto;
+import com.kakao.linknamu.category.dto.ChildCategoryListResponseDto;
 import com.kakao.linknamu.category.service.CategoryReadService;
 import com.kakao.linknamu.category.service.CategorySaveService;
 import jakarta.validation.Valid;
@@ -52,7 +53,8 @@ public class CategoryController {
             @AuthenticationPrincipal CustomUserDetails user){
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return ResponseEntity.ok(ApiUtils.success(null));
+        ChildCategoryListResponseDto responseDto = categoryReadService.findByUserIdAndParentCategoryId(pageable, user.getUser(), categoryId);
+        return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 
     // 상세 조회 부분은 주석처리 해두겠습니다
