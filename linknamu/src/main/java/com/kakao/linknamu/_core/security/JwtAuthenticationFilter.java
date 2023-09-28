@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,8 +53,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         try {
             DecodedJWT decodedJWT = JwtProvider.verify(jwt);
             Long id = decodedJWT.getClaim("id").asLong();
-            String roles = decodedJWT.getClaim("role").asString();
-            User user = User.builder().userId(id).roles(roles).build();
+            String role = decodedJWT.getClaim("role").asString();
+            User user = User.builder().userId(id).role(Role.valueOf(role)).build();
             CustomUserDetails myUserDetails = new CustomUserDetails(user);
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(

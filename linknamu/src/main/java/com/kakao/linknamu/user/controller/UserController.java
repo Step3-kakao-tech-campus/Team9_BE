@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/withdrawal")
     public ResponseEntity<?> withdrawal(HttpServletRequest request,
                                         @AuthenticationPrincipal CustomUserDetails userDetails) {
-        userService.withdrawal(userDetails.getUser(), request.getHeader("accessToken"));
+        userService.withdrawal(userDetails.getUser(), request.getHeader(JwtProvider.HEADER));
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 }

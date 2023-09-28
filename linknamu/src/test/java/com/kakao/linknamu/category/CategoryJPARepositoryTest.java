@@ -4,16 +4,19 @@ import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJPARepository;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 public class CategoryJPARepositoryTest {
 
@@ -31,7 +34,7 @@ public class CategoryJPARepositoryTest {
                 .email("grindabff@pusan.ac.kr")
                 .password("password")
                 .provider(Provider.PROVIDER_NORMAL)
-                .roles("ROLE_USER")
+                .role(Role.ROLE_USER)
                 .build();
         user = userJPARepository.save(user);
         // create root category
@@ -57,7 +60,7 @@ public class CategoryJPARepositoryTest {
                 .email("grindabff@pusan.ac.kr")
                 .password("password")
                 .provider(Provider.PROVIDER_NORMAL)
-                .roles("ROLE_USER")
+                .role(Role.ROLE_USER)
                 .build();
         user = userJPARepository.save(user);
         // create root category
