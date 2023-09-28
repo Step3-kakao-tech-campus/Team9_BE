@@ -9,7 +9,6 @@ import com.kakao.linknamu.category.service.CategoryListService;
 import com.kakao.linknamu.category.service.CategorySaveService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -47,18 +46,29 @@ public class CategoryController {
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 
-    @GetMapping(value = {"/detail/{categoryId}", "/detail"})
-    public ResponseEntity<?> getCategoryDetail(
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<?> getChildCategoryList(
             @RequestParam(defaultValue = "0") int page,
-            @PathVariable(required = false) Long categoryId,
+            @PathVariable Long categoryId,
             @AuthenticationPrincipal CustomUserDetails user){
 
-        CategoryDetailResponseDto responseDto = null;
-        if (categoryId == null){
-            // 메인 페이지 조회 구현
-            return ResponseEntity.ok(ApiUtils.success(responseDto));
-        }
-        // 카테고리 별 상세 조회 구현
-        return ResponseEntity.ok(ApiUtils.success(responseDto));
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
+
+    // 상세 조회 부분은 주석처리 해두겠습니다
+//    @GetMapping(value = {"/detail/{categoryId}", "/detail"})
+//    public ResponseEntity<?> getCategoryDetail(
+//            @RequestParam(defaultValue = "0") int page,
+//            @PathVariable(required = false) Long categoryId,
+//            @AuthenticationPrincipal CustomUserDetails user){
+//
+//        CategoryDetailResponseDto responseDto = null;
+//        if (categoryId == null){
+//            // 메인 페이지 조회 구현
+//            return ResponseEntity.ok(ApiUtils.success(responseDto));
+//        }
+//        // 카테고리 별 상세 조회 구현
+//        return ResponseEntity.ok(ApiUtils.success(responseDto));
+//    }
 }
