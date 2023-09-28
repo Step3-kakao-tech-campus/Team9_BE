@@ -43,10 +43,10 @@ public class DevSocialLoginController {
     @Value("${oauth2.google.token_uri}")
     private String tokenUri;
 
-    @Value("${oauth2.google.client-secret}")
+    @Value("${oauth2.google.client_secret}")
     private String clientSecret;
 
-    @Value("${oauth2.google.redirect-uri}")
+    @Value("${oauth2.google.redirect_uri}")
     private String redirectUri;
 
     private final ObjectMapper om;
