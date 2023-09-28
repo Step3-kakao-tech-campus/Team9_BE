@@ -1,5 +1,6 @@
 package com.kakao.linknamu.tag.entity;
 
+import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -23,7 +24,7 @@ import java.util.Objects;
                 )
         }
 )
-public class Tag {
+public class Tag extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
