@@ -5,6 +5,8 @@ import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu._core.redis.service.RefreshTokenService;
 import com.kakao.linknamu._core.security.JwtProvider;
+import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.user.UserExceptionStatus;
 import com.kakao.linknamu.user.dto.LoginResponseDto;
 import com.kakao.linknamu.user.dto.ReissueDto;
@@ -45,6 +47,8 @@ public class UserServiceTest {
     private RefreshTokenService refreshTokenService;
     @Mock
     private BlackListTokenService blackListTokenService;
+    @Mock
+    private CategoryService categoryService;
 
     @BeforeEach
     public void setUp() {
@@ -67,16 +71,22 @@ public class UserServiceTest {
                     .provider(Provider.PROVIDER_GOOGLE)
                     .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                     .build();
+            Category category = Category.builder().categoryId(1L).categoryName("root").user(user).build();
+            category.setRootCategory();
+            ArgumentCaptor<String> categoryNameCaptor = ArgumentCaptor.forClass(String.class);
 
             // mock
             given(userJPARepository.findByEmail(eq(googleUserInfo.email()))).willReturn(Optional.empty());
             given(userJPARepository.save(any())).willReturn(user);
+            given(categoryService.save(any(), any(), any())).willReturn(category);
 
             // when
             LoginResponseDto result = userService.socialLogin(googleUserInfo);
 
             // then
             verify(userJPARepository, times(1)).save(any());
+            verify(categoryService, times(1)).save(categoryNameCaptor.capture(), any(), any());
+            assertEquals(category.getCategoryName(), categoryNameCaptor.getValue());
             assertTrue(result.accessToken().startsWith("Bearer "));
             JwtProvider.verifyRefreshToken(result.refreshToken());
         }
