@@ -5,9 +5,13 @@ import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.category.dto.CategoryDetailResponseDto;
 import com.kakao.linknamu.category.dto.CategoryListResponseDto;
 import com.kakao.linknamu.category.dto.CategorySaveRequestDto;
+import com.kakao.linknamu.category.service.CategoryListService;
 import com.kakao.linknamu.category.service.CategorySaveService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,7 @@ public class CategoryController {
 
     private static final int PAGE_SIZE = 10;
     private final CategorySaveService categorySaveService;
+    private final CategoryListService categoryListService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createCategory(
@@ -36,7 +41,9 @@ public class CategoryController {
     public ResponseEntity<?> getCategoryList(
             @RequestParam(defaultValue = "0") int page,
             @AuthenticationPrincipal CustomUserDetails user){
-        CategoryListResponseDto responseDto = null;
+
+        Pageable pageable= PageRequest.of(page, PAGE_SIZE);
+        CategoryListResponseDto responseDto = categoryListService.findByUserId(pageable, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 
@@ -47,7 +54,6 @@ public class CategoryController {
             @AuthenticationPrincipal CustomUserDetails user){
 
         CategoryDetailResponseDto responseDto = null;
-        System.out.println(categoryId);
         if (categoryId == null){
             // 메인 페이지 조회 구현
             return ResponseEntity.ok(ApiUtils.success(responseDto));
