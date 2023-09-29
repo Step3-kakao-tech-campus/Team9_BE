@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-public class BookmarkRequestDTO {
+public class BookmarkRequestDto {
     @Getter
     @Setter
     public static class bookmarkAddDTO {

@@ -1,4 +1,4 @@
-package com.kakao.linknamu.bookmarkTag;
+package com.kakao.linknamu.bookmarkTag.entity;
 
 import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
