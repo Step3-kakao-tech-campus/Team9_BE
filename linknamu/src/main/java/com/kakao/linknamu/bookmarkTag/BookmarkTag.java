@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmarkTag;
 
+import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.tag.entity.Tag;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name="bookmark_tab_tb")
-public class BookmarkTag {
+public class BookmarkTag extends AuditingEntity {
 
     @EmbeddedId
     private BookmarkTagId bookmarkTagId;

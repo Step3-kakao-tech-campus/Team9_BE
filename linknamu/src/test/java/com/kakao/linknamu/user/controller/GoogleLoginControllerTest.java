@@ -4,6 +4,8 @@ package com.kakao.linknamu.user.controller;
 import com.kakao.linknamu._core.RedisContainerExtension;
 import com.kakao.linknamu._core.RestDocs;
 import com.kakao.linknamu._core.redis.service.RefreshTokenService;
+import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.category.repository.CategoryJPARepository;
 import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
@@ -30,6 +32,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -39,6 +42,8 @@ public class GoogleLoginControllerTest extends RestDocs {
 
     @Autowired
     private UserJPARepository userJPARepository;
+    @Autowired
+    private CategoryJPARepository categoryJPARepository;
     @MockBean
     private RestTemplate restTemplate;
 
@@ -72,6 +77,7 @@ public class GoogleLoginControllerTest extends RestDocs {
                     jsonPath("$.error").doesNotExist()
             );
             assertEquals(1, userJPARepository.count());
+            assertEquals(1, categoryJPARepository.count());
         }
 
         @DisplayName("회원가입이 되어있다면, 바로 로그인을 한다")

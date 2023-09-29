@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.entity;
 
+import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -23,7 +24,7 @@ import java.util.Objects;
                 )
         }
 )
-public class Bookmark {
+public class Bookmark extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

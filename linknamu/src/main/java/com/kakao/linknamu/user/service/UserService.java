@@ -10,6 +10,8 @@ import com.kakao.linknamu._core.redis.RedisExceptionStatus;
 import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu._core.redis.service.RefreshTokenService;
 import com.kakao.linknamu._core.security.JwtProvider;
+import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.user.UserExceptionStatus;
 import com.kakao.linknamu.user.dto.LoginResponseDto;
 import com.kakao.linknamu.user.dto.ReissueDto;
@@ -34,16 +36,24 @@ public class UserService {
     private final UserJPARepository userJPARepository;
     private final RefreshTokenService refreshTokenService;
     private final BlackListTokenService blackListTokenService;
+    private final CategoryService categoryService;
 
     @Transactional
     public LoginResponseDto socialLogin(OauthUserInfo userInfo) {
         User user = userJPARepository.findByEmail(userInfo.email()).orElseGet(
-                () -> userJPARepository.save(User.builder()
+                () -> {
+                    User singUpUser = userJPARepository.save(User.builder()
                         .email(userInfo.email())
                         .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                         .role(Role.ROLE_USER)
                         .provider(userInfo.provider())
-                        .build()));
+                        .build());
+
+                    Category category = categoryService.save("root", null, singUpUser);
+                    category.setRootCategory();
+
+                    return singUpUser;
+                });
 
         String accessToken = JwtProvider.create(user);
         String refreshToken = JwtProvider.createRefreshToken(user);

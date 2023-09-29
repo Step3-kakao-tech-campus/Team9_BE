@@ -1,5 +1,6 @@
 package com.kakao.linknamu.user.entity;
 
+import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name="user_tb")
-public class User {
+public class User extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
