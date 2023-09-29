@@ -8,6 +8,7 @@ import com.kakao.linknamu.category.dto.CategoryUpdateRequestDto;
 import com.kakao.linknamu.category.dto.ChildCategoryListResponseDto;
 import com.kakao.linknamu.category.service.CategoryReadService;
 import com.kakao.linknamu.category.service.CategorySaveService;
+import com.kakao.linknamu.category.service.CategoryUpdateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,7 @@ public class CategoryController {
     private static final int PAGE_SIZE = 10;
     private final CategorySaveService categorySaveService;
     private final CategoryReadService categoryReadService;
+    private final CategoryUpdateService categoryUpdateService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createCategory(
@@ -65,6 +67,7 @@ public class CategoryController {
             Errors errors,
             @AuthenticationPrincipal CustomUserDetails user){
 
+        categoryUpdateService.update(requestDto, categoryId);
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
