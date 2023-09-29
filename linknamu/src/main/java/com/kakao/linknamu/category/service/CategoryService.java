@@ -19,9 +19,6 @@ public class CategoryService {
 
     public Category save(String categoryName, Category parentCategory, User user){
         // 부모 카테고리가 로그인 유저의 카테고리가 아닌 경우 예외처리
-        if (!parentCategory.getUser().getUserId().equals(user.getUserId())){
-            throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
-        }
 
         Category category = Category.builder()
                 .categoryName(categoryName)
