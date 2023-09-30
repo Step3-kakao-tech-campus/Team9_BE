@@ -50,6 +50,10 @@ public class Category extends AuditingEntity {
         this.parentCategory = this;
     }
 
+    public void updateCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     @Builder
     public Category(Long categoryId, Category parentCategory, User user, String categoryName) {
         this.categoryId = categoryId;
