@@ -12,8 +12,7 @@ public class BookmarkResponseDto {
             String description,
             String url,
             String imageUrl,
-            List<String> tags,
-            Date createdAt
+            List<String> tags
     ) {
         @Builder
         public SearchDto{}
