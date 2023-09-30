@@ -20,8 +20,6 @@ public class CategoryService {
     private final CategoryJPARepository categoryJPARepository;
 
     public Category save(String categoryName, Category parentCategory, User user){
-        // 부모 카테고리가 로그인 유저의 카테고리가 아닌 경우 예외처리
-
         Category category = Category.builder()
                 .categoryName(categoryName)
                 .parentCategory(parentCategory)
@@ -40,13 +38,8 @@ public class CategoryService {
         return categoryJPARepository.findByUserId(user.getUserId(), pageable);
     }
 
-    public Page<Category> findByParentCategoryId(Pageable pageable, User user, Long parentCategoryId){
-        // 부모 카테고리가 로그인 유저의 카테고리가 아닌 경우 예외처리
-        Category parentCategory = findById(parentCategoryId);
-        if (!parentCategory.getUser().getUserId().equals(user.getUserId())){
-            throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
-        }
-        return categoryJPARepository.findByParentCategoryId(parentCategoryId, pageable);
+    public Page<Category> findByParentCategoryId(Pageable pageable, Category parentCategory){
+        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
     }
 
     public Optional<Category> findByParentCategoryIdAndCategoryName(Long parentCategoryId, String categoryName){
@@ -55,6 +48,13 @@ public class CategoryService {
 
     public void deleteById(Long categoryId){
         categoryJPARepository.deleteById(categoryId);
+    }
+
+    // 카테고리의 유저와 로그인 유저가 같은지 체크
+    public void validUser(Category category, User user){
+        if (!category.getUser().getUserId().equals(user.getUserId())){
+            throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
+        }
     }
 
 }

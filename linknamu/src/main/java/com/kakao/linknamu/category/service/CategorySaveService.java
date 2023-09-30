@@ -18,9 +18,7 @@ public class CategorySaveService {
     public void save(CategorySaveRequestDto requestDto, User user) {
         Category parentCategory = categoryService.findById(requestDto.parentCategoryId());
 
-        if (!parentCategory.getUser().getUserId().equals(user.getUserId())){
-            throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
-        }
+        categoryService.validUser(parentCategory, user);
         categoryService.findByParentCategoryIdAndCategoryName(requestDto.parentCategoryId(), requestDto.categoryName()).ifPresent((c) -> {
                 throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
         });

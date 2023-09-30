@@ -58,7 +58,7 @@ public class CategoryController {
             @AuthenticationPrincipal CustomUserDetails user){
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        ChildCategoryListResponseDto responseDto = categoryReadService.findByParentCategoryId(pageable, user.getUser(), categoryId);
+        ChildCategoryListResponseDto responseDto = categoryReadService.findByParentCategoryId(pageable, categoryId, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 
@@ -69,7 +69,7 @@ public class CategoryController {
             Errors errors,
             @AuthenticationPrincipal CustomUserDetails user){
 
-        categoryUpdateService.update(requestDto, categoryId);
+        categoryUpdateService.update(requestDto, categoryId, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
@@ -78,7 +78,7 @@ public class CategoryController {
             @PathVariable Long categoryId,
             @AuthenticationPrincipal CustomUserDetails user){
 
-        categoryDeleteService.delete(categoryId);
+        categoryDeleteService.delete(categoryId, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
