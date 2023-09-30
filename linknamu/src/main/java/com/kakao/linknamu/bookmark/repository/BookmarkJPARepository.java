@@ -9,8 +9,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long> {
-    @Query("select b from Bookmark b join b.bookmarkName t where t.tagName in :tags")
-    List<Bookmark> findBookmarksByTags(@Param("tags") List<String> tags);
-
     Optional<List<Bookmark>> findByBookmarkName(String bookmarkName);
 }
