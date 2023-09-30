@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -45,6 +47,10 @@ public class CategoryService {
             throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
         }
         return categoryJPARepository.findByParentCategoryId(parentCategoryId, pageable);
+    }
+
+    public Optional<Category> findByParentCategoryIdAndCategoryName(Long parentCategoryId, String categoryName){
+        return categoryJPARepository.findByParentCategoryIdAndCategoryName(parentCategoryId, categoryName);
     }
 
 }
