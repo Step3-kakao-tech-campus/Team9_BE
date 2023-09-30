@@ -31,7 +31,7 @@ public class BookmarkSearchService {
         List<Bookmark> result = new ArrayList<>();
         for(Bookmark bookmark : searchedBookmarks) {
             Long bookmarkId = bookmark.getBookmarkId();
-            List<String> bookmarkTags = bookmarkTagSearchService.searchIdByBookmarkId(bookmarkId);
+            List<String> bookmarkTags = bookmarkTagSearchService.searchNamesByBookmarkId(bookmarkId);
             boolean isIn = true;
             Set<String> set = new HashSet<>(bookmarkTags);
             for(String t : tags){
@@ -46,7 +46,7 @@ public class BookmarkSearchService {
 
         List<BookmarkResponseDto.SearchDto> response = new ArrayList<>();
         for(Bookmark resultBookmark : result) {
-            List<String> allTags = bookmarkTagSearchService.searchIdByBookmarkId(resultBookmark.getBookmarkId());
+            List<String> allTags = bookmarkTagSearchService.searchNamesByBookmarkId(resultBookmark.getBookmarkId());
             response.add(BookmarkResponseDto.SearchDto.builder()
                     .bookmarkId(resultBookmark.getBookmarkId())
                     .title(resultBookmark.getBookmarkName())

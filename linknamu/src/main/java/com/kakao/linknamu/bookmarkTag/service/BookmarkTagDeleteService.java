@@ -1,23 +1,19 @@
 package com.kakao.linknamu.bookmarkTag.service;
 
+import com.kakao.linknamu.bookmarkTag.entity.BookmarkTag;
 import com.kakao.linknamu.bookmarkTag.repository.BookmarkTagJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
-public class BookmarkTagSearchService {
+public class BookmarkTagDeleteService {
     private final BookmarkTagJPARepository bookmarkTagJPARepository;
 
-    public List<String> searchNamesByBookmarkId(Long bookmarkId) {
-        return bookmarkTagJPARepository.findTagNamesByBookmarkId(bookmarkId);
-    }
-
-    public Long searchTagIdByBookmarkId(Long bookmarkId) {
-        return bookmarkTagJPARepository.findTagIdByBookmarkId(bookmarkId);
+    public void deleteBookmarkTag(Long bookmarkId, Long tagId) {
+        BookmarkTag bookmarkTag = bookmarkTagJPARepository.findBookmarkTagByIds(bookmarkId, tagId);
+        bookmarkTagJPARepository.delete(bookmarkTag);
     }
 }
