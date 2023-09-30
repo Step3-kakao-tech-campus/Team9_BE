@@ -6,6 +6,7 @@ import com.kakao.linknamu.category.dto.CategoryListResponseDto;
 import com.kakao.linknamu.category.dto.CategorySaveRequestDto;
 import com.kakao.linknamu.category.dto.CategoryUpdateRequestDto;
 import com.kakao.linknamu.category.dto.ChildCategoryListResponseDto;
+import com.kakao.linknamu.category.service.CategoryDeleteService;
 import com.kakao.linknamu.category.service.CategoryReadService;
 import com.kakao.linknamu.category.service.CategorySaveService;
 import com.kakao.linknamu.category.service.CategoryUpdateService;
@@ -28,6 +29,7 @@ public class CategoryController {
     private final CategorySaveService categorySaveService;
     private final CategoryReadService categoryReadService;
     private final CategoryUpdateService categoryUpdateService;
+    private final CategoryDeleteService categoryDeleteService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createCategory(
@@ -71,7 +73,14 @@ public class CategoryController {
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
+    @PostMapping("/delete/{categoryId}")
+    public ResponseEntity<?> deleteCategory(
+            @PathVariable Long categoryId,
+            @AuthenticationPrincipal CustomUserDetails user){
 
+        categoryDeleteService.delete(categoryId);
+        return ResponseEntity.ok(ApiUtils.success(null));
+    }
 
     // 상세 조회 부분은 주석처리 해두겠습니다
 //    @GetMapping(value = {"/detail/{categoryId}", "/detail"})
