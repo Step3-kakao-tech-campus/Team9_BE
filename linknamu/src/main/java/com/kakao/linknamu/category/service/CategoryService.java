@@ -53,4 +53,8 @@ public class CategoryService {
         return categoryJPARepository.findByParentCategoryIdAndCategoryName(parentCategoryId, categoryName);
     }
 
+    public void deleteById(Long categoryId){
+        categoryJPARepository.deleteById(categoryId);
+    }
+
 }
