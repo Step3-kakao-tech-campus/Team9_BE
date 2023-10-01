@@ -1,5 +1,6 @@
 package com.kakao.linknamu.category.service;
 
+import com.kakao.linknamu._core.exception.Exception400;
 import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu.category.CategoryExceptionStatus;
 import com.kakao.linknamu.category.dto.CategorySaveRequestDto;
@@ -16,9 +17,12 @@ public class CategorySaveService {
 
     public void save(CategorySaveRequestDto requestDto, User user) {
         Category parentCategory = categoryService.findById(requestDto.parentCategoryId());
-        if (!parentCategory.getUser().getUserId().equals(user.getUserId())){
-            throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
-        }
+
+        categoryService.validUser(parentCategory, user);
+        categoryService.findByParentCategoryIdAndCategoryName(requestDto.parentCategoryId(), requestDto.categoryName()).ifPresent((c) -> {
+                throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
+        });
+
         categoryService.save(requestDto.categoryName(), parentCategory, user);
     }
 

@@ -23,8 +23,10 @@ public class CategoryReadService {
         return CategoryListResponseDto.of(pageInfoDto, categoryPage.getContent());
     }
 
-    public ChildCategoryListResponseDto findByParentCategoryId(Pageable pageable, User user, Long parentCategoryId){
-        Page<Category> childCategoryPage = categoryService.findByParentCategoryId(pageable, user, parentCategoryId);
+    public ChildCategoryListResponseDto findByParentCategoryId(Pageable pageable, Long parentCategoryId, User user){
+        Category parentCategory = categoryService.findById(parentCategoryId);
+        categoryService.validUser(parentCategory, user);
+        Page<Category> childCategoryPage = categoryService.findByParentCategoryId(pageable, parentCategory);
         PageInfoDto pageInfoDto = PageInfoDto.of(childCategoryPage);
         return ChildCategoryListResponseDto.of(pageInfoDto, childCategoryPage.getContent());
     }
