@@ -15,10 +15,10 @@ public interface BookmarkTagJPARepository extends JpaRepository<BookmarkTag, Boo
     List<String> findTagNamesByBookmarkId(@Param("bookmarkId") Long bookmarkId);
 
     @Query("select bt.tag.tagId from BookmarkTag bt where bt.bookmark.bookmarkId = :bookmarkId")
-    Long findTagIdByBookmarkId(@Param("bookmarkId") Long bookmarkId);
+    List<Long> findTagIdByBookmarkId(@Param("bookmarkId") Long bookmarkId);
 
-    @Query("select bt from BookmarkTag bt where bt.bookmark.bookmarkId = :bookmarkId and bt.tag.tagId = :tagId")
-    BookmarkTag findBookmarkTagByIds(@Param("bookmarkId") Long bookmarkId, @Param("tagId") Long tagId);
+    @Query("select bt from BookmarkTag bt where bt.bookmark.bookmarkId = :bookmarkId and bt.tag.tagName = :tagName")
+    BookmarkTag findMatchingBookmarkTag(@Param("bookmarkId") Long bookmarkId, @Param("tagName") String tagName);
 
     @Query("select bt.bookmark from BookmarkTag bt where bt.bookmark.bookmarkName = :bookmarkName and bt.tag.tagName in :tags")
     Optional<List<Bookmark>> findMatchingBookmarks(String bookmarkName, List<String> tags);

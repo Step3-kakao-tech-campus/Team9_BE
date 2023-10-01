@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,14 +31,19 @@ public class BookmarkDeleteService {
         Bookmark bookmark = bookmarkJPARepository.findById(id).orElseThrow(
                 // 예외처리 구현
         );
-        Long bookmarkId = bookmark.getBookmarkId();
-        Long tagId = bookmarkTagSearchService.searchTagIdByBookmarkId(bookmarkId);
-        String tagName = tagSearchService.searchTagNameById(tagId);
-        List<Long> tagIds = tagSearchService.searchTagIdsByName(tagName);
-        if(tagIds.size() <= 1) {
-            tagDeleteService.deleteTagById(tagId);
+        List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(id);
+        List<String> tagNames = new ArrayList<>();
+        for(Long tag : tagIds) {
+            tagNames.add(tagSearchService.searchTagNameById(tag));
         }
-        bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, tagId);
-        bookmarkJPARepository.delete(bookmark);
+        for(String name : tagNames) {
+            List<Long> idsSearchedByName = tagSearchService.searchTagIdsByName(name);
+            if(idsSearchedByName.size() <= 1) {
+                tagDeleteService.deleteTagByName(name);
+            }
+            bookmarkTagDeleteService.deleteBookmarkTag(id, name);
+            bookmarkJPARepository.delete(bookmark);
+
+        }
     }
 }

@@ -19,7 +19,7 @@ public class BookmarkTagSearchService {
         return bookmarkTagJPARepository.findTagNamesByBookmarkId(bookmarkId);
     }
 
-    public Long searchTagIdByBookmarkId(Long bookmarkId) {
+    public List<Long> searchTagIdByBookmarkId(Long bookmarkId) {
         return bookmarkTagJPARepository.findTagIdByBookmarkId(bookmarkId);
     }
 

@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookmarkTagDeleteService {
     private final BookmarkTagJPARepository bookmarkTagJPARepository;
 
-    public void deleteBookmarkTag(Long bookmarkId, Long tagId) {
-        BookmarkTag bookmarkTag = bookmarkTagJPARepository.findBookmarkTagByIds(bookmarkId, tagId);
+    public void deleteBookmarkTag(Long bookmarkId, String tagName) {
+        BookmarkTag bookmarkTag = bookmarkTagJPARepository.findMatchingBookmarkTag(bookmarkId, tagName);
         bookmarkTagJPARepository.delete(bookmarkTag);
     }
 }
