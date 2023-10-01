@@ -4,6 +4,7 @@ import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.entity.Category;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +39,14 @@ public class BookmarkRequestDto {
                     .bookmarkThumbnail(imageUrl)
                     .build();
         }
+    }
+
+    public record bookmarkUpdateRequestDto (
+            String bookmarkName,
+            String description
+    ) {
+        @Builder
+        public bookmarkUpdateRequestDto{}
     }
 }
 

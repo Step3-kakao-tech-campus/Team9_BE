@@ -2,21 +2,17 @@ package com.kakao.linknamu.bookmark.service;
 
 import com.kakao.linknamu.bookmark.dto.BookmarkResponseDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class BookmarkSearchService {
-    private final BookmarkJPARepository bookmarkJPARepository;
     private final BookmarkTagSearchService bookmarkTagSearchService;
 
     /* bookmarkSearch 동작 */
