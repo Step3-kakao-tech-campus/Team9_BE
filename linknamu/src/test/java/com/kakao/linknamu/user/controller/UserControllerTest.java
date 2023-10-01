@@ -156,7 +156,7 @@ public class UserControllerTest extends RestDocs {
             // then
             assertTrue(userJPARepository.findByEmail(TEST_USER_EMAIL).isEmpty());
             assertFalse(refreshTokenRepository.existsById(refreshToken));
-//            assertTrue(blackListTokenRepository.existsById(accessToken));
+            assertTrue(blackListTokenRepository.existsById(accessToken));
 
             resultActions.andExpectAll(
                     jsonPath("$.success").value("true"),
