@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
@@ -22,12 +23,16 @@ public class BookmarkUpdateService {
     @Transactional
     public BookmarkResponseDto.bookmarkUpdateResponseDto bookmarkUpdate(
             BookmarkRequestDto.bookmarkUpdateRequestDto dto,
+            Long userId,
             Long bookmarkId
     ) {
         bookmarkJPARepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
         Bookmark bookmark = bookmarkJPARepository.findById(bookmarkId).orElseThrow(
                 () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
         );
+        if(!bookmark.getCategory().getUser().getUserId().equals(userId)) {
+            throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
+        }
         List<String> tags = bookmarkTagSearchService.searchNamesByBookmarkId(bookmarkId);
         return BookmarkResponseDto.bookmarkUpdateResponseDto.builder()
                 .bookmarkId(bookmarkId)

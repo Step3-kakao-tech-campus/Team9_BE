@@ -56,9 +56,10 @@ public class BookmarkController {
     @PostMapping("/update/{bookmark_id}")
     public ResponseEntity<?> bookmarkUpdate(
             @RequestBody @Valid BookmarkRequestDto.bookmarkUpdateRequestDto dto,
-            @PathVariable Long bookmark_id
+            @PathVariable Long bookmark_id,
+            @AuthenticationPrincipal CustomUserDetails user
     ) {
-        BookmarkResponseDto.bookmarkUpdateResponseDto responseDto = bookmarkUpdateService.bookmarkUpdate(dto, bookmark_id);
+        BookmarkResponseDto.bookmarkUpdateResponseDto responseDto = bookmarkUpdateService.bookmarkUpdate(dto, user.getUser().getUserId(), bookmark_id);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 }

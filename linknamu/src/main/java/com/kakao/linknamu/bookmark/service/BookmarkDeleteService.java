@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
@@ -34,6 +35,9 @@ public class BookmarkDeleteService {
         Bookmark bookmark = bookmarkJPARepository.findById(bookmarkId).orElseThrow(
                 () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
         );
+        if(!bookmark.getCategory().getUser().getUserId().equals(userId)) {
+            throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
+        }
         List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(bookmarkId);
         List<String> tagNames = new ArrayList<>();
         for(Long tag : tagIds) {
