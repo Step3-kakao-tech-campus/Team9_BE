@@ -19,6 +19,7 @@ import java.util.List;
 public class BookmarkUpdateService {
     private final BookmarkJPARepository bookmarkJPARepository;
     private final BookmarkTagSearchService bookmarkTagSearchService;
+    @Transactional
     public BookmarkResponseDto.bookmarkUpdateResponseDto bookmarkUpdate(
             BookmarkRequestDto.bookmarkUpdateRequestDto dto,
             Long bookmarkId

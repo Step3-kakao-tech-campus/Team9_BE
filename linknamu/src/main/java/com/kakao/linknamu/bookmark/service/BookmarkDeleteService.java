@@ -29,6 +29,7 @@ public class BookmarkDeleteService {
     // 2. 해당 북마크의 태그 id검색 -> 태그 id를 사용하여 태그 제목 얻기 -> 해당 태그 제목을 가지는 태그의 개수가 1개 이하라면 해당 태그 삭제
     // 3. 북마크-태그 삭제
     // 4. 북마크 삭제
+    @Transactional
     public void bookmarkDelete(Long id) {
         Bookmark bookmark = bookmarkJPARepository.findById(id).orElseThrow(
                 () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
