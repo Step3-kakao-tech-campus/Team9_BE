@@ -1,6 +1,8 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.exception.Exception404;
+import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
@@ -31,11 +33,14 @@ public class BookmarkCreateService {
     private final BookmarkTagSaveService bookmarkTagSaveService;
 
     @Transactional
-    public void bookmarkAdd(BookmarkRequestDto.bookmarkAddDTO dto) {
+    public void bookmarkAdd(BookmarkRequestDto.bookmarkAddDTO dto, User userDetails) {
         /* Bookmark 테이블에 bookmark 항목 추가 */
         Category category = categoryJPARepository.findById(dto.getCategoryId()).orElseThrow(
                 () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
         );
+        if(!category.getUser().getUserId().equals(userDetails.getUserId())){
+            throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
+        }
         Bookmark bookmark = dto.toBookmarkEntity(category);
         bookmarkJPARepository.save(bookmark);
 
