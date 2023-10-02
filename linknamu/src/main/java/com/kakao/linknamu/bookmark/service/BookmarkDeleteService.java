@@ -1,5 +1,7 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception404;
+import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagDeleteService;
@@ -29,7 +31,7 @@ public class BookmarkDeleteService {
     // 4. 북마크 삭제
     public void bookmarkDelete(Long id) {
         Bookmark bookmark = bookmarkJPARepository.findById(id).orElseThrow(
-                // 예외처리 구현
+                () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
         );
         List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(id);
         List<String> tagNames = new ArrayList<>();

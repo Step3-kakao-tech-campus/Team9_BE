@@ -1,5 +1,7 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception404;
+import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import com.kakao.linknamu.bookmark.dto.BookmarkResponseDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
@@ -23,7 +25,7 @@ public class BookmarkUpdateService {
     ) {
         bookmarkJPARepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
         Bookmark bookmark = bookmarkJPARepository.findById(bookmarkId).orElseThrow(
-                // 예외처리
+                () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
         );
         List<String> tags = bookmarkTagSearchService.searchNamesByBookmarkId(bookmarkId);
         return BookmarkResponseDto.bookmarkUpdateResponseDto.builder()

@@ -1,6 +1,8 @@
 package com.kakao.linknamu.bookmarkTag.service;
 
+import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
+import com.kakao.linknamu.bookmarkTag.BookmarkTagExceptionStatus;
 import com.kakao.linknamu.bookmarkTag.repository.BookmarkTagJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,9 @@ public class BookmarkTagSearchService {
         return bookmarkTagJPARepository.findTagIdByBookmarkId(bookmarkId);
     }
 
-    public Optional<List<Bookmark>> searchMatchingBookmarks(String search, List<String> tags) {
-        return bookmarkTagJPARepository.findMatchingBookmarks(search, tags);
+    public List<Bookmark> searchMatchingBookmarks(String search, List<String> tags) {
+        return bookmarkTagJPARepository.findMatchingBookmarks(search, tags).orElseThrow(
+                () -> new Exception404(BookmarkTagExceptionStatus.BOOKMARK_TAG_NOT_FOUND)
+        );
     }
 }

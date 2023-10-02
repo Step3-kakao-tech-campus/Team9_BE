@@ -1,5 +1,7 @@
 package com.kakao.linknamu.tag.service;
 
+import com.kakao.linknamu._core.exception.Exception404;
+import com.kakao.linknamu.tag.TagExceptionStatus;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.tag.repository.TagJPARepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,7 @@ public class TagDeleteService {
 
     public void deleteTagByName(String name) {
         Tag tag = tagJPARepository.findByName(name).orElseThrow(
-                // 예외처리
+                () -> new Exception404(TagExceptionStatus.TAG_NOT_FOUND)
         );
         tagJPARepository.delete(tag);
     }

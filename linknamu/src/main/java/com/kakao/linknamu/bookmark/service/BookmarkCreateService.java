@@ -1,10 +1,12 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
 import com.kakao.linknamu.bookmarkTag.entity.BookmarkTag;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSaveService;
+import com.kakao.linknamu.category.CategoryExceptionStatus;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJPARepository;
 import com.kakao.linknamu.tag.entity.Tag;
@@ -32,14 +34,10 @@ public class BookmarkCreateService {
     public void bookmarkAdd(BookmarkRequestDto.bookmarkAddDTO dto) {
         /* Bookmark 테이블에 bookmark 항목 추가 */
         Category category = categoryJPARepository.findById(dto.getCategoryId()).orElseThrow(
-                // 예외처리 구현
+                () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
         );
         Bookmark bookmark = dto.toBookmarkEntity(category);
-        try{
-            bookmarkJPARepository.save(bookmark);
-        } catch (Exception e) {
-            // 예외처리 구현
-        }
+        bookmarkJPARepository.save(bookmark);
 
         /* 새로운 Tag일 경우 Tag 테이블에 등록해야 한다. */
         List<Tag> tagEntities = new ArrayList<>();

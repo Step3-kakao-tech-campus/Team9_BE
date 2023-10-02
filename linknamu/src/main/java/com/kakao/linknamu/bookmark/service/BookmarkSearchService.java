@@ -22,9 +22,7 @@ public class BookmarkSearchService {
     // 3. 해당되는 bookmark를 result에 저장한 후 result에 있는 모든 북마크를 이용하여 dto를 생성 후 반환한다.
     public List<BookmarkResponseDto.SearchDto> bookmarkSearch(String search, List<String> tags) {
 
-        List<Bookmark> searchedBookmarks = bookmarkTagSearchService.searchMatchingBookmarks(search, tags).orElseThrow(
-                // 예외처리 구현
-        );
+        List<Bookmark> searchedBookmarks = bookmarkTagSearchService.searchMatchingBookmarks(search, tags);
 
         List<BookmarkResponseDto.SearchDto> response = new ArrayList<>();
         for(Bookmark resultBookmark : searchedBookmarks) {
