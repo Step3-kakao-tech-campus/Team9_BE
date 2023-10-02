@@ -34,6 +34,7 @@ public class BookmarkTag extends AuditingEntity {
     public BookmarkTag(Bookmark bookmark, Tag tag) {
         this.bookmark = bookmark;
         this.tag = tag;
+        this.bookmarkTagId = new BookmarkTagId(bookmark.getBookmarkId(), tag.getTagId());
     }
 
     @Override
