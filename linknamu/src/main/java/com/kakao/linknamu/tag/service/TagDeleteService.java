@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class TagDeleteService {
     private final TagJPARepository tagJPARepository;
 
-    public void deleteTagByName(String name) {
-        Tag tag = tagJPARepository.findByName(name).orElseThrow(
+    public void deleteTagByName(Long userId, String name) {
+        Tag tag = tagJPARepository.findByUserIdAndName(userId, name).orElseThrow(
                 () -> new Exception404(TagExceptionStatus.TAG_NOT_FOUND)
         );
         tagJPARepository.delete(tag);

@@ -46,9 +46,10 @@ public class BookmarkController {
 
     @PostMapping("/delete/{bookmark_id}")
     public ResponseEntity<?> bookmarkDelete(
-            @PathVariable Long bookmark_id
+            @PathVariable Long bookmark_id,
+            @AuthenticationPrincipal CustomUserDetails user
     ) {
-        bookmarkDeleteService.bookmarkDelete(bookmark_id);
+        bookmarkDeleteService.bookmarkDelete(user.getUser().getUserId(), bookmark_id);
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 

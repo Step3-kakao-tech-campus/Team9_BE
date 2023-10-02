@@ -30,11 +30,11 @@ public class BookmarkDeleteService {
     // 3. 북마크-태그 삭제
     // 4. 북마크 삭제
     @Transactional
-    public void bookmarkDelete(Long id) {
-        Bookmark bookmark = bookmarkJPARepository.findById(id).orElseThrow(
+    public void bookmarkDelete(Long userId, Long bookmarkId) {
+        Bookmark bookmark = bookmarkJPARepository.findById(bookmarkId).orElseThrow(
                 () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
         );
-        List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(id);
+        List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(bookmarkId);
         List<String> tagNames = new ArrayList<>();
         for(Long tag : tagIds) {
             tagNames.add(tagSearchService.searchTagNameById(tag));
@@ -42,9 +42,9 @@ public class BookmarkDeleteService {
         for(String name : tagNames) {
             List<Long> idsSearchedByName = tagSearchService.searchTagIdsByName(name);
             if(idsSearchedByName.size() <= 1) {
-                tagDeleteService.deleteTagByName(name);
+                tagDeleteService.deleteTagByName(userId, name);
             }
-            bookmarkTagDeleteService.deleteBookmarkTag(id, name);
+            bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, name);
             bookmarkJPARepository.delete(bookmark);
 
         }
