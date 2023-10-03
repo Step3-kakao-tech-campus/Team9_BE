@@ -3,6 +3,8 @@ package com.kakao.linknamu.workspace.entity;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
 
@@ -28,10 +30,11 @@ public class Workspace {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @Column(length = 50, name = "workspace_name")
+    @Column(length = 50, name = "workspace_name", nullable = false)
     private String workspaceName;
 
     @Builder
