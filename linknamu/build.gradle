@@ -58,3 +58,9 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+bootJar{
+    archivesBaseName = 'linknamu'
+    archiveFileName = 'linknamu.jar'
+    archiveVersion = "0.0.1"
+}
