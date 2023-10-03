@@ -34,9 +34,9 @@ public class CategoryService {
         );
     }
 
-    public Page<Category> findByUserId(Pageable pageable, User user){
-        return categoryJPARepository.findByUserId(user.getUserId(), pageable);
-    }
+//    public Page<Category> findByUserId(Pageable pageable, User user){
+//        return categoryJPARepository.findByUserId(user.getUserId(), pageable);
+//    }
 
 //    public Page<Category> findByParentCategoryId(Pageable pageable, Category parentCategory){
 //        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
@@ -52,7 +52,7 @@ public class CategoryService {
 
     // 카테고리의 유저와 로그인 유저가 같은지 체크
     public void validUser(Category category, User user){
-        if (!category.getUser().getUserId().equals(user.getUserId())){
+        if (!category.getWorkspace().getUser().getUserId().equals(user.getUserId())){
             throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
         }
     }

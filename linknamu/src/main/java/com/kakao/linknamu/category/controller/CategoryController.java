@@ -41,15 +41,15 @@ public class CategoryController {
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getCategoryList(
-            @RequestParam(defaultValue = "0") int page,
-            @AuthenticationPrincipal CustomUserDetails user){
-
-        Pageable pageable= PageRequest.of(page, PAGE_SIZE);
-        CategoryListResponseDto responseDto = categoryReadService.findByUserId(pageable, user.getUser());
-        return ResponseEntity.ok(ApiUtils.success(responseDto));
-    }
+//    @GetMapping("")
+//    public ResponseEntity<?> getCategoryList(
+//            @RequestParam(defaultValue = "0") int page,
+//            @AuthenticationPrincipal CustomUserDetails user){
+//
+//        Pageable pageable= PageRequest.of(page, PAGE_SIZE);
+//        CategoryListResponseDto responseDto = categoryReadService.findByUserId(pageable, user.getUser());
+//        return ResponseEntity.ok(ApiUtils.success(responseDto));
+//    }
 
 //    @GetMapping("/{categoryId}")
 //    public ResponseEntity<?> getChildCategoryList(
