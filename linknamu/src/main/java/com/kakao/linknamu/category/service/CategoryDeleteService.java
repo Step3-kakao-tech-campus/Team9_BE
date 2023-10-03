@@ -13,12 +13,12 @@ public class CategoryDeleteService {
 
     private final CategoryService categoryService;
 
-    public void delete(Long categoryId, User user) {
-        Category category = categoryService.findById(categoryId);
-        if (category.getParentCategory().getCategoryId().equals(categoryId)){
-            throw new Exception400(CategoryExceptionStatus.ROOT_DELETION_FORBIDDEN);
-        }
-        categoryService.validUser(category, user);
-        categoryService.deleteById(categoryId);
-    }
+//    public void delete(Long categoryId, User user) {
+//        Category category = categoryService.findById(categoryId);
+//        if (category.getParentCategory().getCategoryId().equals(categoryId)){
+//            throw new Exception400(CategoryExceptionStatus.ROOT_DELETION_FORBIDDEN);
+//        }
+//        categoryService.validUser(category, user);
+//        categoryService.deleteById(categoryId);
+//    }
 }

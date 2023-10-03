@@ -19,14 +19,14 @@ public class CategoryService {
 
     private final CategoryJPARepository categoryJPARepository;
 
-    public Category save(String categoryName, Category parentCategory, User user){
-        Category category = Category.builder()
-                .categoryName(categoryName)
-                .parentCategory(parentCategory)
-                .user(user)
-                .build();
-        return categoryJPARepository.save(category);
-    }
+//    public Category save(String categoryName, Category parentCategory, User user){
+//        Category category = Category.builder()
+//                .categoryName(categoryName)
+//                .parentCategory(parentCategory)
+//                .user(user)
+//                .build();
+//        return categoryJPARepository.save(category);
+//    }
 
     public Category findById(Long id) {
         return categoryJPARepository.findById(id).orElseThrow(
@@ -38,13 +38,13 @@ public class CategoryService {
         return categoryJPARepository.findByUserId(user.getUserId(), pageable);
     }
 
-    public Page<Category> findByParentCategoryId(Pageable pageable, Category parentCategory){
-        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
-    }
-
-    public Optional<Category> findByParentCategoryIdAndCategoryName(Long parentCategoryId, String categoryName){
-        return categoryJPARepository.findByParentCategoryIdAndCategoryName(parentCategoryId, categoryName);
-    }
+//    public Page<Category> findByParentCategoryId(Pageable pageable, Category parentCategory){
+//        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
+//    }
+//
+//    public Optional<Category> findByParentCategoryIdAndCategoryName(Long parentCategoryId, String categoryName){
+//        return categoryJPARepository.findByParentCategoryIdAndCategoryName(parentCategoryId, categoryName);
+//    }
 
     public void deleteById(Long categoryId){
         categoryJPARepository.deleteById(categoryId);
