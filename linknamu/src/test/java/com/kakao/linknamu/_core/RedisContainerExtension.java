@@ -6,11 +6,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 public class RedisContainerExtension implements BeforeAllCallback, AfterEachCallback {
     private static final int TEST_REDIS_PORT = 6379;
-    private static final String DOCKER_REDIS_IMAGE = "redis:6.0.20-alpine";
+    private static final String DOCKER_REDIS_IMAGE = "redis:alpine";
 
     private static final GenericContainer<?> MY_REDIS_CONTAINER =
             new GenericContainer<>(DockerImageName.parse(DOCKER_REDIS_IMAGE))

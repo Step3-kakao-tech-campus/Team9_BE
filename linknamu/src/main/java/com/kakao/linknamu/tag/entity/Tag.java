@@ -35,7 +35,7 @@ public class Tag extends AuditingEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(length = 50, nullable = false, unique = true, name = "tag_name")
+    @Column(length = 50, nullable = false, name = "tag_name")
     private String tagName;
 
 

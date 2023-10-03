@@ -1,4 +1,4 @@
-package com.kakao.linknamu.bookmarkTag;
+package com.kakao.linknamu.bookmarkTag.entity;
 
 import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
@@ -34,6 +34,7 @@ public class BookmarkTag extends AuditingEntity {
     public BookmarkTag(Bookmark bookmark, Tag tag) {
         this.bookmark = bookmark;
         this.tag = tag;
+        this.bookmarkTagId = new BookmarkTagId(bookmark.getBookmarkId(), tag.getTagId());
     }
 
     @Override
