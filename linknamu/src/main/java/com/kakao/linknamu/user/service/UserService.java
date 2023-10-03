@@ -19,6 +19,8 @@ import com.kakao.linknamu.user.dto.oauth.OauthUserInfo;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJPARepository;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,23 +38,22 @@ public class UserService {
     private final UserJPARepository userJPARepository;
     private final RefreshTokenService refreshTokenService;
     private final BlackListTokenService blackListTokenService;
-    private final CategoryService categoryService;
+    private final WorkspaceSaveService workspaceSaveService;
 
     @Transactional
     public LoginResponseDto socialLogin(OauthUserInfo userInfo) {
         User user = userJPARepository.findByEmail(userInfo.email()).orElseGet(
                 () -> {
-                    User singUpUser = userJPARepository.save(User.builder()
+                    User signUpUser = userJPARepository.save(User.builder()
                         .email(userInfo.email())
                         .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                         .role(Role.ROLE_USER)
                         .provider(userInfo.provider())
                         .build());
 
-                    Category category = categoryService.save("root", null, singUpUser);
-                    category.setRootCategory();
-
-                    return singUpUser;
+                    String workspaceName = "나의 워크스페이스";
+                    workspaceSaveService.createWorkspace(workspaceName, signUpUser);
+                    return signUpUser;
                 });
 
         String accessToken = JwtProvider.create(user);
