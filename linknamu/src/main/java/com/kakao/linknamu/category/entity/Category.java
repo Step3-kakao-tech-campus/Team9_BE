@@ -43,10 +43,6 @@ public class Category extends AuditingEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Workspace workspace;
 
-    // 카테고리 삭제 시 카테고리에 속한 북마크 삭제
-    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
-    private List<Bookmark> bookmarks;
-
 
     @Column(length = 100, nullable = false, name = "category_name")
     private String categoryName;
