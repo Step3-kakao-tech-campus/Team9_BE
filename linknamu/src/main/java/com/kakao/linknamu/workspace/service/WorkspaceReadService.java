@@ -24,7 +24,7 @@ public class WorkspaceReadService {
     private final WorkspaceJPARepository workspaceJPARepository;
 
     public List<WorkspaceGetResponseDto> getWorkspaceList(User user) {
-        List<Workspace> workspaceList = workspaceJPARepository.findAllByUserId(user.getUserId());
+        List<Workspace> workspaceList = workspaceJPARepository.findAllByUserIdFetchJoinCategory(user.getUserId());
         if (workspaceList.isEmpty()) return List.of();
 
         return workspaceList.stream()
