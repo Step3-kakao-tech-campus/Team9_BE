@@ -78,7 +78,7 @@ public class CategoryController {
             @PathVariable Long categoryId,
             @AuthenticationPrincipal CustomUserDetails user){
 
-//        categoryDeleteService.delete(categoryId, user.getUser());
+        categoryDeleteService.delete(categoryId, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
