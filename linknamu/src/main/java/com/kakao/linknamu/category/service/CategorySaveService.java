@@ -15,15 +15,15 @@ public class CategorySaveService {
 
     private final CategoryService categoryService;
 
-    public void save(CategorySaveRequestDto requestDto, User user) {
-        Category parentCategory = categoryService.findById(requestDto.parentCategoryId());
-
-        categoryService.validUser(parentCategory, user);
-        categoryService.findByParentCategoryIdAndCategoryName(requestDto.parentCategoryId(), requestDto.categoryName()).ifPresent((c) -> {
-                throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
-        });
-
-        categoryService.save(requestDto.categoryName(), parentCategory, user);
-    }
+//    public void save(CategorySaveRequestDto requestDto, User user) {
+//        Category parentCategory = categoryService.findById(requestDto.parentCategoryId());
+//
+//        categoryService.validUser(parentCategory, user);
+//        categoryService.findByParentCategoryIdAndCategoryName(requestDto.parentCategoryId(), requestDto.categoryName()).ifPresent((c) -> {
+//                throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
+//        });
+//
+//        categoryService.save(requestDto.categoryName(), parentCategory, user);
+//    }
 
 }

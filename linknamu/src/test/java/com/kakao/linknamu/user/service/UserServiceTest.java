@@ -15,6 +15,8 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJPARepository;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -48,7 +50,7 @@ public class UserServiceTest {
     @Mock
     private BlackListTokenService blackListTokenService;
     @Mock
-    private CategoryService categoryService;
+    private WorkspaceSaveService workspaceSaveService;
 
     @BeforeEach
     public void setUp() {
@@ -71,22 +73,20 @@ public class UserServiceTest {
                     .provider(Provider.PROVIDER_GOOGLE)
                     .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                     .build();
-            Category category = Category.builder().categoryId(1L).categoryName("root").user(user).build();
-            category.setRootCategory();
-            ArgumentCaptor<String> categoryNameCaptor = ArgumentCaptor.forClass(String.class);
+            ArgumentCaptor<String> workspaceNameCaptor = ArgumentCaptor.forClass(String.class);
 
             // mock
             given(userJPARepository.findByEmail(eq(googleUserInfo.email()))).willReturn(Optional.empty());
             given(userJPARepository.save(any())).willReturn(user);
-            given(categoryService.save(any(), any(), any())).willReturn(category);
+            willDoNothing().given(workspaceSaveService).createWorkspace(any(), any());
 
             // when
             LoginResponseDto result = userService.socialLogin(googleUserInfo);
 
             // then
             verify(userJPARepository, times(1)).save(any());
-            verify(categoryService, times(1)).save(categoryNameCaptor.capture(), any(), any());
-            assertEquals(category.getCategoryName(), categoryNameCaptor.getValue());
+            verify(workspaceSaveService, times(1)).createWorkspace(workspaceNameCaptor.capture(), any());
+            assertEquals("나의 워크스페이스", workspaceNameCaptor.getValue());
             assertTrue(result.accessToken().startsWith("Bearer "));
             JwtProvider.verifyRefreshToken(result.refreshToken());
         }
