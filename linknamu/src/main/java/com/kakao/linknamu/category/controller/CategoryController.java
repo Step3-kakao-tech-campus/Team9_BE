@@ -37,7 +37,7 @@ public class CategoryController {
             Errors errors,
             @AuthenticationPrincipal CustomUserDetails user){
 
-//        categorySaveService.save(requestDto, user.getUser());
+        categorySaveService.save(requestDto, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 

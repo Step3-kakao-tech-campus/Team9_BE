@@ -6,9 +6,8 @@ import com.kakao.linknamu.category.CategoryExceptionStatus;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJPARepository;
 import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.workspace.entity.Workspace;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,14 +18,13 @@ public class CategoryService {
 
     private final CategoryJPARepository categoryJPARepository;
 
-//    public Category save(String categoryName, Category parentCategory, User user){
-//        Category category = Category.builder()
-//                .categoryName(categoryName)
-//                .parentCategory(parentCategory)
-//                .user(user)
-//                .build();
-//        return categoryJPARepository.save(category);
-//    }
+    public Category save(String categoryName, Workspace workspace){
+        Category category = Category.builder()
+                .categoryName(categoryName)
+                .workspace(workspace)
+                .build();
+        return categoryJPARepository.save(category);
+    }
 
     public Category findById(Long id) {
         return categoryJPARepository.findById(id).orElseThrow(
@@ -42,17 +40,17 @@ public class CategoryService {
 //        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
 //    }
 //
-//    public Optional<Category> findByParentCategoryIdAndCategoryName(Long parentCategoryId, String categoryName){
-//        return categoryJPARepository.findByParentCategoryIdAndCategoryName(parentCategoryId, categoryName);
-//    }
+    public Optional<Category> findByWorkspaceIdAndCategoryName(Long workspaceId, String categoryName){
+        return categoryJPARepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName);
+    }
 
     public void deleteById(Long categoryId){
         categoryJPARepository.deleteById(categoryId);
     }
 
-    // 카테고리의 유저와 로그인 유저가 같은지 체크
-    public void validUser(Category category, User user){
-        if (!category.getWorkspace().getUser().getUserId().equals(user.getUserId())){
+    // 워크스페이스의 유저와 로그인 유저가 같은지 체크
+    public void validUser(Workspace workspace, User user){
+        if (!workspace.getUser().getUserId().equals(user.getUserId())){
             throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
         }
     }
