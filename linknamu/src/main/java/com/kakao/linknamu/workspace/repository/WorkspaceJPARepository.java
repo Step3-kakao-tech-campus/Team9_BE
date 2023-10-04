@@ -12,4 +12,7 @@ public interface WorkspaceJPARepository extends JpaRepository<Workspace, Long> {
 
     @Query(value = "select w from Workspace w where w.user.userId=:userId and w.workspaceName =:workspaceName")
     Optional<Workspace> findByUserIdAndWorkspaceName(@Param("userId") Long userId, @Param("workspaceName") String workspaceName);
+
+    @Query(value = "select w from Workspace w where w.user.userId =:userId")
+    List<Workspace> findAllByUserId(@Param("userId") Long userId);
 }

@@ -1,5 +1,7 @@
 package com.kakao.linknamu.workspace.entity;
 
+import com.kakao.linknamu._core.util.AuditingEntity;
+import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +9,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -26,7 +30,7 @@ import java.util.Objects;
                 )
         }
 )
-public class Workspace {
+public class Workspace extends AuditingEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="workspace_id")
     private Long id;
@@ -38,6 +42,9 @@ public class Workspace {
 
     @Column(length = 50, name = "workspace_name", nullable = false)
     private String workspaceName;
+
+    @OneToMany(mappedBy = "workspace")
+    private List<Category> categoryList = new ArrayList<>();
 
     @Builder
     public Workspace(Long id, User user, String workspaceName) {
