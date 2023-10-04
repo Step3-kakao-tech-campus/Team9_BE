@@ -11,12 +11,6 @@ import java.util.Optional;
 
 public interface CategoryJPARepository extends JpaRepository<Category, Long> {
 
-//    @Query("select c from Category c where c.user.userId = :userId")
-//    Page<Category> findByUserId(@Param("userId") Long userId, Pageable pageable);
-
-//    @Query("select c from Category c where c.parentCategory.categoryId = :parentCategoryId")
-//    Page<Category> findByParentCategoryId(@Param("parentCategoryId") Long parentCategoryId, Pageable pageable);
-//
     @Query("select c from Category c where c.workspace.id = :workspaceId and c.categoryName = :categoryName")
     Optional<Category> findByWorkspaceIdAndCategoryName(@Param("workspaceId") Long workspaceId, @Param("categoryName") String categoryName);
 

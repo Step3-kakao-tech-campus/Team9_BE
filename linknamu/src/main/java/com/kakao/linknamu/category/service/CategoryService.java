@@ -32,14 +32,6 @@ public class CategoryService {
         );
     }
 
-//    public Page<Category> findByUserId(Pageable pageable, User user){
-//        return categoryJPARepository.findByUserId(user.getUserId(), pageable);
-//    }
-
-//    public Page<Category> findByParentCategoryId(Pageable pageable, Category parentCategory){
-//        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
-//    }
-//
     public Optional<Category> findByWorkspaceIdAndCategoryName(Long workspaceId, String categoryName){
         return categoryJPARepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName);
     }
