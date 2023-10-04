@@ -9,14 +9,12 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@ToString(exclude = {"user"})
+@ToString(callSuper = true, exclude = {"user", "categoryList"})
 @DynamicUpdate
 @Table(
         name = "workspace_tb",
@@ -44,7 +42,7 @@ public class Workspace extends AuditingEntity {
     private String workspaceName;
 
     @OneToMany(mappedBy = "workspace")
-    private List<Category> categoryList = new ArrayList<>();
+    private Set<Category> categorySet = new HashSet<>();
 
     @Builder
     public Workspace(Long id, User user, String workspaceName) {
