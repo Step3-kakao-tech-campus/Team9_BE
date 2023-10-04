@@ -4,6 +4,7 @@ import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.workspace.dto.WorkspaceCreateRequestDto;
 import com.kakao.linknamu.workspace.dto.WorkspaceUpdateRequestDto;
+import com.kakao.linknamu.workspace.service.WorkspaceDeleteService;
 import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
 import com.kakao.linknamu.workspace.service.WorkspaceUpdateService;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class WorkspaceController {
     private final WorkspaceSaveService workspaceSaveService;
     private final WorkspaceUpdateService workspaceUpdateService;
+    private final WorkspaceDeleteService workspaceDeleteService;
 
     @GetMapping("")
     public ResponseEntity<?> getWorkspaceList(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -46,6 +48,7 @@ public class WorkspaceController {
     public ResponseEntity<?> deleteWorkspace(@PathVariable("workspace_id") Long workspaceId,
                                              @AuthenticationPrincipal CustomUserDetails userDetails) {
         // 워크스페이스 삭제 서비스 코드
+        workspaceDeleteService.deleteWorkspace(workspaceId, userDetails.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 }
