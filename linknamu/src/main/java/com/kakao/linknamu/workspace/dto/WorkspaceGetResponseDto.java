@@ -29,7 +29,8 @@ public record WorkspaceGetResponseDto(
         return WorkspaceGetResponseDto.builder()
                 .workspaceId(workspace.getId())
                 .workspaceName(workspace.getWorkspaceName())
-                .categoryList(workspace.getCategoryList().stream()
+                .categoryList(workspace.getCategorySet().stream()
+                        .sorted(Comparator.comparing(Category::getCategoryId))
                         .map((c) -> new CategoryResponseDto(c.getCategoryId(), c.getCategoryName()))
                         .toList())
                 .build();
