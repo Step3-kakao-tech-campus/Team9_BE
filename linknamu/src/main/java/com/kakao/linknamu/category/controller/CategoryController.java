@@ -69,7 +69,7 @@ public class CategoryController {
             Errors errors,
             @AuthenticationPrincipal CustomUserDetails user){
 
-//        categoryUpdateService.update(requestDto, categoryId, user.getUser());
+        categoryUpdateService.update(requestDto, categoryId, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
