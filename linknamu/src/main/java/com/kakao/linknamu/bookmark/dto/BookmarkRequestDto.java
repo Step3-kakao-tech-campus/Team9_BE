@@ -48,5 +48,13 @@ public class BookmarkRequestDto {
         @Builder
         public bookmarkUpdateRequestDto{}
     }
+
+    public record bookmarkMoveRequestDto (
+            List<Long> bookmarkIdList,
+            Long toCategoryId
+    ) {
+        @Builder
+        public bookmarkMoveRequestDto{}
+    }
 }
 
