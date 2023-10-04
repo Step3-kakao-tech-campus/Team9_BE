@@ -25,13 +25,16 @@ jobs:
 
         #Gradle 실행 스크립트에 실행 권한 부여
       - name: Give execute permission to Gradle Wrapper
+        working-directory: ./linknamu
         run: chmod +x ./gradlew
+
 
       # Gradle 빌드 및 테스트 실행
       - name: Build and Test with Gradle
+        working-directory: ./linknamu
         run: |
-       
           ./gradlew clean test
+
 
       # Gradle 테스트 결과 코드 확인
       - name: Check Test Results
