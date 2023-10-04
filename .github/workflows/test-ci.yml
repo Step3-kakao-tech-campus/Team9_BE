@@ -3,10 +3,10 @@ name: PR and Push Workflow
 on:
   pull_request:
     branches:
-      - 5_weekly
+      - weekly
   push:
     branches:
-      - 5_weekly
+      - weekly
 jobs:
   gradle-test:
     runs-on: ubuntu-latest
