@@ -1,5 +1,6 @@
 package com.kakao.linknamu.workspace.service;
 
+import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
@@ -14,15 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class WorkspaceUpdateService {
-    private WorkspaceJPARepository workspaceJPARepository;
+    private final WorkspaceJPARepository workspaceJPARepository;
 
     public void updateWorkspace(Long workspaceId, WorkspaceUpdateRequestDto requestDto, User user) {
         Workspace workspace = workspaceJPARepository.findById(workspaceId).orElseThrow(
                 () -> new Exception404(WorkspaceExceptionStatus.WORKSPACE_NOT_FOUND));
 
+        validationCheck(workspace.getUser().getUserId(), user.getUserId());
+
         // 만약 수정하고자하는 이름이 같다면 DB에 Update할 이유가 없다.
         if (requestDto.workspaceName().equals(workspace.getWorkspaceName())) return;
 
         workspace.renameWorkspace(requestDto.workspaceName());
+    }
+
+    private void validationCheck(Long writerId, Long requesterId) {
+        if (!writerId.equals(requesterId)) throw new Exception403(WorkspaceExceptionStatus.WORKSPACE_FORBIDDEN);
     }
 }
