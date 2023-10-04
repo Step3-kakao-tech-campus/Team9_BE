@@ -26,8 +26,8 @@ public class CategoryService {
         return categoryJPARepository.save(category);
     }
 
-    public Category findById(Long id) {
-        return categoryJPARepository.findById(id).orElseThrow(
+    public Category findByIdFetchJoinWorkspace(Long id) {
+        return categoryJPARepository.findByIdFetchJoinWorkspace(id).orElseThrow(
                 () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
         );
     }
