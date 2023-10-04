@@ -5,6 +5,7 @@ import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.workspace.dto.WorkspaceCreateRequestDto;
 import com.kakao.linknamu.workspace.dto.WorkspaceUpdateRequestDto;
 import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
+import com.kakao.linknamu.workspace.service.WorkspaceUpdateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/workspace")
 public class WorkspaceController {
     private final WorkspaceSaveService workspaceSaveService;
+    private final WorkspaceUpdateService workspaceUpdateService;
 
     @GetMapping("")
     public ResponseEntity<?> getWorkspaceList(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -36,6 +38,7 @@ public class WorkspaceController {
                                              @RequestBody @Valid WorkspaceUpdateRequestDto requestDto,
                                              @AuthenticationPrincipal CustomUserDetails userDetails) {
         // 워크스페이스 수정 서비스 코드
+        workspaceUpdateService.updateWorkspace(workspaceId, requestDto, userDetails.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 

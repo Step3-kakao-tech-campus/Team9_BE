@@ -3,6 +3,7 @@ package com.kakao.linknamu.workspace.entity;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @ToString(exclude = {"user"})
+@DynamicUpdate
 @Table(
         name = "workspace_tb",
         uniqueConstraints = {
@@ -41,6 +43,10 @@ public class Workspace {
     public Workspace(Long id, User user, String workspaceName) {
         this.id = id;
         this.user = user;
+        this.workspaceName = workspaceName;
+    }
+
+    public void renameWorkspace(String workspaceName) {
         this.workspaceName = workspaceName;
     }
 
