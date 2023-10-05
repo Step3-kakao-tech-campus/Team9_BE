@@ -19,6 +19,6 @@ public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long> {
             "where b.bookmarkId = :bookmarkId")
     Optional<Bookmark> findByIdFetchJoinCategoryAndWorkspace(@Param("bookmarkId") Long bookmarkId);
 
-    @Query("select b from Bookmark b where b.category.categoryId = :categoryId order by b.createdAt desc ")
-    Page<Bookmark> findByCategoryIdOrderByCreatedAtDesc(@Param("categoryId") Long categoryId, Pageable pageable);
+    @Query("select b from Bookmark b where b.category.categoryId = :categoryId")
+    Page<Bookmark> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
 }

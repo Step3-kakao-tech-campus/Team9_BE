@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class CategoryController {
             @PathVariable Long categoryId,
             @AuthenticationPrincipal CustomUserDetails user){
 
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
         CategoryGetResponseDto responseDto = categoryReadService.getCategory(categoryId, user.getUser(), pageable);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }

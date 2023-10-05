@@ -14,6 +14,6 @@ public class BookmarkReadService {
     private final BookmarkJPARepository bookmarkJPARepository;
 
     public Page<Bookmark> findByCategoryId(Long categoryId, Pageable pageable){
-        return bookmarkJPARepository.findByCategoryIdOrderByCreatedAtDesc(categoryId, pageable);
+        return bookmarkJPARepository.findByCategoryId(categoryId, pageable);
     }
 }
