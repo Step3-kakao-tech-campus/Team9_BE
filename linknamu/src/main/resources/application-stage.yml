@@ -24,7 +24,7 @@ spring:
         # format_sql은 Hibernate이 SQL 쿼리를 로그에 출력할 때 이를 보기 쉽게 포맷팅할지 여부를 의미.
         format_sql: true
       # Hibernate의 기본 배치 페치 크기를 지정하는 설정입니다. 배치 페치 크기는 데이터베이스에서 여러 엔티티를 한 번에 가져올 때 사용되는 일괄 처리 크기를 나타냅니다.
-      default_batch_fetch_size: 100
+        default_batch_fetch_size: 100
 
     # Open-in-view 설정 부분
     open-in-view: false

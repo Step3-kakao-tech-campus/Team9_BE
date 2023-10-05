@@ -5,6 +5,7 @@ import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,7 +15,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@ToString(callSuper = true, exclude = {"user", "categoryList"})
+@ToString(callSuper = true, exclude = {"user", "categorySet"})
 @DynamicUpdate
 @Table(
         name = "workspace_tb",
