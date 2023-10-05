@@ -2,6 +2,7 @@ package com.kakao.linknamu.category.controller;
 
 import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
+import com.kakao.linknamu.category.dto.CategoryGetResponseDto;
 import com.kakao.linknamu.category.dto.CategorySaveRequestDto;
 import com.kakao.linknamu.category.dto.CategoryUpdateRequestDto;
 import com.kakao.linknamu.category.service.CategoryDeleteService;
@@ -37,6 +38,17 @@ public class CategoryController {
 
         categorySaveService.save(requestDto, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
+    }
+
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<?> getCategory(
+            @RequestParam(defaultValue = "0") int page,
+            @PathVariable Long categoryId,
+            @AuthenticationPrincipal CustomUserDetails user){
+
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        CategoryGetResponseDto responseDto = categoryReadService.getCategory(categoryId, user.getUser(), pageable);
+        return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 
     @PostMapping("/update/{categoryId}")
