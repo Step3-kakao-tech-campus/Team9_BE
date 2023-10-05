@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception400;
 import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,15 +39,33 @@ public class BookmarkMoveService {
     @Transactional
     public void bookmarkMove(BookmarkRequestDto.bookmarkMoveRequestDto dto, Long userId) {
         Category toCategory = categoryService.findById(dto.toCategoryId());
+        List<Bookmark> requestedBookmarks = bookmarkJPARepository.searchRequiredBookmarks(dto.bookmarkIdList());
+        Set<Long> examineSet = new HashSet<>();
+        Long validateUserId = null;
+        for(Bookmark b : requestedBookmarks) {
+            examineSet.add(b.getBookmarkId());
+            if(validateUserId == null) {
+                validateUserId = b.getCategory().getWorkspace().getUser().getUserId();
+            }
+            else {
+                if(!validateUserId.equals(b.getCategory().getWorkspace().getUser().getUserId())) {
+                    throw new Exception400(BookmarkExceptionStatus.BOOKMARK_WRONG_REQUEST);
+                }
+            }
+        }
 
-        for(Long l : dto.bookmarkIdList()) {
-            if(!l.equals(userId)) {
+        Set<Long> requestedIds = new HashSet<>(dto.bookmarkIdList());
+        examineSet.removeAll(requestedIds);
+        if(!examineSet.isEmpty()) {
+            throw new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND);
+        }
+
+        for(Bookmark bookmark : requestedBookmarks) {
+            Long bookmarkUserId = bookmark.getCategory().getWorkspace().getUser().getUserId();
+            if(!validateUserId.equals(userId)) {
                 throw new Exception403((BookmarkExceptionStatus.BOOKMARK_FORBIDDEN));
             }
 
-            Bookmark bookmark = bookmarkJPARepository.findById(l).orElseThrow(
-                    () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
-            );
             Long formalId = bookmark.getBookmarkId();
             String name = bookmark.getBookmarkName();
             String link = bookmark.getBookmarkLink();
