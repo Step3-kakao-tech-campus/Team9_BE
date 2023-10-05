@@ -1,15 +1,11 @@
 package com.kakao.linknamu.category.entity;
 
 import com.kakao.linknamu._core.util.AuditingEntity;
-import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
