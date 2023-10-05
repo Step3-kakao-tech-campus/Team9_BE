@@ -1,17 +1,21 @@
 package com.kakao.linknamu.workspace.entity;
 
+import com.kakao.linknamu._core.util.AuditingEntity;
+import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@ToString(exclude = {"user"})
+@ToString(callSuper = true, exclude = {"user", "categoryList"})
+@DynamicUpdate
 @Table(
         name = "workspace_tb",
         uniqueConstraints = {
@@ -24,7 +28,7 @@ import java.util.Objects;
                 )
         }
 )
-public class Workspace {
+public class Workspace extends AuditingEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="workspace_id")
     private Long id;
@@ -37,10 +41,17 @@ public class Workspace {
     @Column(length = 50, name = "workspace_name", nullable = false)
     private String workspaceName;
 
+    @OneToMany(mappedBy = "workspace")
+    private Set<Category> categorySet = new HashSet<>();
+
     @Builder
     public Workspace(Long id, User user, String workspaceName) {
         this.id = id;
         this.user = user;
+        this.workspaceName = workspaceName;
+    }
+
+    public void renameWorkspace(String workspaceName) {
         this.workspaceName = workspaceName;
     }
 
