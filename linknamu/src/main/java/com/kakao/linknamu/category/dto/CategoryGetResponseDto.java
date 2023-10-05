@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record CategoryGetResponseDto(
-        PageInfoDto pageInfoDto,
+        PageInfoDto pageInfo,
         List<BookmarkContentDto> bookmarkContents
 ) {
 
