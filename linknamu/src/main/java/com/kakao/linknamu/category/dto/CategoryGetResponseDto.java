@@ -17,7 +17,7 @@ public record CategoryGetResponseDto(
 
     public static CategoryGetResponseDto of(PageInfoDto pageInfoDto, List<BookmarkContentDto> bookmarkContentDtos){
         return CategoryGetResponseDto.builder()
-                .pageInfoDto(pageInfoDto)
+                .pageInfo(pageInfoDto)
                 .bookmarkContents(bookmarkContentDtos)
                 .build();
     }
