@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
 
@@ -22,6 +24,7 @@ public class BookmarkTag extends AuditingEntity {
     @MapsId("bookmarkId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookmark_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Bookmark bookmark;
 
     @MapsId("tagId")

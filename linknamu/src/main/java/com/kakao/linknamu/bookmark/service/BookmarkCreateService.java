@@ -35,10 +35,10 @@ public class BookmarkCreateService {
     @Transactional
     public void bookmarkAdd(BookmarkRequestDto.bookmarkAddDTO dto, User userDetails) {
         /* Bookmark 테이블에 bookmark 항목 추가 */
-        Category category = categoryJPARepository.findById(dto.getCategoryId()).orElseThrow(
+        Category category = categoryJPARepository.findByIdFetchJoinWorkspace(dto.getCategoryId()).orElseThrow(
                 () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
         );
-        if(!category.getUser().getUserId().equals(userDetails.getUserId())){
+        if(!category.getWorkspace().getUser().getUserId().equals(userDetails.getUserId())){
             throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
         }
         Bookmark bookmark = dto.toBookmarkEntity(category);

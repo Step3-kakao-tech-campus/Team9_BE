@@ -19,14 +19,14 @@ public class CategoryService {
 
     private final CategoryJPARepository categoryJPARepository;
 
-    public Category save(String categoryName, Category parentCategory, User user){
-        Category category = Category.builder()
-                .categoryName(categoryName)
-                .parentCategory(parentCategory)
-                .user(user)
-                .build();
-        return categoryJPARepository.save(category);
-    }
+//    public Category save(String categoryName, Category parentCategory, User user){
+//        Category category = Category.builder()
+//                .categoryName(categoryName)
+//                .parentCategory(parentCategory)
+//                .user(user)
+//                .build();
+//        return categoryJPARepository.save(category);
+//    }
 
     public Category findById(Long id) {
         return categoryJPARepository.findById(id).orElseThrow(
@@ -34,17 +34,17 @@ public class CategoryService {
         );
     }
 
-    public Page<Category> findByUserId(Pageable pageable, User user){
-        return categoryJPARepository.findByUserId(user.getUserId(), pageable);
-    }
+//    public Page<Category> findByUserId(Pageable pageable, User user){
+//        return categoryJPARepository.findByUserId(user.getUserId(), pageable);
+//    }
 
-    public Page<Category> findByParentCategoryId(Pageable pageable, Category parentCategory){
-        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
-    }
-
-    public Optional<Category> findByParentCategoryIdAndCategoryName(Long parentCategoryId, String categoryName){
-        return categoryJPARepository.findByParentCategoryIdAndCategoryName(parentCategoryId, categoryName);
-    }
+//    public Page<Category> findByParentCategoryId(Pageable pageable, Category parentCategory){
+//        return categoryJPARepository.findByParentCategoryId(parentCategory.getCategoryId(), pageable);
+//    }
+//
+//    public Optional<Category> findByParentCategoryIdAndCategoryName(Long parentCategoryId, String categoryName){
+//        return categoryJPARepository.findByParentCategoryIdAndCategoryName(parentCategoryId, categoryName);
+//    }
 
     public void deleteById(Long categoryId){
         categoryJPARepository.deleteById(categoryId);
@@ -52,7 +52,7 @@ public class CategoryService {
 
     // 카테고리의 유저와 로그인 유저가 같은지 체크
     public void validUser(Category category, User user){
-        if (!category.getUser().getUserId().equals(user.getUserId())){
+        if (!category.getWorkspace().getUser().getUserId().equals(user.getUserId())){
             throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
         }
     }

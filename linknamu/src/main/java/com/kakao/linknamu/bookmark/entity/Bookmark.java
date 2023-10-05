@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
 
@@ -33,6 +35,7 @@ public class Bookmark extends AuditingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
     @Column(length = 100, nullable = false, name = "bookmark_name")

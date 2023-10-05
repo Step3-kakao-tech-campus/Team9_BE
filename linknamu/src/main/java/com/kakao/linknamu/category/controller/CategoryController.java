@@ -37,30 +37,30 @@ public class CategoryController {
             Errors errors,
             @AuthenticationPrincipal CustomUserDetails user){
 
-        categorySaveService.save(requestDto, user.getUser());
+//        categorySaveService.save(requestDto, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getCategoryList(
-            @RequestParam(defaultValue = "0") int page,
-            @AuthenticationPrincipal CustomUserDetails user){
+//    @GetMapping("")
+//    public ResponseEntity<?> getCategoryList(
+//            @RequestParam(defaultValue = "0") int page,
+//            @AuthenticationPrincipal CustomUserDetails user){
+//
+//        Pageable pageable= PageRequest.of(page, PAGE_SIZE);
+//        CategoryListResponseDto responseDto = categoryReadService.findByUserId(pageable, user.getUser());
+//        return ResponseEntity.ok(ApiUtils.success(responseDto));
+//    }
 
-        Pageable pageable= PageRequest.of(page, PAGE_SIZE);
-        CategoryListResponseDto responseDto = categoryReadService.findByUserId(pageable, user.getUser());
-        return ResponseEntity.ok(ApiUtils.success(responseDto));
-    }
-
-    @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getChildCategoryList(
-            @RequestParam(defaultValue = "0") int page,
-            @PathVariable Long categoryId,
-            @AuthenticationPrincipal CustomUserDetails user){
-
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        ChildCategoryListResponseDto responseDto = categoryReadService.findByParentCategoryId(pageable, categoryId, user.getUser());
-        return ResponseEntity.ok(ApiUtils.success(responseDto));
-    }
+//    @GetMapping("/{categoryId}")
+//    public ResponseEntity<?> getChildCategoryList(
+//            @RequestParam(defaultValue = "0") int page,
+//            @PathVariable Long categoryId,
+//            @AuthenticationPrincipal CustomUserDetails user){
+//
+//        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+//        ChildCategoryListResponseDto responseDto = categoryReadService.findByParentCategoryId(pageable, categoryId, user.getUser());
+//        return ResponseEntity.ok(ApiUtils.success(responseDto));
+//    }
 
     @PostMapping("/update/{categoryId}")
     public ResponseEntity<?> updateCategory(
@@ -69,7 +69,7 @@ public class CategoryController {
             Errors errors,
             @AuthenticationPrincipal CustomUserDetails user){
 
-        categoryUpdateService.update(requestDto, categoryId, user.getUser());
+//        categoryUpdateService.update(requestDto, categoryId, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
@@ -78,7 +78,7 @@ public class CategoryController {
             @PathVariable Long categoryId,
             @AuthenticationPrincipal CustomUserDetails user){
 
-        categoryDeleteService.delete(categoryId, user.getUser());
+//        categoryDeleteService.delete(categoryId, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
