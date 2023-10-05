@@ -1,10 +1,13 @@
+
+linknamu_google_api.json
+
 HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+##
 ### STS ###
 .apt_generated
 .classpath
