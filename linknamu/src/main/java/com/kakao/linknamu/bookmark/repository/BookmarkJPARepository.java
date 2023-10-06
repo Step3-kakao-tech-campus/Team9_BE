@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long> {
@@ -21,4 +22,10 @@ public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long> {
 
     @Query("select b from Bookmark b where b.category.categoryId = :categoryId")
     Page<Bookmark> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
+
+    @Query("select b from Bookmark b " +
+            "join fetch b.category c " +
+            "join fetch c.workspace w " +
+            "where b.bookmarkId in :bookmarkIds")
+    List<Bookmark> searchRequiredBookmarks(@Param("bookmarkIds") List<Long> bookmarkIds);
 }

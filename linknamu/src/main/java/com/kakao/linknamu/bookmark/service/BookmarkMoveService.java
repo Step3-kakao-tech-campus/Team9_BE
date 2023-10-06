@@ -38,7 +38,7 @@ public class BookmarkMoveService {
 
     @Transactional
     public void bookmarkMove(BookmarkRequestDto.bookmarkMoveRequestDto dto, Long userId) {
-        Category toCategory = categoryService.findById(dto.toCategoryId());
+        Category toCategory = categoryService.findByIdFetchJoinWorkspace(dto.toCategoryId());
         List<Bookmark> requestedBookmarks = bookmarkJPARepository.searchRequiredBookmarks(dto.bookmarkIdList());
         Set<Long> examineSet = new HashSet<>();
         Long validateUserId = null;
