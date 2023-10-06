@@ -3,6 +3,7 @@ package com.kakao.linknamu.bookmark.dto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.entity.Category;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class BookmarkRequestDto {
 
         private String bookmarkDescription;
 
+        @NotNull
         private Long categoryId;
 
         private String imageUrl;
