@@ -18,6 +18,6 @@ public interface TagJPARepository extends JpaRepository<Tag, Long> {
     @Query("select t.tagId from Tag t where t.tagName = :tagName")
     List<Long> findIdsByName(@Param("tagName") String name);
 
-    @Query("select t from Tag t where t.tagId = :userId and t.tagName = :name")
+    @Query("select t from Tag t where t.user.userId = :userId and t.tagName = :name")
     Optional<Tag> findByUserIdAndName(@Param("userId") Long userId, @Param("name") String name);
 }

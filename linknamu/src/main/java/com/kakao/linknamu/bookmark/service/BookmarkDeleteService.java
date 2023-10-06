@@ -44,11 +44,11 @@ public class BookmarkDeleteService {
             tagNames.add(tagSearchService.searchTagNameById(tag));
         }
         for(String name : tagNames) {
-//            List<Long> idsSearchedByName = tagSearchService.searchTagIdsByName(name);
+            List<Long> idsSearchedByName = tagSearchService.searchTagIdsByName(name);
             bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, name);
-//            if(idsSearchedByName.size() <= 1) {
-//                tagDeleteService.deleteTagByName(userId, name);
-//            }
+            if(idsSearchedByName.size() <= 1) {
+                tagDeleteService.deleteTagByName(userId, name);
+            }
         }
         bookmarkJPARepository.delete(bookmark);
     }
