@@ -45,12 +45,11 @@ public class BookmarkDeleteService {
         }
         for(String name : tagNames) {
             List<Long> idsSearchedByName = tagSearchService.searchTagIdsByName(name);
+            bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, name);
             if(idsSearchedByName.size() <= 1) {
                 tagDeleteService.deleteTagByName(userId, name);
             }
-            bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, name);
-            bookmarkJPARepository.delete(bookmark);
-
         }
+        bookmarkJPARepository.delete(bookmark);
     }
 }
