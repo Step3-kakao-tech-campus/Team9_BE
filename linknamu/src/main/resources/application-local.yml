@@ -19,7 +19,7 @@ spring:
     properties:
       hibernate:
         format_sql: true # Hibernate이 SQL 쿼리를 로그에 출력할 때 이를 보기 쉽게 포맷팅
-      default_batch_fetch_size: 100 # Hibernate의 기본 배치 페치 크기 설정
+        default_batch_fetch_size: 100 # Hibernate의 기본 배치 페치 크기 설정
 
   application:
     name: LinkNamuApplication # 애플리케이션의 이름 설정
@@ -34,8 +34,6 @@ spring:
       host: localhost # Redis 데이터베이스에 연결할 호스트 주소
 
 
-
-
 access-jwt-secret-key: KakaoTechCampusLinkNamu
 refresh-jwt-secret-key: KakaoTechCampusLinkNamu1234
 
@@ -43,6 +41,7 @@ logging:
   level:
     org.springframework: INFO # Spring Framework 패키지의 로깅 레벨을 INFO로 설정
     com.example: DEBUG # com.example 패키지의 로깅 레벨을 DEBUG로 설정
+
 
 oauth2:
   google:
