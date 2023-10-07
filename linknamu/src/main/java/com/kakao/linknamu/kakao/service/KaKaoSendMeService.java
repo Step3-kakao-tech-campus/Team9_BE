@@ -40,7 +40,8 @@ public class KaKaoSendMeService {
             String fileContent = new String(fileBytes, StandardCharsets.UTF_8); // byte 배열을 문자열로 변환
 
 //          https 링크를 추출하기 위한 정규 표현식
-            String regex = "(https?://[a-zA-Z0-9\\-\\.]+(\\:[0-9]+)?\\.[a-zA-Z]{2,3}(\\S*)?)";
+            String regex = "https?://[a-zA-Z0-9\\-\\.]+(\\:[0-9]+)?\\.[a-zA-Z]{2,3}(\\S*)?";
+
 
 //        \bhttps?://\S+   => 모든 http, https 도메인 검출
             Pattern pattern = Pattern.compile(regex);
