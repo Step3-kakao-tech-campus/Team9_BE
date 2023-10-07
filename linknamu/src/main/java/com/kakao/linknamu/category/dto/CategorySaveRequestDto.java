@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record CategorySaveRequestDto(
         @NotNull String categoryName,
-        @NotNull Long parentCategoryId
+        @NotNull Long workspaceId
 ) {
 }

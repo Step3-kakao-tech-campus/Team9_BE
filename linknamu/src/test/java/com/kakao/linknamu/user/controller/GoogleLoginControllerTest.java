@@ -13,6 +13,7 @@ import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJPARepository;
 import com.kakao.linknamu.user.service.GoogleService;
 import com.kakao.linknamu.user.service.UserService;
+import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ public class GoogleLoginControllerTest extends RestDocs {
     @Autowired
     private UserJPARepository userJPARepository;
     @Autowired
-    private CategoryJPARepository categoryJPARepository;
+    private WorkspaceJPARepository workspaceJPARepository;
     @MockBean
     private RestTemplate restTemplate;
 
@@ -77,7 +78,7 @@ public class GoogleLoginControllerTest extends RestDocs {
                     jsonPath("$.error").doesNotExist()
             );
             assertEquals(1, userJPARepository.count());
-            assertEquals(1, categoryJPARepository.count());
+            assertEquals(1, workspaceJPARepository.count());
         }
 
         @DisplayName("회원가입이 되어있다면, 바로 로그인을 한다")

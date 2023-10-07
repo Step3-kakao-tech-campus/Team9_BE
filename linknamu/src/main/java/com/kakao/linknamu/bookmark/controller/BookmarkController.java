@@ -4,10 +4,7 @@ import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import com.kakao.linknamu.bookmark.dto.BookmarkResponseDto;
-import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
-import com.kakao.linknamu.bookmark.service.BookmarkDeleteService;
-import com.kakao.linknamu.bookmark.service.BookmarkSearchService;
-import com.kakao.linknamu.bookmark.service.BookmarkUpdateService;
+import com.kakao.linknamu.bookmark.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +21,7 @@ public class BookmarkController {
     private final BookmarkSearchService bookmarkSearchService;
     private final BookmarkDeleteService bookmarkDeleteService;
     private final BookmarkUpdateService bookmarkUpdateService;
+    private final BookmarkMoveService bookmarkMoveService;
 
     @PostMapping("/create")
     public ResponseEntity<?> bookmarkCreate(
@@ -61,5 +59,14 @@ public class BookmarkController {
     ) {
         BookmarkResponseDto.bookmarkUpdateResponseDto responseDto = bookmarkUpdateService.bookmarkUpdate(dto, user.getUser().getUserId(), bookmark_id);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
+    }
+
+    @PostMapping("/move")
+    public ResponseEntity<?> bookmarkMove(
+            @RequestBody @Valid BookmarkRequestDto.bookmarkMoveRequestDto dto,
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        bookmarkMoveService.bookmarkMove(dto, user.getUser().getUserId());
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 }

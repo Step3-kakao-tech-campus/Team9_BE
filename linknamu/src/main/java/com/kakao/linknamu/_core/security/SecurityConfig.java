@@ -90,7 +90,8 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/api/bookmark/**"),
                                         new AntPathRequestMatcher("/api/category/**"),
                                         new AntPathRequestMatcher("/api/tag/**"),
-                                        new AntPathRequestMatcher("/api/auth/**")).authenticated()
+                                        new AntPathRequestMatcher("/api/auth/**"),
+                                        new AntPathRequestMatcher("/api/workspace/**")).authenticated()
 //                                .hasRole(Role.ROLE_USER.getRoleName())
                                 .anyRequest().permitAll()
         );

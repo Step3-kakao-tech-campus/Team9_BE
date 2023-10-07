@@ -27,10 +27,10 @@ public class BookmarkUpdateService {
             Long bookmarkId
     ) {
         bookmarkJPARepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
-        Bookmark bookmark = bookmarkJPARepository.findById(bookmarkId).orElseThrow(
+        Bookmark bookmark = bookmarkJPARepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId).orElseThrow(
                 () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
         );
-        if(!bookmark.getCategory().getUser().getUserId().equals(userId)) {
+        if(!bookmark.getCategory().getWorkspace().getUser().getUserId().equals(userId)) {
             throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
         }
         List<String> tags = bookmarkTagSearchService.searchNamesByBookmarkId(bookmarkId);

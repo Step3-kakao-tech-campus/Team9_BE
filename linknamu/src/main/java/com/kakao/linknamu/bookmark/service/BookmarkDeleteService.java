@@ -32,10 +32,10 @@ public class BookmarkDeleteService {
     // 4. 북마크 삭제
     @Transactional
     public void bookmarkDelete(Long userId, Long bookmarkId) {
-        Bookmark bookmark = bookmarkJPARepository.findById(bookmarkId).orElseThrow(
+        Bookmark bookmark = bookmarkJPARepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId).orElseThrow(
                 () -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
         );
-        if(!bookmark.getCategory().getUser().getUserId().equals(userId)) {
+        if(!bookmark.getCategory().getWorkspace().getUser().getUserId().equals(userId)) {
             throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
         }
         List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(bookmarkId);
@@ -45,12 +45,11 @@ public class BookmarkDeleteService {
         }
         for(String name : tagNames) {
             List<Long> idsSearchedByName = tagSearchService.searchTagIdsByName(name);
+            bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, name);
             if(idsSearchedByName.size() <= 1) {
                 tagDeleteService.deleteTagByName(userId, name);
             }
-            bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, name);
-            bookmarkJPARepository.delete(bookmark);
-
         }
+        bookmarkJPARepository.delete(bookmark);
     }
 }

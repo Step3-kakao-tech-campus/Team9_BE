@@ -17,11 +17,11 @@ public class CategoryUpdateService {
 
     @Transactional
     public void update(CategoryUpdateRequestDto requestDto, Long categoryId, User user) {
-        Category category = categoryService.findById(categoryId);
-        categoryService.validUser(category, user);
+        Category category = categoryService.findByIdFetchJoinWorkspace(categoryId);
+        categoryService.validUser(category.getWorkspace(), user);
 
         // 변경할 카테고리명이 부모 카테고리에 존재하는 경우 예외처리
-        categoryService.findByParentCategoryIdAndCategoryName(category.getParentCategory().getCategoryId(), requestDto.categoryName()).ifPresent((c) -> {
+        categoryService.findByWorkspaceIdAndCategoryName(category.getWorkspace().getId(), requestDto.categoryName()).ifPresent((c) -> {
             throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
         });
 
