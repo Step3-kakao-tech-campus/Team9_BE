@@ -21,11 +21,11 @@ public interface BookmarkTagJPARepository extends JpaRepository<BookmarkTag, Boo
     BookmarkTag findMatchingBookmarkTag(@Param("bookmarkId") Long bookmarkId, @Param("tagName") String tagName);
 
     @Query("select bt.bookmark from BookmarkTag bt " +
-            "where bt.bookmark.bookmarkName like %:bookmarkName% and " +
+            "where bt.bookmark.bookmarkName like concat('%',:keyword,'%') and " +
             "bt.tag.tagName in :tags and " +
             "bt.bookmark.category.workspace.user.userId = :userId " +
             "group by bt.bookmark.bookmarkId having count(bt.tag) = :count")
-    List<Bookmark> findBookmarksByTags(@Param("bookmarkName") String bookmarkName, @Param("tags") List<String> tags, @Param("userId") Long userId, @Param("count") int count);
+    List<Bookmark> findBookmarksByTags(@Param("keyword") String keyword, @Param("tags") List<String> tags, @Param("userId") Long userId, @Param("count") int count);
 
     @Query("select bt.tag from BookmarkTag bt where bt.bookmark.bookmarkId = :bookmarkId")
     List<Tag> findTagByBookmarkId(@Param("bookmarkId") Long bookmarkId);

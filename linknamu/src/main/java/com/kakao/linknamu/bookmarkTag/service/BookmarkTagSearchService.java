@@ -23,8 +23,8 @@ public class BookmarkTagSearchService {
         return bookmarkTagJPARepository.findTagIdsByBookmarkId(bookmarkId);
     }
 
-    public List<Bookmark> searchMatchingBookmarks(String search, List<String> tags, Long userId) {
-        return bookmarkTagJPARepository.findBookmarksByTags(search, tags, userId, tags.size());
+    public List<Bookmark> searchMatchingBookmarks(String keyword, List<String> tags, Long userId) {
+        return bookmarkTagJPARepository.findBookmarksByTags(keyword, tags, userId, tags.size());
     }
 
     public List<Tag> findTagsByBookmarkId(Long bookmarkId){
