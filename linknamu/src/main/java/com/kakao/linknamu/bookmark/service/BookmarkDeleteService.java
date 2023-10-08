@@ -38,7 +38,7 @@ public class BookmarkDeleteService {
         if(!bookmark.getCategory().getWorkspace().getUser().getUserId().equals(userId)) {
             throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
         }
-        List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(bookmarkId);
+        List<Long> tagIds = bookmarkTagSearchService.searchTagIdsByBookmarkId(bookmarkId);
         List<String> tagNames = new ArrayList<>();
         for(Long tag : tagIds) {
             tagNames.add(tagSearchService.searchTagNameById(tag));
