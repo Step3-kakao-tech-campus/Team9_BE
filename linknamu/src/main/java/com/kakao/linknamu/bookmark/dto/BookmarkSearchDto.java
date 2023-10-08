@@ -7,16 +7,16 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record BookmarkSearchByTagDto(
+public record BookmarkSearchDto(
         int count,
         List<BookmarkContentDto> bookmarkContents
 ) {
 
     @Builder
-    public BookmarkSearchByTagDto{}
+    public BookmarkSearchDto {}
 
-    public static BookmarkSearchByTagDto of(List<BookmarkContentDto> bookmarkContentDtos){
-        return BookmarkSearchByTagDto.builder()
+    public static BookmarkSearchDto of(List<BookmarkContentDto> bookmarkContentDtos){
+        return BookmarkSearchDto.builder()
                 .count(bookmarkContentDtos.size())
                 .bookmarkContents(bookmarkContentDtos)
                 .build();
