@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: local
+
+    ##시작시 local.yml 설정을 이용하겠다는 소리입니다.
