@@ -70,3 +70,4 @@ replay_pid*
 # environment
 .env
 conf/mysql/*
+src/main/resources/keystore.p12
