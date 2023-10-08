@@ -23,7 +23,7 @@ public class BookmarkSearchController {
 
     @GetMapping("")
     public ResponseEntity<?> bookmarkSearch(
-            @RequestParam("keyword") String keyword,
+            @RequestParam(value = "keyword", defaultValue = "") String keyword,
             @RequestParam("tag") List<String> tags,
             @AuthenticationPrincipal CustomUserDetails user
             ) {
