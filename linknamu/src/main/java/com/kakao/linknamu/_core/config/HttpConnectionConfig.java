@@ -14,8 +14,8 @@ public class HttpConnectionConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder){
         return restTemplateBuilder
-//                .setConnectTimeout(Duration.ofMillis(5000)) //읽기시간초과, ms
-//                .setReadTimeout(Duration.ofMillis(5000))    //연결시간초과, ms
+                .setConnectTimeout(Duration.ofMillis(5000))   // 연결시간초과, ms
+//                .setReadTimeout(Duration.ofMillis(5000))    // 읽기시간초과, ms
                 .build();
     }
 }
