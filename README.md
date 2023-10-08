@@ -1,8 +1,30 @@
 # Team9_BE
-9조
-## 카카오 테크 캠퍼스 3단계 진행 보드
 
-</br>
+링크 통합 관리 서비스 링크나무의 백엔드 파트입니다.
+
+> 카카오 테크 캠퍼스 1기 부산대 9조 프로젝트입니다.
+
+## How to Start
+
+추가 예정
+
+## Features
+
+추가 예정
+
+## Collaborators
+
+카카오 테크 캠퍼스 1기 부산대 9조 백엔드
+
+|조장|타임 키퍼 |기획 리더| 리액셔너|
+|:-----:|:------:|:--------:|:------:|
+| [김태호](https://github.com/Train0303) | [손재성](https://github.com/JS970)|[조영진](https://github.com/jhy0285)|[김이경](https://github.com/ikyeong) |
+| <img src="https://github.com/Train0303.png" width="100"> | <img src="https://github.com/JS970.png" width="100"> | <img src="https://github.com/jhy0285.png" width="100"> | <img src="https://github.com/ikyeong.png" width="100"> |
+
+
+<details>
+    <summary><h2>카카오 테크 캠퍼스 3단계 진행 보드</h2></summary>
+    </br>
 
 ## 배포와 관련하여
 

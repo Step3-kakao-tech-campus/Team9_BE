@@ -1,10 +1,13 @@
+
+linknamu_google_api.json
+
 HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+##
 ### STS ###
 .apt_generated
 .classpath
@@ -63,3 +66,7 @@ out/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# environment
+.env
+conf/mysql/*

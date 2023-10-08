@@ -1,4 +1,4 @@
-package com.kakao.linknamu.bookmarkTag;
+package com.kakao.linknamu.bookmarkTag.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.kakao.linknamu.bookmarkTag;
+package com.kakao.linknamu.bookmarkTag.entity;
 
 import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
@@ -7,13 +7,15 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="bookmark_tab_tb")
+@Table(name="bookmark_tag_tb")
 public class BookmarkTag extends AuditingEntity {
 
     @EmbeddedId
@@ -22,6 +24,7 @@ public class BookmarkTag extends AuditingEntity {
     @MapsId("bookmarkId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookmark_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Bookmark bookmark;
 
     @MapsId("tagId")
@@ -34,6 +37,7 @@ public class BookmarkTag extends AuditingEntity {
     public BookmarkTag(Bookmark bookmark, Tag tag) {
         this.bookmark = bookmark;
         this.tag = tag;
+        this.bookmarkTagId = new BookmarkTagId(bookmark.getBookmarkId(), tag.getTagId());
     }
 
     @Override
