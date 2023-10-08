@@ -30,4 +30,19 @@ public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long> {
             "join fetch c.workspace w " +
             "where b.bookmarkId in :bookmarkIds")
     List<Bookmark> searchRequiredBookmarks(@Param("bookmarkIds") List<Long> bookmarkIds);
+
+    @Query("select b from Bookmark b " +
+            "where b.bookmarkName like concat('%',:keyword,'%') and " +
+            "b.category.workspace.user.userId = :userId ")
+    List<Bookmark> searchByBookmarkName(@Param("keyword") String keyword, @Param("userId") Long userId);
+
+    @Query("select b from Bookmark b " +
+            "where b.bookmarkLink like concat('%',:keyword,'%') and " +
+            "b.category.workspace.user.userId = :userId")
+    List<Bookmark> searchByBookmarkLink(@Param("keyword") String keyword, @Param("userId") Long userId);
+
+    @Query("select b from Bookmark b " +
+            "where b.bookmarkDescription like concat('%',:keyword,'%') and " +
+            "b.category.workspace.user.userId = :userId")
+    List<Bookmark> searchByBookmarkDescription(@Param("keyword") String keyword, @Param("userId") Long userId);
 }

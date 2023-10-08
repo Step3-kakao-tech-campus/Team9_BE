@@ -22,12 +22,13 @@ public class BookmarkSearchController {
     private final BookmarkSearchService bookmarkSearchService;
 
     @GetMapping("")
-    public ResponseEntity<?> bookmarkSearchByTag(
+    public ResponseEntity<?> bookmarkSearch(
+            @RequestParam(value = "type") String type,
             @RequestParam(value = "keyword", defaultValue = "") String keyword,
-            @RequestParam("tag") List<String> tags,
+            @RequestParam(value = "tag", defaultValue = "") List<String> tags,
             @AuthenticationPrincipal CustomUserDetails user) {
 
-        BookmarkSearchDto responseDto = bookmarkSearchService.bookmarkSearchByTag(keyword, tags, user.getUser());
+        BookmarkSearchDto responseDto = bookmarkSearchService.bookmarkSearch(type, keyword, tags, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 }

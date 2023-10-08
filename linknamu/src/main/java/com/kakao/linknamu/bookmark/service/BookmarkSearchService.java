@@ -1,5 +1,7 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception400;
+import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
@@ -21,9 +23,10 @@ public class BookmarkSearchService {
     private final BookmarkJPARepository bookmarkJPARepository;
     private final BookmarkTagSearchService bookmarkTagSearchService;
 
-    public BookmarkSearchDto bookmarkSearchByTag(String keyword, List<String> tags, User user) {
-        // 리스트의 태그를 모두 가지고 bookmarkName에 키워드를 포함하는 북마크를 조회한다
-        List<Bookmark> searchedBookmarks = bookmarkTagSearchService.searchMatchingBookmarks(keyword, tags, user.getUserId());
+    public BookmarkSearchDto bookmarkSearch(String type, String keyword, List<String> tags, User user) {
+        List<Bookmark> searchedBookmarks;
+        if (tags.isEmpty()) searchedBookmarks = searchWithoutTag(type, keyword, user);
+        else searchedBookmarks = searchWithTag(type, keyword, tags, user);
 
         List<BookmarkSearchDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
         for (Bookmark resultBookmark : searchedBookmarks) {
@@ -32,5 +35,23 @@ public class BookmarkSearchService {
             bookmarkContentDtos.add(BookmarkSearchDto.BookmarkContentDto.of(resultBookmark,bookmarkTags));
         }
         return BookmarkSearchDto.of(bookmarkContentDtos);
+    }
+
+    private List<Bookmark> searchWithoutTag(String type, String keyword, User user){
+        return switch (type) {
+            case "T" -> bookmarkJPARepository.searchByBookmarkName(keyword, user.getUserId());
+            case "L" -> bookmarkJPARepository.searchByBookmarkLink(keyword, user.getUserId());
+            case "D" -> bookmarkJPARepository.searchByBookmarkDescription(keyword, user.getUserId());
+            default -> throw new Exception400(BookmarkExceptionStatus.BOOKMARK_WRONG_REQUEST);
+        };
+    }
+
+    private List<Bookmark> searchWithTag(String type, String keyword, List<String> tags, User user){
+        return switch (type) {
+            case "T" -> bookmarkTagSearchService.searchByBookmarkName(keyword, tags, user.getUserId());
+            case "L" -> bookmarkTagSearchService.searchByBookmarkLink(keyword, tags, user.getUserId());
+            case "D" -> bookmarkTagSearchService.searchByBookmarkDescription(keyword, tags, user.getUserId());
+            default -> throw new Exception400(BookmarkExceptionStatus.BOOKMARK_WRONG_REQUEST);
+        };
     }
 }

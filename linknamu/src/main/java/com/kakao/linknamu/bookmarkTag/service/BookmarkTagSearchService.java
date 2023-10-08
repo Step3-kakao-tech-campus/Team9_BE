@@ -30,4 +30,16 @@ public class BookmarkTagSearchService {
     public List<Tag> findTagsByBookmarkId(Long bookmarkId){
         return bookmarkTagJPARepository.findTagByBookmarkId(bookmarkId);
     }
+
+    public List<Bookmark> searchByBookmarkName(String keyword, List<String> tags, Long userId) {
+        return bookmarkTagJPARepository.findBookmarksByBookmarkNameAndTags(keyword, tags, userId, tags.size());
+    }
+
+    public List<Bookmark> searchByBookmarkLink(String keyword, List<String> tags, Long userId) {
+        return bookmarkTagJPARepository.findBookmarksByBookmarkLinkAndTags(keyword, tags, userId, tags.size());
+    }
+
+    public List<Bookmark> searchByBookmarkDescription(String keyword, List<String> tags, Long userId) {
+        return bookmarkTagJPARepository.findBookmarksByBookmarkDescriptionAndTags(keyword, tags, userId, tags.size());
+    }
 }
