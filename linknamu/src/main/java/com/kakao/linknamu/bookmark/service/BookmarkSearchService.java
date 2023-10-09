@@ -45,7 +45,7 @@ public class BookmarkSearchService {
             case "T" -> bookmarkJPARepository.searchByBookmarkName(keyword, user.getUserId(), pageable);
             case "L" -> bookmarkJPARepository.searchByBookmarkLink(keyword, user.getUserId(), pageable);
             case "D" -> bookmarkJPARepository.searchByBookmarkDescription(keyword, user.getUserId(), pageable);
-            default -> throw new Exception400(BookmarkExceptionStatus.BOOKMARK_WRONG_REQUEST);
+            default -> throw new Exception400(BookmarkExceptionStatus.INVALID_SEARCH_TYPE);
         };
     }
 
@@ -54,7 +54,7 @@ public class BookmarkSearchService {
             case "T" -> bookmarkTagSearchService.searchByBookmarkName(keyword, tags, user.getUserId(), pageable);
             case "L" -> bookmarkTagSearchService.searchByBookmarkLink(keyword, tags, user.getUserId(), pageable);
             case "D" -> bookmarkTagSearchService.searchByBookmarkDescription(keyword, tags, user.getUserId(), pageable);
-            default -> throw new Exception400(BookmarkExceptionStatus.BOOKMARK_WRONG_REQUEST);
+            default -> throw new Exception400(BookmarkExceptionStatus.INVALID_SEARCH_TYPE);
         };
     }
 }
