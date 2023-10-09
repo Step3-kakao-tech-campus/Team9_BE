@@ -3,9 +3,11 @@ package com.kakao.linknamu.bookmark.service;
 import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu._core.exception.Exception400;
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
+import com.kakao.linknamu.bookmark.repository.BookmarkJPARepositoryImpl;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
@@ -34,6 +36,19 @@ public class BookmarkSearchService {
         List<BookmarkSearchDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
         for (Bookmark resultBookmark : searchedBookmarks) {
             // 북마크가 가지는 태그를 조회한다
+            List<Tag> bookmarkTags = bookmarkTagSearchService.findTagsByBookmarkId(resultBookmark.getBookmarkId());
+            bookmarkContentDtos.add(BookmarkSearchDto.BookmarkContentDto.of(resultBookmark,bookmarkTags));
+        }
+        return BookmarkSearchDto.of(PageInfoDto.of(searchedBookmarks), bookmarkContentDtos);
+    }
+
+    public BookmarkSearchDto bookmarkSearchByQueryDsl(BookmarkSearchCondition condition, User user, Pageable pageable) {
+        Page<Bookmark> searchedBookmarks;
+        if (condition.tags() == null) searchedBookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
+        else searchedBookmarks = bookmarkTagSearchService.searchByQueryDsl(condition, user.getUserId(), (long) condition.tags().size(), pageable);
+
+        List<BookmarkSearchDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
+        for (Bookmark resultBookmark : searchedBookmarks) {
             List<Tag> bookmarkTags = bookmarkTagSearchService.findTagsByBookmarkId(resultBookmark.getBookmarkId());
             bookmarkContentDtos.add(BookmarkSearchDto.BookmarkContentDto.of(resultBookmark,bookmarkTags));
         }

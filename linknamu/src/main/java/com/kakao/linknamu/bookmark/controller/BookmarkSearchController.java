@@ -2,6 +2,7 @@ package com.kakao.linknamu.bookmark.controller;
 
 import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchDto;
 import com.kakao.linknamu.bookmark.service.BookmarkSearchService;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +32,16 @@ public class BookmarkSearchController {
             @AuthenticationPrincipal CustomUserDetails user) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
         BookmarkSearchDto responseDto = bookmarkSearchService.bookmarkSearch(type, keyword, tags, user.getUser(), pageable);
+        return ResponseEntity.ok(ApiUtils.success(responseDto));
+    }
+
+    @PostMapping("/queryDsl")
+    public ResponseEntity<?> bookmarkSearch(
+            @RequestBody BookmarkSearchCondition condition,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @AuthenticationPrincipal CustomUserDetails user) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        BookmarkSearchDto responseDto = bookmarkSearchService.bookmarkSearchByQueryDsl(condition, user.getUser(), pageable);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 }

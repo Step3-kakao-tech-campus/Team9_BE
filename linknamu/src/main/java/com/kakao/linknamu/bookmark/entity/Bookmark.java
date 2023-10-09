@@ -2,6 +2,7 @@ package com.kakao.linknamu.bookmark.entity;
 
 import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.category.entity.Category;
+import com.querydsl.core.annotations.QueryInit;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class Bookmark extends AuditingEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @QueryInit("workspace.*")
     private Category category;
 
     @Column(length = 100, nullable = false, name = "bookmark_name")

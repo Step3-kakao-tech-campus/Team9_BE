@@ -12,7 +12,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BookmarkTagJPARepository extends JpaRepository<BookmarkTag, BookmarkTagId> {
+// BookmarkTagJPARepositoryCustom을 상속받아 BookmarkTagJPARepositoryImpl에서 구현된 search 메서드를 사용할 수 있다.
+public interface BookmarkTagJPARepository extends JpaRepository<BookmarkTag, BookmarkTagId>, BookmarkTagJPARepositoryCustom {
     @Query("select bt.tag.tagName from BookmarkTag bt where bt.bookmark.bookmarkId = :bookmarkId")
     List<String> findTagNamesByBookmarkId(@Param("bookmarkId") Long bookmarkId);
 

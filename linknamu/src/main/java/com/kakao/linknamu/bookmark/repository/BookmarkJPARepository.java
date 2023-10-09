@@ -11,7 +11,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long> {
+// BookmarkJPARepositoryCustom을 상속받아 BookmarkJPARepositoryImpl에서 구현된 search 메서드를 사용할 수 있다.
+public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long>, BookmarkJPARepositoryCustom {
     @Modifying
     @Query("update Bookmark b set b.bookmarkName = :bookmarkName, b.bookmarkDescription = :bookmarkDescription where b.bookmarkId = :bookmarkId")
     void updateBookmark(@Param("bookmarkId") Long bookmarkId, @Param("bookmarkName") String bookmarkName, @Param("bookmarkDescription") String bookmarkDescription);
