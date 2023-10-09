@@ -56,3 +56,8 @@ oauth2:
     token_uri: ${google-token-uri}
     client_secret: ${google-client-secret}
     redirect_uri: ${google-redirect-uri}
+
+  notion:
+    client_id: ${NOTION_CLIENT_ID}
+    auth_uri: ${NOTION_URL}
+    secret : ${NOTION_SECRET}
