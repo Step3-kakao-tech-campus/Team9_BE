@@ -25,6 +25,9 @@ public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long> {
     @Query("select b from Bookmark b where b.category.categoryId = :categoryId")
     Page<Bookmark> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
 
+    @Query("select b from Bookmark b where b.category.categoryId = :categoryId and b.bookmarkLink = :bookmarkLink")
+    Optional<Bookmark> findByCategoryIdAndBookmarkLink(@Param("categoryId") Long categoryId, @Param("bookmarkLink") String bookmarkLink);
+
     @Query("select b from Bookmark b " +
             "join fetch b.category c " +
             "join fetch c.workspace w " +
