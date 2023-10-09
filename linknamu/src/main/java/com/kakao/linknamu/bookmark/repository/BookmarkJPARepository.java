@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long>{
+public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long>, BookmarkJPARepositoryCustom{
     @Modifying
     @Query("update Bookmark b set b.bookmarkName = :bookmarkName, b.bookmarkDescription = :bookmarkDescription where b.bookmarkId = :bookmarkId")
     void updateBookmark(@Param("bookmarkId") Long bookmarkId, @Param("bookmarkName") String bookmarkName, @Param("bookmarkDescription") String bookmarkDescription);

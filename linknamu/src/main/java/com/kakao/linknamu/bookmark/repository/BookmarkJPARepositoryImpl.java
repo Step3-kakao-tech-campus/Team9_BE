@@ -1,4 +1,4 @@
-package com.kakao.linknamu.bookmarkTag.repository;
+package com.kakao.linknamu.bookmark.repository;
 
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
@@ -13,35 +13,29 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.kakao.linknamu.bookmarkTag.entity.QBookmarkTag.bookmarkTag;
 import static com.kakao.linknamu.bookmark.entity.QBookmark.bookmark;
+import static com.kakao.linknamu.bookmarkTag.entity.QBookmarkTag.bookmarkTag;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 @RequiredArgsConstructor
-public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCustom {
-    // BookmarkTagJPARepositoryCustom의 search 메서드를 구현한다.
+public class BookmarkJPARepositoryImpl implements BookmarkJPARepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
     @Override
     public Page<Bookmark> search(BookmarkSearchCondition condition, Long userId, Pageable pageable) {
-        // 기본 검색쿼리를 생성한다.
         JPAQuery<Bookmark> searchQuery = queryFactory
-                .select(bookmarkTag.bookmark)
-                .from(bookmarkTag)
-                .join(bookmarkTag.bookmark, bookmark)
+                .select(bookmark)
+                .from(bookmark)
                 .where(
                         bookmark.category.workspace.user.userId.eq(userId),
                         bookmarkNameContains(condition.bookmarkName()),
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
-                        workspaceEq(condition.workspaceId()),
-                        bookmarkTag.tag.tagName.in(condition.tags())
-                )
-                .groupBy(bookmarkTag.bookmark.bookmarkId)
-                .having(bookmarkTag.tag.count().eq((long) condition.tags().size()));
+                        workspaceEq(condition.workspaceId())
+                );
 
         // 페이징을 위해 offset, limit을 검색쿼리에 추가한다.
         List<Bookmark> bookmarks = searchQuery
@@ -67,5 +61,4 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
     private BooleanExpression workspaceEq(Long workspaceId) {
         return !isNull(workspaceId) ? bookmark.category.workspace.id.eq(workspaceId) : null;
     }
-
 }
