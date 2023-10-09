@@ -20,7 +20,7 @@ public class BookmarkSearchController {
     private static final int PAGE_SIZE = 10;
     private final BookmarkSearchService bookmarkSearchService;
 
-    @PostMapping("/queryDsl")
+    @PostMapping("")
     public ResponseEntity<?> bookmarkSearch(
             @RequestBody BookmarkSearchCondition condition,
             @RequestParam(name = "page", defaultValue = "0") int page,

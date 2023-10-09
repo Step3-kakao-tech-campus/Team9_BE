@@ -11,8 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-// BookmarkJPARepositoryCustom을 상속받아 BookmarkJPARepositoryImpl에서 구현된 search 메서드를 사용할 수 있다.
-public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long>, BookmarkJPARepositoryCustom {
+public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long>{
     @Modifying
     @Query("update Bookmark b set b.bookmarkName = :bookmarkName, b.bookmarkDescription = :bookmarkDescription where b.bookmarkId = :bookmarkId")
     void updateBookmark(@Param("bookmarkId") Long bookmarkId, @Param("bookmarkName") String bookmarkName, @Param("bookmarkDescription") String bookmarkDescription);
@@ -35,18 +34,4 @@ public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long>, Bo
             "where b.bookmarkId in :bookmarkIds")
     List<Bookmark> searchRequiredBookmarks(@Param("bookmarkIds") List<Long> bookmarkIds);
 
-    @Query("select b from Bookmark b " +
-            "where b.bookmarkName like concat('%',:keyword,'%') and " +
-            "b.category.workspace.user.userId = :userId ")
-    Page<Bookmark> searchByBookmarkName(@Param("keyword") String keyword, @Param("userId") Long userId, Pageable pageable);
-
-    @Query("select b from Bookmark b " +
-            "where b.bookmarkLink like concat('%',:keyword,'%') and " +
-            "b.category.workspace.user.userId = :userId")
-    Page<Bookmark> searchByBookmarkLink(@Param("keyword") String keyword, @Param("userId") Long userId, Pageable pageable);
-
-    @Query("select b from Bookmark b " +
-            "where b.bookmarkDescription like concat('%',:keyword,'%') and " +
-            "b.category.workspace.user.userId = :userId")
-    Page<Bookmark> searchByBookmarkDescription(@Param("keyword") String keyword, @Param("userId") Long userId, Pageable pageable);
 }

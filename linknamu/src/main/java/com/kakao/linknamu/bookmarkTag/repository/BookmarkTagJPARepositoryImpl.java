@@ -27,7 +27,8 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
 
     @Override
     public Page<Bookmark> search(BookmarkSearchCondition condition, Long userId, Long count, Pageable pageable) {
-        List<Bookmark> bookmarks = queryFactory
+        // 기본 검색쿼리를 생성한다.
+        JPAQuery<Bookmark> searchQuery = queryFactory
                 .select(bookmarkTag.bookmark)
                 .from(bookmarkTag)
                 .join(bookmarkTag.bookmark, bookmark)
@@ -37,29 +38,23 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
                         workspaceEq(condition.workspaceId()),
-                        bookmarkTag.tag.tagName.in(condition.tags())
-                )
-                .groupBy(bookmarkTag.bookmark.bookmarkId)
-                .having(bookmarkTag.tag.count().eq(count))
+                        tagsIn(condition.tags())
+                );
+
+        // 태그가 입력된 경우 groupBy, having을 검색쿼리에 추가한다.
+        if (!isNull(condition.tags())) {
+            searchQuery
+                    .groupBy(bookmarkTag.bookmark.bookmarkId)
+                    .having(bookmarkTag.tag.count().eq(count));
+        }
+
+        // 페이징을 위해 offset, limit을 검색쿼리에 추가한다.
+        List<Bookmark> bookmarks = searchQuery
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        JPAQuery<Bookmark> countQuery = queryFactory
-                .select(bookmarkTag.bookmark)
-                .from(bookmarkTag)
-                .join(bookmarkTag.bookmark, bookmark)
-                .where(
-                        bookmark.category.workspace.user.userId.eq(userId),
-                        bookmarkNameContains(condition.bookmarkName()),
-                        bookmarkLinkContains(condition.bookmarkLink()),
-                        bookmarkDescriptionContains(condition.bookmarkDescription()),
-                        workspaceEq(condition.workspaceId()),
-                        bookmarkTag.tag.tagName.in(condition.tags())
-                )
-                .groupBy(bookmarkTag.bookmark.bookmarkId)
-                .having(bookmarkTag.tag.count().eq(count));
-        return PageableExecutionUtils.getPage(bookmarks, pageable, countQuery::fetchCount);
+        return PageableExecutionUtils.getPage(bookmarks, pageable, searchQuery::fetchCount);
     }
 
     private BooleanExpression bookmarkNameContains(String bookmarkName) {
@@ -78,5 +73,8 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
         return !isNull(workspaceId) ? bookmark.category.workspace.id.eq(workspaceId) : null;
     }
 
+    private BooleanExpression tagsIn(List<String> tags) {
+        return !isNull(tags) ? bookmarkTag.tag.tagName.in(tags) : null;
+    }
 
 }
