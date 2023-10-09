@@ -41,7 +41,8 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
                         bookmarkTag.tag.tagName.in(condition.tags())
                 )
                 .groupBy(bookmarkTag.bookmark.bookmarkId)
-                .having(bookmarkTag.tag.count().eq((long) condition.tags().size()));
+                .having(bookmarkTag.tag.count().eq((long) condition.tags().size()))
+                .orderBy(bookmark.createdAt.desc());
 
         // 페이징을 위해 offset, limit을 검색쿼리에 추가한다.
         List<Bookmark> bookmarks = searchQuery

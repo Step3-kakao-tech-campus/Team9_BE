@@ -35,9 +35,9 @@ public class BookmarkJPARepositoryImpl implements BookmarkJPARepositoryCustom{
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
                         workspaceEq(condition.workspaceId())
-                );
+                )
+                .orderBy(bookmark.createdAt.desc());
 
-        // 페이징을 위해 offset, limit을 검색쿼리에 추가한다.
         List<Bookmark> bookmarks = searchQuery
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
