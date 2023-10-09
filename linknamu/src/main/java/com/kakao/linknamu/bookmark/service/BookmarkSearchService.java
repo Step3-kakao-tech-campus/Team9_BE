@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu._core.exception.Exception400;
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchDto;
@@ -9,6 +10,8 @@ import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +26,10 @@ public class BookmarkSearchService {
     private final BookmarkJPARepository bookmarkJPARepository;
     private final BookmarkTagSearchService bookmarkTagSearchService;
 
-    public BookmarkSearchDto bookmarkSearch(String type, String keyword, List<String> tags, User user) {
-        List<Bookmark> searchedBookmarks;
-        if (tags.isEmpty()) searchedBookmarks = searchWithoutTag(type, keyword, user);
-        else searchedBookmarks = searchWithTag(type, keyword, tags, user);
+    public BookmarkSearchDto bookmarkSearch(String type, String keyword, List<String> tags, User user, Pageable pageable) {
+        Page<Bookmark> searchedBookmarks;
+        if (tags.isEmpty()) searchedBookmarks = searchWithoutTag(type, keyword, user, pageable);
+        else searchedBookmarks = searchWithTag(type, keyword, tags, user, pageable);
 
         List<BookmarkSearchDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
         for (Bookmark resultBookmark : searchedBookmarks) {
@@ -34,23 +37,23 @@ public class BookmarkSearchService {
             List<Tag> bookmarkTags = bookmarkTagSearchService.findTagsByBookmarkId(resultBookmark.getBookmarkId());
             bookmarkContentDtos.add(BookmarkSearchDto.BookmarkContentDto.of(resultBookmark,bookmarkTags));
         }
-        return BookmarkSearchDto.of(bookmarkContentDtos);
+        return BookmarkSearchDto.of(PageInfoDto.of(searchedBookmarks), bookmarkContentDtos);
     }
 
-    private List<Bookmark> searchWithoutTag(String type, String keyword, User user){
+    private Page<Bookmark> searchWithoutTag(String type, String keyword, User user, Pageable pageable){
         return switch (type) {
-            case "T" -> bookmarkJPARepository.searchByBookmarkName(keyword, user.getUserId());
-            case "L" -> bookmarkJPARepository.searchByBookmarkLink(keyword, user.getUserId());
-            case "D" -> bookmarkJPARepository.searchByBookmarkDescription(keyword, user.getUserId());
+            case "T" -> bookmarkJPARepository.searchByBookmarkName(keyword, user.getUserId(), pageable);
+            case "L" -> bookmarkJPARepository.searchByBookmarkLink(keyword, user.getUserId(), pageable);
+            case "D" -> bookmarkJPARepository.searchByBookmarkDescription(keyword, user.getUserId(), pageable);
             default -> throw new Exception400(BookmarkExceptionStatus.BOOKMARK_WRONG_REQUEST);
         };
     }
 
-    private List<Bookmark> searchWithTag(String type, String keyword, List<String> tags, User user){
+    private Page<Bookmark> searchWithTag(String type, String keyword, List<String> tags, User user, Pageable pageable){
         return switch (type) {
-            case "T" -> bookmarkTagSearchService.searchByBookmarkName(keyword, tags, user.getUserId());
-            case "L" -> bookmarkTagSearchService.searchByBookmarkLink(keyword, tags, user.getUserId());
-            case "D" -> bookmarkTagSearchService.searchByBookmarkDescription(keyword, tags, user.getUserId());
+            case "T" -> bookmarkTagSearchService.searchByBookmarkName(keyword, tags, user.getUserId(), pageable);
+            case "L" -> bookmarkTagSearchService.searchByBookmarkLink(keyword, tags, user.getUserId(), pageable);
+            case "D" -> bookmarkTagSearchService.searchByBookmarkDescription(keyword, tags, user.getUserId(), pageable);
             default -> throw new Exception400(BookmarkExceptionStatus.BOOKMARK_WRONG_REQUEST);
         };
     }

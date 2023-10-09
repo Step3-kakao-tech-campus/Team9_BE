@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.dto;
 
+import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.tag.entity.Tag;
 import lombok.Builder;
@@ -8,16 +9,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record BookmarkSearchDto(
-        int count,
+        PageInfoDto pageInfo,
         List<BookmarkContentDto> bookmarkContents
 ) {
 
     @Builder
     public BookmarkSearchDto {}
 
-    public static BookmarkSearchDto of(List<BookmarkContentDto> bookmarkContentDtos){
+    public static BookmarkSearchDto of(PageInfoDto pageInfo, List<BookmarkContentDto> bookmarkContentDtos){
         return BookmarkSearchDto.builder()
-                .count(bookmarkContentDtos.size())
+                .pageInfo(pageInfo)
                 .bookmarkContents(bookmarkContentDtos)
                 .build();
     }

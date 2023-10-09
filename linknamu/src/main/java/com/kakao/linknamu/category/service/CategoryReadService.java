@@ -1,12 +1,10 @@
 package com.kakao.linknamu.category.service;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
 import com.kakao.linknamu.bookmark.service.BookmarkReadService;
-import com.kakao.linknamu.bookmarkTag.repository.BookmarkTagJPARepository;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.dto.CategoryGetResponseDto;
-import com.kakao.linknamu.category.dto.PageInfoDto;
+import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
