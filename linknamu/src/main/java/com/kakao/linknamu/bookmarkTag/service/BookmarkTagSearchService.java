@@ -30,7 +30,7 @@ public class BookmarkTagSearchService {
         return bookmarkTagJPARepository.findTagByBookmarkId(bookmarkId);
     }
 
-    public Page<Bookmark> searchByQueryDsl(BookmarkSearchCondition condition, Long userId, Pageable pageable) {
+    public Page<Bookmark> search(BookmarkSearchCondition condition, Long userId, Pageable pageable) {
         return bookmarkTagJPARepository.search(condition, userId, pageable);
     }
 }

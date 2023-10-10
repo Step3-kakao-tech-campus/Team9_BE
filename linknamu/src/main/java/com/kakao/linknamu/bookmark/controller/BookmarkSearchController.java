@@ -26,7 +26,7 @@ public class BookmarkSearchController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @AuthenticationPrincipal CustomUserDetails user) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        BookmarkSearchResponseDto responseDto = bookmarkSearchService.bookmarkSearchByQueryDsl(condition, user.getUser(), pageable);
+        BookmarkSearchResponseDto responseDto = bookmarkSearchService.bookmarkSearch(condition, user.getUser(), pageable);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 }

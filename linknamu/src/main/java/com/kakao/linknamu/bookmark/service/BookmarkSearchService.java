@@ -27,10 +27,10 @@ public class BookmarkSearchService {
     private final BookmarkJPARepository bookmarkJPARepository;
     private final BookmarkTagSearchService bookmarkTagSearchService;
 
-    public BookmarkSearchResponseDto bookmarkSearchByQueryDsl(BookmarkSearchCondition condition, User user, Pageable pageable) {
+    public BookmarkSearchResponseDto bookmarkSearch(BookmarkSearchCondition condition, User user, Pageable pageable) {
         Page<Bookmark> searchedBookmarks;
         if (isNull(condition.tags())) searchedBookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
-        else searchedBookmarks = bookmarkTagSearchService.searchByQueryDsl(condition, user.getUserId(), pageable);
+        else searchedBookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
 
         List<BookmarkSearchResponseDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
         for (Bookmark resultBookmark : searchedBookmarks) {
