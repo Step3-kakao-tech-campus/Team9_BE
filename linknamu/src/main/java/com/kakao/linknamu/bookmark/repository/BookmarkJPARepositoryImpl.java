@@ -33,7 +33,7 @@ public class BookmarkJPARepositoryImpl implements BookmarkJPARepositoryCustom{
                         bookmarkNameContains(condition.bookmarkName()),
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
-                        workspaceEq(condition.workspaceId())
+                        workspaceNameEq(condition.workspaceName())
                 )
                 .orderBy(bookmark.createdAt.desc());
 
@@ -57,7 +57,7 @@ public class BookmarkJPARepositoryImpl implements BookmarkJPARepositoryCustom{
         return hasText(bookmarkDescription) ? bookmark.bookmarkDescription.contains(bookmarkDescription) : null;
     }
 
-    private BooleanExpression workspaceEq(Long workspaceId) {
-        return !isNull(workspaceId) ? bookmark.category.workspace.id.eq(workspaceId) : null;
+    private BooleanExpression workspaceNameEq(String workspaceName) {
+        return !isNull(workspaceName) ? bookmark.category.workspace.workspaceName.eq(workspaceName) : null;
     }
 }

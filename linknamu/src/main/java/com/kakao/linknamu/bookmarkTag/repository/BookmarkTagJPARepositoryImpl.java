@@ -37,7 +37,7 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
                         bookmarkNameContains(condition.bookmarkName()),
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
-                        workspaceEq(condition.workspaceId()),
+                        workspaceEq(condition.workspaceName()),
                         bookmarkTag.tag.tagName.in(condition.tags())
                 )
                 .groupBy(bookmarkTag.bookmark.bookmarkId)
@@ -65,8 +65,8 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
         return hasText(bookmarkDescription) ? bookmark.bookmarkDescription.contains(bookmarkDescription) : null;
     }
 
-    private BooleanExpression workspaceEq(Long workspaceId) {
-        return !isNull(workspaceId) ? bookmark.category.workspace.id.eq(workspaceId) : null;
+    private BooleanExpression workspaceEq(String workspaceName) {
+        return !isNull(workspaceName) ? bookmark.category.workspace.workspaceName.eq(workspaceName) : null;
     }
 
 }

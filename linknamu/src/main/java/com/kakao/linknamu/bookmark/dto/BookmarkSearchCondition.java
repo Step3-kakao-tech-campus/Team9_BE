@@ -7,6 +7,6 @@ public record BookmarkSearchCondition(
         String bookmarkLink,
         String bookmarkDescription,
         List<String> tags,
-        Long workspaceId
+        String workspaceName
 ) {
 }
