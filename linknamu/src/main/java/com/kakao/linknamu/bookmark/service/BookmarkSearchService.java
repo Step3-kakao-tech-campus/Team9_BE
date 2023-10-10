@@ -2,7 +2,7 @@ package com.kakao.linknamu.bookmark.service;
 
 import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
-import com.kakao.linknamu.bookmark.dto.BookmarkSearchDto;
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
@@ -27,16 +27,16 @@ public class BookmarkSearchService {
     private final BookmarkJPARepository bookmarkJPARepository;
     private final BookmarkTagSearchService bookmarkTagSearchService;
 
-    public BookmarkSearchDto bookmarkSearchByQueryDsl(BookmarkSearchCondition condition, User user, Pageable pageable) {
+    public BookmarkSearchResponseDto bookmarkSearchByQueryDsl(BookmarkSearchCondition condition, User user, Pageable pageable) {
         Page<Bookmark> searchedBookmarks;
         if (isNull(condition.tags())) searchedBookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
         else searchedBookmarks = bookmarkTagSearchService.searchByQueryDsl(condition, user.getUserId(), pageable);
 
-        List<BookmarkSearchDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
+        List<BookmarkSearchResponseDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
         for (Bookmark resultBookmark : searchedBookmarks) {
             List<Tag> bookmarkTags = bookmarkTagSearchService.findTagsByBookmarkId(resultBookmark.getBookmarkId());
-            bookmarkContentDtos.add(BookmarkSearchDto.BookmarkContentDto.of(resultBookmark,bookmarkTags));
+            bookmarkContentDtos.add(BookmarkSearchResponseDto.BookmarkContentDto.of(resultBookmark,bookmarkTags));
         }
-        return BookmarkSearchDto.of(PageInfoDto.of(searchedBookmarks), bookmarkContentDtos);
+        return BookmarkSearchResponseDto.of(PageInfoDto.of(searchedBookmarks), bookmarkContentDtos);
     }
 }

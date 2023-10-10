@@ -8,16 +8,16 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record BookmarkSearchDto(
+public record BookmarkSearchResponseDto(
         PageInfoDto pageInfo,
         List<BookmarkContentDto> bookmarkContents
 ) {
 
     @Builder
-    public BookmarkSearchDto {}
+    public BookmarkSearchResponseDto {}
 
-    public static BookmarkSearchDto of(PageInfoDto pageInfo, List<BookmarkContentDto> bookmarkContentDtos){
-        return BookmarkSearchDto.builder()
+    public static BookmarkSearchResponseDto of(PageInfoDto pageInfo, List<BookmarkContentDto> bookmarkContentDtos){
+        return BookmarkSearchResponseDto.builder()
                 .pageInfo(pageInfo)
                 .bookmarkContents(bookmarkContentDtos)
                 .build();

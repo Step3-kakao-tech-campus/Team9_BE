@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.kakao.linknamu.bookmark.entity.QBookmark.bookmark;
-import static com.kakao.linknamu.bookmarkTag.entity.QBookmarkTag.bookmarkTag;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
 

@@ -3,7 +3,7 @@ package com.kakao.linknamu.bookmark.controller;
 import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
-import com.kakao.linknamu.bookmark.dto.BookmarkSearchDto;
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
 import com.kakao.linknamu.bookmark.service.BookmarkSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +26,7 @@ public class BookmarkSearchController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @AuthenticationPrincipal CustomUserDetails user) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        BookmarkSearchDto responseDto = bookmarkSearchService.bookmarkSearchByQueryDsl(condition, user.getUser(), pageable);
+        BookmarkSearchResponseDto responseDto = bookmarkSearchService.bookmarkSearchByQueryDsl(condition, user.getUser(), pageable);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 }
