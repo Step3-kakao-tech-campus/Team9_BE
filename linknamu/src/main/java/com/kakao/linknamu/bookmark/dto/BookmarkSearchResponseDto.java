@@ -1,4 +1,4 @@
-package com.kakao.linknamu.category.dto;
+package com.kakao.linknamu.bookmark.dto;
 
 import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
@@ -8,17 +8,17 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record CategoryGetResponseDto(
+public record BookmarkSearchResponseDto(
         PageInfoDto pageInfo,
         List<BookmarkContentDto> bookmarkContents
 ) {
 
     @Builder
-    public CategoryGetResponseDto {}
+    public BookmarkSearchResponseDto {}
 
-    public static CategoryGetResponseDto of(PageInfoDto pageInfoDto, List<BookmarkContentDto> bookmarkContentDtos){
-        return CategoryGetResponseDto.builder()
-                .pageInfo(pageInfoDto)
+    public static BookmarkSearchResponseDto of(PageInfoDto pageInfo, List<BookmarkContentDto> bookmarkContentDtos){
+        return BookmarkSearchResponseDto.builder()
+                .pageInfo(pageInfo)
                 .bookmarkContents(bookmarkContentDtos)
                 .build();
     }
