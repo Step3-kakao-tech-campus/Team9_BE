@@ -71,7 +71,7 @@ public class BookmarkMoveService {
             String link = bookmark.getBookmarkLink();
             String description = bookmark.getBookmarkDescription();
             String thumbnail = bookmark.getBookmarkThumbnail();
-            List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(formalId);
+            List<Long> tagIds = bookmarkTagSearchService.searchTagIdsByBookmarkId(formalId);
 
             bookmarkDeleteService.bookmarkDelete(userId, bookmark.getBookmarkId());
 
