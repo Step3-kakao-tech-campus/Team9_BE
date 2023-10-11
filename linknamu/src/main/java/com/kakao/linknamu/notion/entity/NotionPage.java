@@ -42,6 +42,10 @@ public class NotionPage extends AuditingEntity {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
+    public void deactivate() {
+        this.isActive = false;
+    }
+
     @Builder
     public NotionPage(Long id, NotionAccount notionAccount, Category category, String pageId, Boolean isActive) {
         this.id = id;
