@@ -78,7 +78,7 @@ public class UserServiceTest {
             // mock
             given(userJPARepository.findByEmail(eq(googleUserInfo.email()))).willReturn(Optional.empty());
             given(userJPARepository.save(any())).willReturn(user);
-            willDoNothing().given(workspaceSaveService).createWorkspace(any(), any());
+            given(workspaceSaveService.createWorkspace(any(), any())).willReturn(null);
 
             // when
             LoginResponseDto result = userService.socialLogin(googleUserInfo);
