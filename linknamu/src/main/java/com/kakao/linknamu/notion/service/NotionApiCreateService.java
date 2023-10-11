@@ -69,6 +69,7 @@ public class NotionApiCreateService {
                 .notionAccount(notionAccount)
                 .pageId(requestDto.pageId())
                 .category(notionCategory)
+                .isActive(true) // 이후 검증 로직을 통해서 활성화 여부를 체크
                 .build();
         notionPageJPARepository.save(notionPage);
     }

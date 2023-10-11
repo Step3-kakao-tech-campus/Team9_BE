@@ -39,12 +39,16 @@ public class NotionPage extends AuditingEntity {
     @Column(name = "page_id", nullable = false)
     private String pageId;
 
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive;
+
     @Builder
-    public NotionPage(Long id, NotionAccount notionAccount, Category category, String pageId) {
+    public NotionPage(Long id, NotionAccount notionAccount, Category category, String pageId, Boolean isActive) {
         this.id = id;
         this.notionAccount = notionAccount;
         this.category = category;
         this.pageId = pageId;
+        this.isActive = isActive;
     }
 
     @Override
