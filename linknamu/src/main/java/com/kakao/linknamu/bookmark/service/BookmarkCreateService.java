@@ -70,4 +70,8 @@ public class BookmarkCreateService {
                 .toList();
         bookmarkTagSaveService.createPairs(bookmarkTagList);
     }
+
+    public void bookmarkBatchInsert(List<Bookmark> bookmarkList) {
+        bookmarkJPARepository.bookmarkBatchInsert(bookmarkList);
+    }
 }
