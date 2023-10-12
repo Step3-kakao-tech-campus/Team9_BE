@@ -91,7 +91,8 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/api/category/**"),
                                         new AntPathRequestMatcher("/api/tag/**"),
                                         new AntPathRequestMatcher("/api/auth/**"),
-                                        new AntPathRequestMatcher("/api/workspace/**")).authenticated()
+                                        new AntPathRequestMatcher("/api/workspace/**"),
+                                        new AntPathRequestMatcher("/api/notion/**")).authenticated()
 //                                .hasRole(Role.ROLE_USER.getRoleName())
                                 .anyRequest().permitAll()
         );

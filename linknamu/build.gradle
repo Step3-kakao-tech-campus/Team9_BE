@@ -54,6 +54,7 @@ dependencies {
 
     // third party
     implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
 
     // queryDsl
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
