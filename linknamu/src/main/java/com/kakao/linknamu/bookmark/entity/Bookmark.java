@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -52,6 +53,10 @@ public class Bookmark extends AuditingEntity {
     @Column(length = 512, name = "bookmark_thumbnail")
     private String bookmarkThumbnail;
 
+
+    public void moveCategory(Category category) {
+        this.category = category;
+    }
 
     @Builder
     public Bookmark(Long bookmarkId, Category category, String bookmarkName, String bookmarkLink, String bookmarkDescription, String bookmarkThumbnail) {
