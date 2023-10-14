@@ -3,6 +3,7 @@ package com.kakao.linknamu.workspace.entity;
 import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -47,17 +48,24 @@ public class Workspace extends AuditingEntity {
     @OneToMany(mappedBy = "workspace")
     private Set<Category> categorySet = new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, name = "link_provider", nullable = false)
+    private LinkProvider linkProvider;
+
     @Builder
-    public Workspace(Long id, User user, String workspaceName) {
+    public Workspace(Long id, User user, String workspaceName, LinkProvider linkProvider) {
         this.id = id;
         this.user = user;
         this.workspaceName = workspaceName;
+        this.linkProvider = linkProvider;
     }
 
     public void renameWorkspace(String workspaceName) {
         this.workspaceName = workspaceName;
     }
-
+    public void setLinkProvider(LinkProvider linkProvider) {
+        this.linkProvider = linkProvider;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

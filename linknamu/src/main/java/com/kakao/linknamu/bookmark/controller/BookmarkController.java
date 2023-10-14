@@ -12,14 +12,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/bookmark")
 public class BookmarkController {
     private final BookmarkCreateService bookmarkCreateService;
-    private final BookmarkSearchService bookmarkSearchService;
     private final BookmarkDeleteService bookmarkDeleteService;
     private final BookmarkUpdateService bookmarkUpdateService;
     private final BookmarkMoveService bookmarkMoveService;
@@ -32,15 +29,6 @@ public class BookmarkController {
     ) {
         bookmarkCreateService.bookmarkAdd(dto, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<?> bookmarkSearch(
-            @RequestParam("search") String search,
-            @RequestParam("tag") List<String> tags
-    ) {
-        List<BookmarkResponseDto.SearchDto> dto = bookmarkSearchService.bookmarkSearch(search, tags);
-        return ResponseEntity.ok(ApiUtils.success(dto));
     }
 
     @PostMapping("/delete/{bookmark_id}")

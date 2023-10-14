@@ -87,6 +87,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(new AntPathRequestMatcher("/api/auth/google/login"),
                                         new AntPathRequestMatcher("/api/auth/reissue")).permitAll()
+
                                 .requestMatchers(
 //                                        new AntPathRequestMatcher("/api/bookmark/**"),
 //                                        new AntPathRequestMatcher("/api/category/**"),
@@ -98,6 +99,7 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/api/ss/**"))
                                         .
                                 authenticated()
+
 //                                .hasRole(Role.ROLE_USER.getRoleName())
                                 .anyRequest().permitAll()
         );

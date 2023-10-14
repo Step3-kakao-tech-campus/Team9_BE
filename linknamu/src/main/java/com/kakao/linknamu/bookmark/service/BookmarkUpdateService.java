@@ -33,7 +33,7 @@ public class BookmarkUpdateService {
         if(!bookmark.getCategory().getWorkspace().getUser().getUserId().equals(userId)) {
             throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
         }
-        List<String> tags = bookmarkTagSearchService.searchNamesByBookmarkId(bookmarkId);
+        List<String> tags = bookmarkTagSearchService.searchTagNamesByBookmarkId(bookmarkId);
         return BookmarkResponseDto.bookmarkUpdateResponseDto.builder()
                 .bookmarkId(bookmarkId)
                 .title(bookmark.getBookmarkName())

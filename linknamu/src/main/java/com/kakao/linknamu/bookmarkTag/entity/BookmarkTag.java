@@ -15,7 +15,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="bookmark_tab_tb")
+@Table(name="bookmark_tag_tb")
 public class BookmarkTag extends AuditingEntity {
 
     @EmbeddedId

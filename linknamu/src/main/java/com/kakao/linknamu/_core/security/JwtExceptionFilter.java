@@ -29,9 +29,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (JWTVerificationException | JWTCreationException e) {
-            setJwtExceptionResponse(request, response, e);
-        } catch (Exception403 e) {
+        } catch (JWTVerificationException | JWTCreationException | Exception403 e) {
             setForbiddenResponse(request, response, e);
         }
     }
@@ -42,9 +40,9 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.getOutputStream().write(om.writeValueAsBytes(ApiUtils.error(exception.getMessage(), HttpStatus.UNAUTHORIZED.value())));
     }
 
-    private void setForbiddenResponse(HttpServletRequest request, HttpServletResponse response, Exception403 exception) throws IOException {
+    private void setForbiddenResponse(HttpServletRequest request, HttpServletResponse response, Throwable exception) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.getOutputStream().write(om.writeValueAsBytes(exception.body()));
+        response.getOutputStream().write(om.writeValueAsBytes(ApiUtils.error(exception.getMessage(), HttpStatus.FORBIDDEN.value())));
     }
 }

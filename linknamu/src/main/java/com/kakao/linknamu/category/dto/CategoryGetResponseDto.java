@@ -1,5 +1,6 @@
 package com.kakao.linknamu.category.dto;
 
+import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.tag.entity.Tag;
 import lombok.Builder;
