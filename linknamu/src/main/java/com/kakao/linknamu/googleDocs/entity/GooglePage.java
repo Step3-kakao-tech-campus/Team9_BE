@@ -37,12 +37,16 @@ public class GooglePage extends AuditingEntity {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
+    @Column(name = "page_id", nullable = false)
+    private String pageId;
+
     @Builder
-    public GooglePage(Long id, User user, String documentId, Category category, Boolean isActive) {
+    public GooglePage(Long id, User user, String documentId, Category category, String pageId, Boolean isActive) {
         this.id = id;
         this.user = user;
         this.documentId = documentId;
         this.category = category;
+        this.pageId = pageId;
         this.isActive = isActive;
     }
 
@@ -51,11 +55,11 @@ public class GooglePage extends AuditingEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GooglePage that = (GooglePage) o;
-        return Objects.equals(id, that.id) && Objects.equals(documentId, that.documentId);
+        return Objects.equals(id, that.id) && Objects.equals(pageId, that.getPageId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, documentId);
+        return Objects.hash(getId(), getPageId());
     }
 }
