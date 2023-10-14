@@ -50,6 +50,10 @@ public class GooglePage extends AuditingEntity {
         this.isActive = isActive;
     }
 
+    public void deactivate() {
+        this.isActive = false;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
