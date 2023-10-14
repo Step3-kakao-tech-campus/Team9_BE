@@ -5,12 +5,13 @@ import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +22,7 @@ import java.util.*;
         name = "workspace_tb",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name="user_workspaceName unique constraint",
+                        name = "user_workspaceName unique constraint",
                         columnNames = {
                                 "user_id",
                                 "workspace_name"
@@ -30,8 +31,9 @@ import java.util.*;
         }
 )
 public class Workspace extends AuditingEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="workspace_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "workspace_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,3 +71,9 @@ public class Workspace extends AuditingEntity {
         return Objects.hash(getId());
     }
 }
+
+
+
+
+
+

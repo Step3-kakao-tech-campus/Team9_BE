@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +27,9 @@ public class BookmarkController {
     @PostMapping("/create")
     public ResponseEntity<?> bookmarkCreate(
             @RequestBody @Valid BookmarkRequestDto.bookmarkAddDTO dto,
-            Error error,
+            Errors errors,
             @AuthenticationPrincipal CustomUserDetails user
-            ) {
+    ) {
         bookmarkCreateService.bookmarkAdd(dto, user.getUser());
         return ResponseEntity.ok(ApiUtils.success(null));
     }

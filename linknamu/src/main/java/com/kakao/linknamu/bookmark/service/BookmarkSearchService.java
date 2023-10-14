@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -25,7 +26,7 @@ public class BookmarkSearchService {
         List<Bookmark> searchedBookmarks = bookmarkTagSearchService.searchMatchingBookmarks(search, tags);
 
         List<BookmarkResponseDto.SearchDto> response = new ArrayList<>();
-        for(Bookmark resultBookmark : searchedBookmarks) {
+        for (Bookmark resultBookmark : searchedBookmarks) {
             List<String> allTags = bookmarkTagSearchService.searchNamesByBookmarkId(resultBookmark.getBookmarkId());
             response.add(BookmarkResponseDto.SearchDto.builder()
                     .bookmarkId(resultBookmark.getBookmarkId())

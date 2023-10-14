@@ -1,3 +1,7 @@
+
+
+
+
 server:
   servlet:
     encoding:
@@ -50,3 +54,11 @@ oauth2:
     token_uri: ${google-token-uri}
     client_secret: ${google-client-secret}
     redirect_uri: ${google-redirect-uri}
+
+
+AES_SECRET_KEY: ${aes-secret-key}
+
+
+
+
+
