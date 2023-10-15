@@ -1,8 +1,6 @@
 package com.kakao.linknamu.workspace.service;
 
-import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
 import com.kakao.linknamu.workspace.dto.WorkspaceGetResponseDto;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
@@ -37,4 +35,5 @@ public class WorkspaceReadService {
     public Optional<Workspace> findWorkspaceByUserAndProvider(User user, LinkProvider linkProvider) {
         return workspaceJPARepository.findByUserIdAndProvider(user.getUserId(), linkProvider);
     }
+
 }

@@ -2,7 +2,7 @@ package com.kakao.linknamu.kakao.controller;
 
 import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
-import com.kakao.linknamu.kakao.service.KaKaoSendMeService;
+import com.kakao.linknamu.kakao.service.KaKaoSendMeExtractService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api/kakao")
 public class KakaoSendMeController {
 
-    private final KaKaoSendMeService kaKaoSendMeService;
+    private final KaKaoSendMeExtractService kaKaoSendMeExtractService;
 
 
     //1. 단순히 file만 요청 받을 경우 => @RequestParam 어노테이션과 MultipartFile 객체사용
@@ -27,7 +27,7 @@ public class KakaoSendMeController {
     @PostMapping("/send-me")
     public ResponseEntity<?> getKaKaoSendMeText(@RequestPart(value = "file") MultipartFile multipartFile) {
 
-        List<KakaoSendMeResponseDto> responseDtos = kaKaoSendMeService.extractLink(multipartFile);
+        List<KakaoSendMeResponseDto> responseDtos = kaKaoSendMeExtractService.extractLink(multipartFile);
 
 
         return ResponseEntity.ok(ApiUtils.success(responseDtos));

@@ -1,3 +1,7 @@
+
+
+
+
 server:
   servlet:
     encoding:
@@ -10,6 +14,7 @@ server:
     key-store-password: ${KEY_STORE_PASSWORD}
     key-store-type: PKCS12
     key-alias: bns-ssl
+
 
 spring:
   datasource:
@@ -50,6 +55,7 @@ logging:
 
 
 oauth2:
+
   google:
     client_id: ${google-client-id}
     auth_uri: ${google-auth-uri}
@@ -60,4 +66,13 @@ oauth2:
   notion:
     client_id: ${NOTION_CLIENT_ID}
     auth_uri: ${NOTION_URL}
-    secret : ${NOTION_SECRET}
+    secret: ${NOTION_SECRET}
+
+
+
+
+AES_SECRET_KEY: ${aes-secret-key}
+
+
+
+

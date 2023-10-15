@@ -19,6 +19,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -29,13 +30,16 @@ public class BookmarkSearchService {
 
     public BookmarkSearchResponseDto bookmarkSearch(BookmarkSearchCondition condition, User user, Pageable pageable) {
         Page<Bookmark> searchedBookmarks;
-        if (isNull(condition.tags())) searchedBookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
+        if (isNull(condition.tags()))
+            searchedBookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
         else searchedBookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
+
 
         List<BookmarkSearchResponseDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
         for (Bookmark resultBookmark : searchedBookmarks) {
             List<Tag> bookmarkTags = bookmarkTagSearchService.findTagsByBookmarkId(resultBookmark.getBookmarkId());
-            bookmarkContentDtos.add(BookmarkSearchResponseDto.BookmarkContentDto.of(resultBookmark,bookmarkTags));
+            bookmarkContentDtos.add(BookmarkSearchResponseDto.BookmarkContentDto.of(resultBookmark, bookmarkTags));
+
         }
         return BookmarkSearchResponseDto.of(PageInfoDto.of(searchedBookmarks), bookmarkContentDtos);
     }
