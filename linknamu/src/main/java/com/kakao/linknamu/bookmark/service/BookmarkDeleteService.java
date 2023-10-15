@@ -39,18 +39,6 @@ public class BookmarkDeleteService {
             throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
         }
 
-//        List<Long> tagIds = bookmarkTagSearchService.searchTagIdByBookmarkId(bookmarkId);
-//        List<String> tagNames = new ArrayList<>();
-//        for(Long tag : tagIds) {
-//            tagNames.add(tagSearchService.searchTagNameById(tag));
-//        }
-//        for(String name : tagNames) {
-//            List<Long> idsSearchedByName = tagSearchService.searchTagIdsByName(name);
-//            bookmarkTagDeleteService.deleteBookmarkTag(bookmarkId, name);
-//            if(idsSearchedByName.size() <= 1) {
-//                tagDeleteService.deleteTagByName(userId, name);
-//            }
-//        }
         bookmarkJPARepository.delete(bookmark);
     }
 }

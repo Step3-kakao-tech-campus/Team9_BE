@@ -1,9 +1,20 @@
+
+
+
+
 server:
   servlet:
     encoding:
       charset: utf-8
       force: true # 응답에 대해 UTF-8 문자 인코딩을 강제로 적용하게 됩니다.
   port: 8000 # 원하는 포트 번호로 변경, 예: 8000
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: bns-ssl
+
 
 spring:
   datasource:
@@ -44,9 +55,24 @@ logging:
 
 
 oauth2:
+
   google:
     client_id: ${google-client-id}
     auth_uri: ${google-auth-uri}
     token_uri: ${google-token-uri}
     client_secret: ${google-client-secret}
     redirect_uri: ${google-redirect-uri}
+
+  notion:
+    client_id: ${NOTION_CLIENT_ID}
+    auth_uri: ${NOTION_URL}
+    secret: ${NOTION_SECRET}
+
+
+
+
+AES_SECRET_KEY: ${aes-secret-key}
+
+
+
+

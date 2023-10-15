@@ -1,8 +1,7 @@
-package com.kakao.linknamu.category.dto;
+package com.kakao.linknamu._core.dto;
 
 import lombok.Builder;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public record PageInfoDto(
         long totalCount,

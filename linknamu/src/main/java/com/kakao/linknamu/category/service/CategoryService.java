@@ -18,7 +18,7 @@ public class CategoryService {
 
     private final CategoryJPARepository categoryJPARepository;
 
-    public Category save(String categoryName, Workspace workspace){
+    public Category save(String categoryName, Workspace workspace) {
         Category category = Category.builder()
                 .categoryName(categoryName)
                 .workspace(workspace)
@@ -32,17 +32,23 @@ public class CategoryService {
         );
     }
 
-    public Optional<Category> findByWorkspaceIdAndCategoryName(Long workspaceId, String categoryName){
+    public Category findById(Long id) {
+        return categoryJPARepository.findById(id).orElseThrow(
+                () -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
+        );
+    }
+
+    public Optional<Category> findByWorkspaceIdAndCategoryName(Long workspaceId, String categoryName) {
         return categoryJPARepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName);
     }
 
-    public void deleteById(Long categoryId){
+    public void deleteById(Long categoryId) {
         categoryJPARepository.deleteById(categoryId);
     }
 
     // 워크스페이스의 유저와 로그인 유저가 같은지 체크
-    public void validUser(Workspace workspace, User user){
-        if (!workspace.getUser().getUserId().equals(user.getUserId())){
+    public void validUser(Workspace workspace, User user) {
+        if (!workspace.getUser().getUserId().equals(user.getUserId())) {
             throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
         }
     }

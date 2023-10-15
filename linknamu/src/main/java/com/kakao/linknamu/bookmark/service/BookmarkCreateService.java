@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.service;
 
+import com.kakao.linknamu._core.exception.Exception400;
 import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.exception.Exception404;
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
@@ -41,6 +42,11 @@ public class BookmarkCreateService {
         if(!category.getWorkspace().getUser().getUserId().equals(userDetails.getUserId())){
             throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
         }
+        // 북마크의 링크에 대한 중복 검사
+        bookmarkJPARepository.findByCategoryIdAndBookmarkLink(category.getCategoryId(), dto.getBookmarkLink()).ifPresent((b) -> {
+            throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
+        });
+
         Bookmark bookmark = dto.toBookmarkEntity(category);
         bookmarkJPARepository.save(bookmark);
 
@@ -69,5 +75,9 @@ public class BookmarkCreateService {
                         .build())
                 .toList();
         bookmarkTagSaveService.createPairs(bookmarkTagList);
+    }
+
+    public void bookmarkBatchInsert(List<Bookmark> bookmarkList) {
+        bookmarkJPARepository.bookmarkBatchInsert(bookmarkList);
     }
 }
