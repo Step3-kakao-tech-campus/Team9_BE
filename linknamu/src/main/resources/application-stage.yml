@@ -1,0 +1,95 @@
+
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true #  응답에 대해 UTF-8 문자 인코딩을 강제로 적용하게 됩니다.
+  port: 8000 # 원하는 포트 번호로 변경 저 같은 경우는 8000으로 함
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver  #MySQL
+    url:  ${DATABASE_URI}
+    username: root
+    password: ${DATABASE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update # 애플리케이션 시작 시 테이블을 자동으로 업데이트
+    show-sql: true  # SQL 쿼리 로깅 활성화
+    database-platform: org.hibernate.dialect.MySQLDialect # MySQL방식 사용
+    properties:
+      # Hibernate 설정 부분
+      hibernate:
+        # format_sql은 Hibernate이 SQL 쿼리를 로그에 출력할 때 이를 보기 쉽게 포맷팅할지 여부를 의미.
+        format_sql: true
+      # Hibernate의 기본 배치 페치 크기를 지정하는 설정입니다. 배치 페치 크기는 데이터베이스에서 여러 엔티티를 한 번에 가져올 때 사용되는 일괄 처리 크기를 나타냅니다.
+        default_batch_fetch_size: 100
+
+    # Open-in-view 설정 부분
+    open-in-view: false
+    # open-in-view는 데이터베이스 트랜잭션을 활성 상태에서 뷰(예: JSP)에서 지연로딩된 Hibernate 엔티티에 접근할 수 있는지 여부를 나타냅니다.
+    # "false"로 설정하면 지연로딩된 엔티티에 접근할 수 없으며, "true"로 설정하면 트랜잭션이 종료될 때까지 엔티티에 접근할 수 있습니다.
+    # 디폴트값은 true이며, 보다 자세한 내용은 2단계 했떤 메타코딩님 ppt에 설명되어있으니 참고해 주세요!
+
+
+  application:
+    name: LinkNamuApplication
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+logging:
+  level:
+    # Spring Framework 패키지의 로깅 레벨을 INFO로 설정합니다.
+    org.springframework: INFO
+    # com.example 패키지의 로깅 레벨을 DEBUG로 설정합니다.
+    com.example: DEBUG
+
+##access랑 refresh token은 이경님이 맘대로 설정해주세요...ㅎ
+access-jwt-secret-key: KakaoTechCampusLinkNamu
+refresh-jwt-secret-key: KakaoTechCampusLinkNamu1234
+
+oauth2:
+  google:
+    client_id : ${GOOGLE_CLIENT_ID}
+    auth_uri : ${GOOGLE_AUTH_URI}
+    token_uri : ${GOOGLE_TOKEN_URI}
+    client_secret : ${GOOGLE_CLIENT_SECRET}
+    redirect_uri : ${GOOGLE_REDIRECT_URI}
+
+
+###사족(볼필요 없습니다)
+#true로 한다면 기본 보안설정을 yml에서 셋팅할수잇습니다...
+#    security:
+#      basic:
+#        enabled: true
+#
+#      # 사용자 정의 인증 및 권한 부여를 위한 설정
+#      user:
+#        name: user
+#        password: password
+#        roles: USER
+#
+#      # 특정 URL에 대한 접근 제어
+#      filter-chain:
+#        - pattern: /public/**
+#          security: none
+#        - pattern: /admin/**
+#          security: authenticated
+#
+#      # CSRF(Cross-Site Request Forgery) 방어 설정
+#      csrf:
+#        enabled: true
+#
+#      # XSS(Cross-Site Scripting) 방어 설정
+#      headers:
+#        content-security-policy: "default-src 'self'"
+#
+#      # 보안 헤더 설정
+#      headers:
+#        hsts:
+#          max-age-seconds: 31536000
+
