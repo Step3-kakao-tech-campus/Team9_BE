@@ -32,6 +32,7 @@ public class AESEncryption {
 //            NoSuchAlgorithmException,
 //            InvalidAlgorithmParameterException,
 //            InvalidKeyException
+            //위에 에러들 전부 처리해야됨
 
             byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
             //암호화 작업초기화에 필요한 secretKeySpec생성
