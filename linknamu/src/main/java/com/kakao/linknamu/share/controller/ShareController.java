@@ -2,9 +2,9 @@ package com.kakao.linknamu.share.controller;
 
 import com.kakao.linknamu._core.security.CustomUserDetails;
 import com.kakao.linknamu._core.util.ApiUtils;
-import com.kakao.linknamu.share.dto.CreateWorkSpaceLinkRequestDto;
-import com.kakao.linknamu.share.dto.GetCategoryFromLinkResponseDto;
-import com.kakao.linknamu.share.dto.GetWorkSpaceFromLinkResponseDto;
+import com.kakao.linknamu.share.dto.category.GetCategoryFromLinkResponseDto;
+import com.kakao.linknamu.share.dto.workspace.CreateWorkSpaceLinkRequestDto;
+import com.kakao.linknamu.share.dto.workspace.GetWorkSpaceFromLinkResponseDto;
 import com.kakao.linknamu.share.service.category.GetCategoryFromLinkService;
 import com.kakao.linknamu.share.service.workspace.CreateWorkspaceLinkService;
 import com.kakao.linknamu.share.service.workspace.GetWorkspaceFromLinkService;

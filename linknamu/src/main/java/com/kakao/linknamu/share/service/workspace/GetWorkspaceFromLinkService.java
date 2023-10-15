@@ -2,7 +2,7 @@ package com.kakao.linknamu.share.service.workspace;
 
 import com.kakao.linknamu._core.encryption.AESEncryption;
 import com.kakao.linknamu.category.entity.Category;
-import com.kakao.linknamu.share.dto.GetWorkSpaceFromLinkResponseDto;
+import com.kakao.linknamu.share.dto.workspace.GetWorkSpaceFromLinkResponseDto;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.kakao.linknamu.share.dto;
+package com.kakao.linknamu.share.dto.workspace;
 
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.workspace.entity.Workspace;

@@ -1,4 +1,4 @@
-package com.kakao.linknamu.share.dto;
+package com.kakao.linknamu.share.dto.workspace;
 
 import jakarta.validation.constraints.Positive;
 

@@ -1,7 +1,8 @@
-package com.kakao.linknamu.share.dto;
+package com.kakao.linknamu.share.dto.category;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.share.dto.PageInfoDto;
 import com.kakao.linknamu.tag.entity.Tag;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public record GetCategoryFromLinkResponseDto(
     }
 
     public record BookmarkContentDto(
-            Long bookmarkId,
+
             String title,
             String description,
             String url,
@@ -33,18 +34,17 @@ public record GetCategoryFromLinkResponseDto(
 
         public BookmarkContentDto(Bookmark bookmark, List<Tag> tagList) {
             this(
-                    bookmark.getBookmarkId(),
+                  
                     bookmark.getBookmarkName(),
                     bookmark.getBookmarkDescription(),
                     bookmark.getBookmarkLink(),
                     bookmark.getBookmarkThumbnail(),
                     tagList.stream()
-                            .map(tag -> new BookmarkContentDto.TagDto(tag.getTagId(), tag.getTagName()))
+                            .map(tag -> new BookmarkContentDto.TagDto(tag.getTagName()))
                             .collect(Collectors.toList()));
         }
 
         private record TagDto(
-                Long tagId,
                 String tagName
         ) {
         }
