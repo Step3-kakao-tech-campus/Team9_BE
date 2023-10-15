@@ -37,16 +37,16 @@ public class GoogleDocsApiCreateService {
         Workspace docsWorkspace = workspaceReadService.findWorkspaceByUserAndProvider(user, LinkProvider.GOOGLE_DOCS)
                 .orElseGet(() -> workspaceSaveService.createDocsWorkspace(DEFAULT_WORKSPACE_NAME, user));
 
-        // 카테고리 지정, 초기 카테고리의 이름은 pageId로 지정한다.
-        Category docsCategory = categoryService.findByWorkspaceIdAndCategoryName(docsWorkspace.getId(), dto.pageId())
-                .orElseGet(() -> categoryService.save(dto.pageId(), docsWorkspace));
+        // 카테고리 지정, 초기 카테고리의 이름은 pageName 으로 지정한다.
+        Category docsCategory = categoryService.findByWorkspaceIdAndCategoryName(docsWorkspace.getId(), dto.pageName())
+                .orElseGet(() -> categoryService.save(dto.pageName(), docsWorkspace));
 
         GooglePage googlePage = GooglePage.builder()
                 .user(user)
                 .category(docsCategory)
                 .documentId(dto.documentId())
                 .isActive(true)
-                .pageId(dto.pageId())
+                .pageName(dto.pageName())
                 .build();
         googlePageJPARepository.save(googlePage);
     }

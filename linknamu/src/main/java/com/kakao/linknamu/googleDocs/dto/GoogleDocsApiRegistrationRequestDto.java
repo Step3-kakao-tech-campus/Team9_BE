@@ -6,6 +6,6 @@ public record GoogleDocsApiRegistrationRequestDto(
         @NotBlank
         String documentId,
         @NotBlank
-        String pageId
+        String pageName
 ) {
 }
