@@ -51,7 +51,7 @@ public class ShareController {
     }
 
 
-    @PostMapping("category/link/{encodedCategoryId}")
+    @GetMapping("category/link/{encodedCategoryId}")
     public ResponseEntity<?> CreateWorkspaceFromURL(@RequestParam(defaultValue = "0") int page,
                                                     @PathVariable String encodedCategoryId,
                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
