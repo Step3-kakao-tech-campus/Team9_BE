@@ -89,14 +89,13 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/api/auth/reissue")).permitAll()
 
                                 .requestMatchers(
-//                                        new AntPathRequestMatcher("/api/bookmark/**"),
-//                                        new AntPathRequestMatcher("/api/category/**"),
-//                                        new AntPathRequestMatcher("/api/kakao/**"),
-//                                        new AntPathRequestMatcher("/api/share/**"),
-//                                        new AntPathRequestMatcher("/api/tag/**"),
-//                                        new AntPathRequestMatcher("/api/auth/**"),
-//                                        new AntPathRequestMatcher("/api/workspace/**")),
-                                        new AntPathRequestMatcher("/api/ss/**"))
+                                        new AntPathRequestMatcher("/api/bookmark/**"),
+                                        new AntPathRequestMatcher("/api/category/**"),
+                                        new AntPathRequestMatcher("/api/kakao/**"),
+                                        new AntPathRequestMatcher("/api/share/**"),
+                                        new AntPathRequestMatcher("/api/tag/**"),
+                                        new AntPathRequestMatcher("/api/auth/**"),
+                                        new AntPathRequestMatcher("/api/workspace/**"))
                                         .
                                 authenticated()
 
