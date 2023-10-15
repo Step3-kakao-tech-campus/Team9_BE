@@ -2,7 +2,6 @@ package com.kakao.linknamu.user.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kakao.linknamu.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -63,7 +60,7 @@ public class DevSocialLoginController {
     @GetMapping("/google/login/redirect")
     public String googleLoginRedirect(@RequestParam("code") String code, @RequestParam(value = "error", required = false) Optional<String> error) {
         // 로그인 요청 에러 발생 시 error 쿼리 스트링 값이 존재.
-        if(error.isPresent()) {
+        if (error.isPresent()) {
             return error.get();
         }
 
@@ -74,7 +71,7 @@ public class DevSocialLoginController {
         parameters.add("code", code);
         parameters.add("client_secret", clientSecret);
 
-        try{
+        try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             HttpEntity<?> httpRequestEntity = new HttpEntity<>(parameters, headers);
@@ -93,5 +90,6 @@ public class DevSocialLoginController {
             @JsonProperty("token_type") String tokenType,
             @JsonProperty("scope") String scope,
             @JsonProperty("refresh_token") String refreshToken
-    ){}
+    ) {
+    }
 }

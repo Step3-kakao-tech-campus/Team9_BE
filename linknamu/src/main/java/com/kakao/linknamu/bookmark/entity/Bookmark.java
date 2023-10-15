@@ -2,10 +2,12 @@ package com.kakao.linknamu.bookmark.entity;
 
 import com.kakao.linknamu._core.util.AuditingEntity;
 import com.kakao.linknamu.category.entity.Category;
+import com.querydsl.core.annotations.QueryInit;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -36,6 +38,7 @@ public class Bookmark extends AuditingEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @QueryInit("workspace.*")
     private Category category;
 
     @Column(length = 100, nullable = false, name = "bookmark_name")
@@ -50,6 +53,10 @@ public class Bookmark extends AuditingEntity {
     @Column(length = 512, name = "bookmark_thumbnail")
     private String bookmarkThumbnail;
 
+
+    public void moveCategory(Category category) {
+        this.category = category;
+    }
 
     @Builder
     public Bookmark(Long bookmarkId, Category category, String bookmarkName, String bookmarkLink, String bookmarkDescription, String bookmarkThumbnail) {

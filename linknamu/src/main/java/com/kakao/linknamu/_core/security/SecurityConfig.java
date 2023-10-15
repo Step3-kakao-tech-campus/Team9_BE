@@ -4,7 +4,6 @@ import com.kakao.linknamu._core.exception.Exception401;
 import com.kakao.linknamu._core.exception.Exception403;
 import com.kakao.linknamu._core.redis.service.BlackListTokenService;
 import com.kakao.linknamu._core.util.FilterResponseUtils;
-import com.kakao.linknamu.user.entity.constant.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final BlackListTokenService blackListTokenService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -56,7 +56,7 @@ public class SecurityConfig {
         );
 
         // jSessionId 사용 거부
-        http.sessionManagement( sessionManagementConfigurer ->
+        http.sessionManagement(sessionManagementConfigurer ->
                 sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
@@ -73,25 +73,32 @@ public class SecurityConfig {
         http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint((request, response, authException) ->
                         FilterResponseUtils.unAuthorized(response, new Exception401(SecurityExceptionStatus.UNAUTHORIZED)
-                ))
+                        ))
         );
 
         // 권한 실패 처리
         http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.accessDeniedHandler((request, response, authException) ->
                         FilterResponseUtils.forbidden(response, new Exception403(SecurityExceptionStatus.FORBIDDEN)
-                ))
+                        ))
         );
 
         // 인증, 권한 필터 설정
         http.authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(new AntPathRequestMatcher("/api/auth/google/login"),
                                         new AntPathRequestMatcher("/api/auth/reissue")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/api/bookmark/**"),
+
+                                .requestMatchers(
+                                        new AntPathRequestMatcher("/api/bookmark/**"),
                                         new AntPathRequestMatcher("/api/category/**"),
+                                        new AntPathRequestMatcher("/api/kakao/**"),
+                                        new AntPathRequestMatcher("/api/share/**"),
                                         new AntPathRequestMatcher("/api/tag/**"),
                                         new AntPathRequestMatcher("/api/auth/**"),
-                                        new AntPathRequestMatcher("/api/workspace/**")).authenticated()
+                                        new AntPathRequestMatcher("/api/workspace/**"))
+                                        .
+                                authenticated()
+
 //                                .hasRole(Role.ROLE_USER.getRoleName())
                                 .anyRequest().permitAll()
         );
