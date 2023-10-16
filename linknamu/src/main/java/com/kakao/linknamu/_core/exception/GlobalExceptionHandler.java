@@ -49,15 +49,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({Exception500.class})
     public ResponseEntity<?> serverException(ServerException e) {
-        //logging 추가해주는 것이 좋아보임
-//        log.error(e.getMessage());
         return new ResponseEntity<>(e.body(), e.status());
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<?> unknownServerError(Exception e) {
-        // logging 추가해줘야 함.
-//        log.error(e.getMessage());
+
         return new ResponseEntity<>(
                 ApiUtils.error("서버에서 알 수 없는 에러가 발생했습니다." + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()),
                 HttpStatus.INTERNAL_SERVER_ERROR
