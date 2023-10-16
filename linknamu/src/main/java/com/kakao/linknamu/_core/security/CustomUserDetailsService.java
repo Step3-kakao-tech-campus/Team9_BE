@@ -1,5 +1,7 @@
 package com.kakao.linknamu._core.security;
 
+import com.kakao.linknamu._core.exception.Exception404;
+import com.kakao.linknamu.user.UserExceptionStatus;
 import com.kakao.linknamu.user.repository.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return new CustomUserDetails(userJPARepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("사용자가 존재하지 않습니다.")));
+                .orElseThrow(() -> new Exception404(UserExceptionStatus.USER_NOT_FOUND)));
     }
 }
