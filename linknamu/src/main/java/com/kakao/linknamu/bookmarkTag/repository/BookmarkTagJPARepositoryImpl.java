@@ -33,7 +33,7 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
                 .from(bookmarkTag)
                 .join(bookmarkTag.bookmark, bookmark)
                 .where(
-                        bookmark.category.workspace.user.userId.eq(userId),
+                        bookmarkTag.tag.user.userId.eq(userId),
                         bookmarkNameContains(condition.bookmarkName()),
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
