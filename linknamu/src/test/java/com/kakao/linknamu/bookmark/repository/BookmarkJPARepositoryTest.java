@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.repository;
 
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJPARepository;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,5 +123,62 @@ public class BookmarkJPARepositoryTest {
         // then
         assertThat(findById.getBookmarkLink()).isEqualTo(bookmark.getBookmarkLink());
         assertThat(findById.getBookmarkName()).isEqualTo(bookmark.getBookmarkName());
+    }
+
+    @Test
+    @DisplayName("북마크_검색_테스트")
+    public void searchTest() {
+        // given
+        User user = User.builder()
+                .email("grindabff@pusan.ac.kr")
+                .password("password")
+                .provider(Provider.PROVIDER_NORMAL)
+                .role(Role.ROLE_USER)
+                .build();
+        user = userJPARepository.save(user);
+
+        Workspace workspace1 = Workspace.builder()
+                .workspaceName("workspace1")
+                .user(user)
+                .linkProvider(LinkProvider.NORMAL)
+                .build();
+        workspace1 = workspaceJPARepository.save(workspace1);
+
+        Category category1 = Category.builder()
+                .categoryName("category1")
+                .workspace(workspace1)
+                .build();
+        category1 = categoryJPARepository.save(category1);
+
+        for (int i=1; i<=5; i++){
+            Bookmark bookmark = Bookmark.builder()
+                    .bookmarkName("bookmark" + i)
+                    .bookmarkLink("bookmark_link" + i)
+                    .bookmarkDescription("bookmark_description" + i)
+                    .category(category1)
+                    .build();
+            bookmarkJPARepository.save(bookmark);
+        }
+        for (int i=1; i<=5; i++){
+            Bookmark bookmark = Bookmark.builder()
+                    .bookmarkName("linknamu" + i)
+                    .bookmarkLink("linknamu_link" + i)
+                    .bookmarkDescription("linknamu_description" + i)
+                    .category(category1)
+                    .build();
+            bookmarkJPARepository.save(bookmark);
+        }
+
+        // when
+        BookmarkSearchCondition searchCondition = BookmarkSearchCondition.builder()
+                .bookmarkName("linknamu")
+                .build();
+        Page<Bookmark> result = bookmarkJPARepository.search(searchCondition, user.getUserId(), PageRequest.of(0, 50));
+
+        // then
+        assertThat(result.getTotalElements()).isEqualTo(5);
+        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("linknamu5");
+        assertThat(result.getContent().get(0).getBookmarkLink()).isEqualTo("linknamu_link5");
+        assertThat(result.getContent().get(0).getBookmarkDescription()).isEqualTo("linknamu_description5");
     }
 }
