@@ -5,6 +5,8 @@ services:
     container_name: linknamu_db
     env_file:
       - ./conf/mysql/.env
+    environment:
+      - MYSQLD_INNODB_AUTOINC_LOCK_MODE=0 #insert가 실패 or 무시되어도 id가 증가하지 않음.
     ports:
       - "3306:3306"
     volumes:  #로컬 디비를 이용하기 위한 Volume 설정
