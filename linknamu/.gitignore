@@ -71,3 +71,5 @@ replay_pid*
 .env
 conf/mysql/*
 keystore.p12
+credentials.json
+tokens/googledocs/StoredCredential
