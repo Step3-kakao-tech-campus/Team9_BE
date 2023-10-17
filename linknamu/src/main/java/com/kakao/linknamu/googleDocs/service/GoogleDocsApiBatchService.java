@@ -1,5 +1,6 @@
 package com.kakao.linknamu.googleDocs.service;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.docs.v1.Docs;
@@ -22,8 +23,6 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kakao.linknamu._core.config.GoogleDocsConfig.getCredentials;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -31,6 +30,7 @@ public class GoogleDocsApiBatchService {
 
     private final GoogleDocsApiGetService googleDocsApiGetService;
     private final BookmarkCreateService bookmarkCreateService;
+    private final Credential credential;
 
     @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
     public void googleDocsApiCronJob() {
@@ -53,7 +53,7 @@ public class GoogleDocsApiBatchService {
         try {
             // 서비스 생성
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-            Docs service = new Docs.Builder(HTTP_TRANSPORT, GoogleDocsConfig.getJSON_FACTORY(), getCredentials(HTTP_TRANSPORT))
+            Docs service = new Docs.Builder(HTTP_TRANSPORT, GoogleDocsConfig.getJSON_FACTORY(), credential)
                     .setApplicationName(GoogleDocsConfig.getAPPLICATION_NAME())
                     .build();
 

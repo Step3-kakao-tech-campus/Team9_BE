@@ -12,6 +12,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.docs.v1.DocsScopes;
 import com.kakao.linknamu.googleDocs.service.GoogleDocsApiBatchService;
 import lombok.Getter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.FileNotFoundException;
@@ -41,7 +42,11 @@ public class GoogleDocsConfig {
     // OAuth 2.0 credentials.json 경로 지정
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+    @Bean
+    public NetHttpTransport netHttpTransport() { return new NetHttpTransport(); }
+
+    @Bean
+    public Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
         // credentials.json 가져오기
         InputStream in = GoogleDocsApiBatchService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
