@@ -70,5 +70,4 @@ replay_pid*
 # environment
 .env
 conf/mysql/*
-keystore.p12
-credentials.json
+keystore.p12₩
