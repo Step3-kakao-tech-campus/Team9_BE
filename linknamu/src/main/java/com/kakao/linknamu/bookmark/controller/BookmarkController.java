@@ -23,7 +23,7 @@ public class BookmarkController {
 
     @PostMapping("/create")
     public ResponseEntity<?> bookmarkCreate(
-            @RequestBody @Valid BookmarkRequestDto.bookmarkAddDTO dto,
+            @RequestBody @Valid BookmarkRequestDto.BookmarkAddDTO dto,
             Errors errors,
             @AuthenticationPrincipal CustomUserDetails user
     ) {

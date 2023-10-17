@@ -1,5 +1,8 @@
 package com.kakao.linknamu._core.encryption;
 
+import com.kakao.linknamu._core.exception.Exception400;
+import com.kakao.linknamu._core.exception.Exception500;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -7,10 +10,12 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
 
+@Slf4j
 @Component
 public class AESEncryption {
 
@@ -22,18 +27,7 @@ public class AESEncryption {
     private final int GCM_TAG_BIT = EncryptionAlgorithm.AES.getTagBitLength();
 
     public String encode(String plainString) {
-
-
         try {
-//            UnsupportedEncodingException,
-//            IllegalBlockSizeException,
-//            BadPaddingException,
-//            NoSuchPaddingException,
-//            NoSuchAlgorithmException,
-//            InvalidAlgorithmParameterException,
-//            InvalidKeyException
-            //위에 에러들 전부 처리해야됨
-
             byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
             //암호화 작업초기화에 필요한 secretKeySpec생성
             SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, MAIN_ALGORITHM);
@@ -57,15 +51,17 @@ public class AESEncryption {
             String encodedBase64 = Base64.getEncoder().encodeToString(iv) + ":" + Base64.getEncoder().encodeToString(encryptedWorkSpaceIdBytes);
             return encodedBase64.replaceAll("/", "-");
 
-        } catch (Exception e) {
-            return e.toString();
+        }catch (InvalidKeyException e){
+            throw new Exception400(EncryptionExceptionStatus.ENCRYPTION_INVALID_KEY);
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            throw new Exception500(EncryptionExceptionStatus.ENCRYPTION_SERVER_ERROR);
         }
     }
 
 
     public String decode(String encodedString) {
         try {
-
             byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
             SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, MAIN_ALGORITHM);
             String[] parts = encodedString.split(":");
@@ -88,12 +84,13 @@ public class AESEncryption {
             //utf-8 인코딩 형식에 맞는 원본 문자열로 변경
             String plainString = new String(decryptedBytes, "UTF-8");
 
-
             return plainString;
+        } catch (InvalidKeyException e){
+            throw new Exception400(EncryptionExceptionStatus.ENCRYPTION_INVALID_KEY);
         } catch (Exception e) {
-            return e.toString();
+            log.error(e.getMessage());
+            throw new Exception500(EncryptionExceptionStatus.ENCRYPTION_SERVER_ERROR);
         }
-
     }
 
 
