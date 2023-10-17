@@ -14,7 +14,7 @@ import java.util.List;
 public class BookmarkRequestDto {
     @Getter
     @Setter
-    public static class bookmarkAddDTO {
+    public static class BookmarkAddDTO {
         @NotEmpty
         private String bookmarkName;
 

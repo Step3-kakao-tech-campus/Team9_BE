@@ -47,4 +47,15 @@ public class WorkspaceSaveService {
         workspace.setLinkProvider(LinkProvider.NOTION);
         return workspaceJPARepository.saveAndFlush(workspace);
     }
+
+    // createNotionWorkspace 메서드와 코드 중복이 심하다. 추후 리펙토링 필요.
+    public Workspace createDocsWorkspace(String workspaceName, User user) {
+        Workspace workspace = workspaceJPARepository.findByUserIdAndWorkspaceName(user.getUserId(), workspaceName)
+                .orElseGet(() -> Workspace.builder()
+                        .workspaceName(workspaceName)
+                        .user(user)
+                        .build());
+        workspace.setLinkProvider(LinkProvider.GOOGLE_DOCS);
+        return workspaceJPARepository.saveAndFlush(workspace);
+    }
 }
