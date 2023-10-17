@@ -21,6 +21,7 @@ public class GoogleDocsApiDeleteService {
                 .orElseThrow(() -> new Exception404(GoogleDocsExceptionStatus.DOCS_NOT_FOUND));
 
         validUserAccess(googlePage.getUser(), user);
+        googlePageJPARepository.delete(googlePage);
     }
     private void validUserAccess(User writer, User accesser) {
         if (!writer.getUserId().equals(accesser.getUserId())) {
