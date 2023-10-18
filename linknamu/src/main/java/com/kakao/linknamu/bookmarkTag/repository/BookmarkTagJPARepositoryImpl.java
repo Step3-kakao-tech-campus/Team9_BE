@@ -18,13 +18,15 @@ import static com.kakao.linknamu.bookmark.entity.QBookmark.bookmark;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
 
+
 @Repository
 @RequiredArgsConstructor
 public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCustom {
-    // BookmarkTagJPARepositoryCustom의 search 메서드를 구현한다.
+
 
     private final JPAQueryFactory queryFactory;
 
+    // BookmarkTagJPARepositoryCustom의 search 메서드를 구현한다.
     @Override
     public Page<Bookmark> search(BookmarkSearchCondition condition, Long userId, Pageable pageable) {
         // 기본 검색쿼리를 생성한다.
