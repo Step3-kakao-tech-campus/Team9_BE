@@ -1,4 +1,4 @@
-
+./.idea
 linknamu_google_api.json
 
 HELP.md
@@ -70,3 +70,4 @@ replay_pid*
 # environment
 .env
 conf/mysql/*
+keystore.p12

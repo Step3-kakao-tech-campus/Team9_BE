@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
-public class KaKaoSendMeService {
+public class KaKaoSendMeExtractService {
 
 
     public List<KakaoSendMeResponseDto> extractLink(MultipartFile multipartFile) {
@@ -41,7 +41,7 @@ public class KaKaoSendMeService {
 
 //          https 링크를 추출하기 위한 정규 표현식
             String regex = "https?://[a-zA-Z0-9\\-\\.]+(\\:[0-9]+)?\\.[a-zA-Z]{2,3}(\\S*)?";
-           
+
 
 //        \bhttps?://\S+   => 모든 http, https 도메인 검출
             Pattern pattern = Pattern.compile(regex);

@@ -14,12 +14,12 @@ import java.util.List;
 public class BookmarkRequestDto {
     @Getter
     @Setter
-    public static class bookmarkAddDTO {
+    public static class BookmarkAddDTO {
         @NotEmpty
         private String bookmarkName;
 
         @NotEmpty
-        @Pattern(regexp = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$", message = "잘못된 웹 링크입니다.")
+        @Pattern(regexp = "https?://[a-zA-Z0-9\\-.]+(:[0-9]+)?\\.[a-zA-Z]{2,3}(\\S*)?", message = "잘못된 웹 링크입니다.")
         private String bookmarkLink;
 
         private String bookmarkDescription;

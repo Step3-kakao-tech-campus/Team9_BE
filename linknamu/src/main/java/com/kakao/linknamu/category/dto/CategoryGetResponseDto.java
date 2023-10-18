@@ -1,5 +1,6 @@
 package com.kakao.linknamu.category.dto;
 
+import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.tag.entity.Tag;
 import lombok.Builder;
@@ -13,9 +14,10 @@ public record CategoryGetResponseDto(
 ) {
 
     @Builder
-    public CategoryGetResponseDto {}
+    public CategoryGetResponseDto {
+    }
 
-    public static CategoryGetResponseDto of(PageInfoDto pageInfoDto, List<BookmarkContentDto> bookmarkContentDtos){
+    public static CategoryGetResponseDto of(PageInfoDto pageInfoDto, List<BookmarkContentDto> bookmarkContentDtos) {
         return CategoryGetResponseDto.builder()
                 .pageInfo(pageInfoDto)
                 .bookmarkContents(bookmarkContentDtos)
@@ -33,9 +35,10 @@ public record CategoryGetResponseDto(
     ) {
 
         @Builder
-        public BookmarkContentDto{}
+        public BookmarkContentDto {
+        }
 
-        public static BookmarkContentDto of(Bookmark bookmark, List<Tag> tags){
+        public static BookmarkContentDto of(Bookmark bookmark, List<Tag> tags) {
             return BookmarkContentDto.builder()
                     .bookmarkId(bookmark.getBookmarkId())
                     .title(bookmark.getBookmarkName())
@@ -51,16 +54,17 @@ public record CategoryGetResponseDto(
                 Long tagId,
                 String tagName
         ) {
-
             @Builder
-            public TagDto{}
+            public TagDto {
+            }
 
-            public static TagDto of(Tag tag){
+            public static TagDto of(Tag tag) {
                 return TagDto.builder()
                         .tagId(tag.getTagId())
                         .tagName(tag.getTagName())
                         .build();
             }
+
         }
     }
 }
