@@ -126,8 +126,177 @@ public class BookmarkJPARepositoryTest {
     }
 
     @Test
-    @DisplayName("북마크_검색_테스트")
-    public void searchTest() {
+    @DisplayName("북마크_검색_테스트(북마크이름)")
+    public void searchBookmarkByNameTest() {
+        // given
+        User user = User.builder()
+                .email("grindabff@pusan.ac.kr")
+                .password("password")
+                .provider(Provider.PROVIDER_NORMAL)
+                .role(Role.ROLE_USER)
+                .build();
+        user = userJPARepository.save(user);
+
+        Workspace workspace1 = Workspace.builder()
+                .workspaceName("workspace1")
+                .user(user)
+                .linkProvider(LinkProvider.NORMAL)
+                .build();
+        workspace1 = workspaceJPARepository.save(workspace1);
+
+        Category category = Category.builder()
+                .categoryName("category")
+                .workspace(workspace1)
+                .build();
+        category = categoryJPARepository.save(category);
+
+        Bookmark bookmark1 = Bookmark.builder()
+                .bookmarkName("구글 번역기")
+                .bookmarkLink("https://translate.google.co.kr/")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark1);
+        Bookmark bookmark2 = Bookmark.builder()
+                .bookmarkName("플라토")
+                .bookmarkLink("https://plato.pusan.ac.kr/")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark2);
+        Bookmark bookmark3 = Bookmark.builder()
+                .bookmarkName("맞춤법 검사기")
+                .bookmarkLink("http://speller.cs.pusan.ac.kr/")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark3);
+
+        // when
+        BookmarkSearchCondition searchCondition = BookmarkSearchCondition.builder()
+                .bookmarkName("구글")
+                .build();
+        Page<Bookmark> result = bookmarkJPARepository.search(searchCondition, user.getUserId(), PageRequest.of(0, 10));
+
+        // then
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("구글 번역기");
+    }
+
+    @Test
+    @DisplayName("북마크_검색_테스트(북마크링크)")
+    public void searchBookmarkByLinkTest() {
+        // given
+        User user = User.builder()
+                .email("grindabff@pusan.ac.kr")
+                .password("password")
+                .provider(Provider.PROVIDER_NORMAL)
+                .role(Role.ROLE_USER)
+                .build();
+        user = userJPARepository.save(user);
+
+        Workspace workspace1 = Workspace.builder()
+                .workspaceName("workspace1")
+                .user(user)
+                .linkProvider(LinkProvider.NORMAL)
+                .build();
+        workspace1 = workspaceJPARepository.save(workspace1);
+
+        Category category = Category.builder()
+                .categoryName("category")
+                .workspace(workspace1)
+                .build();
+        category = categoryJPARepository.save(category);
+
+        Bookmark bookmark1 = Bookmark.builder()
+                .bookmarkName("구글 번역기")
+                .bookmarkLink("https://translate.google.co.kr/")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark1);
+        Bookmark bookmark2 = Bookmark.builder()
+                .bookmarkName("플라토")
+                .bookmarkLink("https://plato.pusan.ac.kr/")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark2);
+        Bookmark bookmark3 = Bookmark.builder()
+                .bookmarkName("맞춤법 검사기")
+                .bookmarkLink("http://speller.cs.pusan.ac.kr/")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark3);
+
+        // when
+        BookmarkSearchCondition searchCondition = BookmarkSearchCondition.builder()
+                .bookmarkLink("pusan")
+                .build();
+        Page<Bookmark> result = bookmarkJPARepository.search(searchCondition, user.getUserId(), PageRequest.of(0, 10));
+
+        // then
+        assertThat(result.getTotalElements()).isEqualTo(2);
+        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("맞춤법 검사기");
+        assertThat(result.getContent().get(1).getBookmarkName()).isEqualTo("플라토");
+    }
+
+    @Test
+    @DisplayName("북마크_검색_테스트(북마크설명)")
+    public void searchBookmarkByDescriptionTest() {
+        // given
+        User user = User.builder()
+                .email("grindabff@pusan.ac.kr")
+                .password("password")
+                .provider(Provider.PROVIDER_NORMAL)
+                .role(Role.ROLE_USER)
+                .build();
+        user = userJPARepository.save(user);
+
+        Workspace workspace1 = Workspace.builder()
+                .workspaceName("workspace1")
+                .user(user)
+                .linkProvider(LinkProvider.NORMAL)
+                .build();
+        workspace1 = workspaceJPARepository.save(workspace1);
+
+        Category category = Category.builder()
+                .categoryName("category")
+                .workspace(workspace1)
+                .build();
+        category = categoryJPARepository.save(category);
+
+        Bookmark bookmark1 = Bookmark.builder()
+                .bookmarkName("bookmark1")
+                .bookmarkLink("link1")
+                .bookmarkDescription("first bookmark")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark1);
+        Bookmark bookmark2 = Bookmark.builder()
+                .bookmarkName("bookmark2")
+                .bookmarkLink("link2")
+                .bookmarkDescription("second bookmark")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark2);
+        Bookmark bookmark3 = Bookmark.builder()
+                .bookmarkName("bookmark3")
+                .bookmarkLink("link3")
+                .bookmarkDescription("third bookmark")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark3);
+
+        // when
+        BookmarkSearchCondition searchCondition = BookmarkSearchCondition.builder()
+                .bookmarkDescription("first")
+                .build();
+        Page<Bookmark> result = bookmarkJPARepository.search(searchCondition, user.getUserId(), PageRequest.of(0, 10));
+
+        // then
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("bookmark1");
+    }
+
+    @Test
+    @DisplayName("북마크_검색_테스트(워크스페이스이름)")
+    public void searchBookmarkByWorkspaceNameTest() {
         // given
         User user = User.builder()
                 .email("grindabff@pusan.ac.kr")
@@ -150,35 +319,40 @@ public class BookmarkJPARepositoryTest {
                 .build();
         category1 = categoryJPARepository.save(category1);
 
-        for (int i=1; i<=5; i++){
-            Bookmark bookmark = Bookmark.builder()
-                    .bookmarkName("bookmark" + i)
-                    .bookmarkLink("bookmark_link" + i)
-                    .bookmarkDescription("bookmark_description" + i)
-                    .category(category1)
-                    .build();
-            bookmarkJPARepository.save(bookmark);
-        }
-        for (int i=1; i<=5; i++){
-            Bookmark bookmark = Bookmark.builder()
-                    .bookmarkName("linknamu" + i)
-                    .bookmarkLink("linknamu_link" + i)
-                    .bookmarkDescription("linknamu_description" + i)
-                    .category(category1)
-                    .build();
-            bookmarkJPARepository.save(bookmark);
-        }
+        Workspace workspace2 = Workspace.builder()
+                .workspaceName("workspace2")
+                .user(user)
+                .linkProvider(LinkProvider.NORMAL)
+                .build();
+        workspace1 = workspaceJPARepository.save(workspace2);
+
+        Category category2 = Category.builder()
+                .categoryName("category2")
+                .workspace(workspace2)
+                .build();
+        category2 = categoryJPARepository.save(category2);
+
+        Bookmark bookmark1 = Bookmark.builder()
+                .bookmarkName("bookmark1")
+                .bookmarkLink("link1")
+                .category(category1)
+                .build();
+        bookmarkJPARepository.save(bookmark1);
+        Bookmark bookmark2 = Bookmark.builder()
+                .bookmarkName("bookmark2")
+                .bookmarkLink("link2")
+                .category(category2)
+                .build();
+        bookmarkJPARepository.save(bookmark2);
 
         // when
         BookmarkSearchCondition searchCondition = BookmarkSearchCondition.builder()
-                .bookmarkName("linknamu")
+                .workspaceName("workspace1")
                 .build();
-        Page<Bookmark> result = bookmarkJPARepository.search(searchCondition, user.getUserId(), PageRequest.of(0, 50));
+        Page<Bookmark> result = bookmarkJPARepository.search(searchCondition, user.getUserId(), PageRequest.of(0, 10));
 
         // then
-        assertThat(result.getTotalElements()).isEqualTo(5);
-        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("linknamu5");
-        assertThat(result.getContent().get(0).getBookmarkLink()).isEqualTo("linknamu_link5");
-        assertThat(result.getContent().get(0).getBookmarkDescription()).isEqualTo("linknamu_description5");
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("bookmark1");
     }
 }
