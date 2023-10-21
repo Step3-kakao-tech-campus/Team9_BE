@@ -93,7 +93,7 @@ public class BookmarkTagJPARepositoryTest {
 
     @Test
     @DisplayName("북마크태그_검색_테스트")
-    public void searchTest() {
+    public void searchBookmarkByTagTest() {
         // given
         User user = User.builder()
                 .email("grindabff@pusan.ac.kr")
@@ -110,47 +110,68 @@ public class BookmarkTagJPARepositoryTest {
                 .build();
         workspace1 = workspaceJPARepository.save(workspace1);
 
-        Category category1 = Category.builder()
-                .categoryName("category1")
+        Category category = Category.builder()
+                .categoryName("category")
                 .workspace(workspace1)
                 .build();
-        category1 = categoryJPARepository.save(category1);
+        category = categoryJPARepository.save(category);
 
-        Tag tag = Tag.builder()
-                .tagName("tag")
+        Tag tag1 = Tag.builder()
+                .tagName("tag1")
                 .user(user)
                 .build();
-        tag = tagJPARepository.save(tag);
+        tag1 = tagJPARepository.save(tag1);
 
-        for (int i=1; i<=10; i++){
-            Bookmark bookmark = Bookmark.builder()
-                    .bookmarkName("bookmark" + i)
-                    .bookmarkLink("bookmark_link" + i)
-                    .bookmarkDescription("bookmark_description" + i)
-                    .category(category1)
-                    .build();
-            bookmarkJPARepository.save(bookmark);
+        Tag tag2 = Tag.builder()
+                .tagName("tag2")
+                .user(user)
+                .build();
+        tag2 = tagJPARepository.save(tag2);
 
-            if (i%2 == 0) {
-                BookmarkTag bookmarkTag = BookmarkTag.builder()
-                        .bookmark(bookmark)
-                        .tag(tag)
-                        .build();
-                bookmarkTagJPARepository.save(bookmarkTag);
-            }
-        }
+        Bookmark bookmark1 = Bookmark.builder()
+                .bookmarkName("bookmark1")
+                .bookmarkLink("link1")
+                .category(category)
+                .build();
+        bookmarkJPARepository.save(bookmark1);
+
+        Bookmark bookmark2 = Bookmark.builder()
+                .bookmarkName("bookmark2")
+                .bookmarkLink("link2")
+                .category(category)
+                .build();
+        bookmark2 = bookmarkJPARepository.save(bookmark2);
+        BookmarkTag bookmarkTag1 = BookmarkTag.builder()
+                .bookmark(bookmark2)
+                .tag(tag1)
+                .build();
+        bookmarkTagJPARepository.save(bookmarkTag1);
+
+        Bookmark bookmark3 = Bookmark.builder()
+                .bookmarkName("bookmark3")
+                .bookmarkLink("link3")
+                .category(category)
+                .build();
+        bookmark3 = bookmarkJPARepository.save(bookmark3);
+        BookmarkTag bookmarkTag2 = BookmarkTag.builder()
+                .bookmark(bookmark3)
+                .tag(tag1)
+                .build();
+        bookmarkTagJPARepository.save(bookmarkTag2);
+        BookmarkTag bookmarkTag3 = BookmarkTag.builder()
+                .bookmark(bookmark3)
+                .tag(tag2)
+                .build();
+        bookmarkTagJPARepository.save(bookmarkTag3);
 
         // when
         BookmarkSearchCondition searchCondition = BookmarkSearchCondition.builder()
-                .tags(List.of("tag"))
+                .tags(List.of("tag1", "tag2"))
                 .build();
         Page<Bookmark> result = bookmarkTagJPARepository.search(searchCondition, user.getUserId(), PageRequest.of(0, 50));
 
         // then
-        assertThat(result.getTotalElements()).isEqualTo(5);
-        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("bookmark10");
-        assertThat(result.getContent().get(0).getBookmarkLink()).isEqualTo("bookmark_link10");
-        assertThat(result.getContent().get(0).getBookmarkDescription()).isEqualTo("bookmark_description10");
-
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getContent().get(0).getBookmarkName()).isEqualTo("bookmark3");
     }
 }
