@@ -29,18 +29,18 @@ public class BookmarkSearchService {
     private final BookmarkTagSearchService bookmarkTagSearchService;
 
     public BookmarkSearchResponseDto bookmarkSearch(BookmarkSearchCondition condition, User user, Pageable pageable) {
-        Page<Bookmark> searchedBookmarks;
-        if (isNull(condition.tags()))
-            searchedBookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
-        else searchedBookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
+        Page<Bookmark> bookmarks;
+        if (isNull(condition.tags())) bookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
+        else bookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
+        return BookmarkSearchResponseDto.of(PageInfoDto.of(bookmarks), getBookmarkContentDtos(bookmarks));
+    }
 
-
-        List<BookmarkSearchResponseDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
-        for (Bookmark resultBookmark : searchedBookmarks) {
-            List<Tag> bookmarkTags = bookmarkTagSearchService.findTagsByBookmarkId(resultBookmark.getBookmarkId());
-            bookmarkContentDtos.add(BookmarkSearchResponseDto.BookmarkContentDto.of(resultBookmark, bookmarkTags));
-
+    private List<BookmarkSearchResponseDto.BookmarkContentDto> getBookmarkContentDtos(Page<Bookmark> bookmarks) {
+        List<BookmarkSearchResponseDto.BookmarkContentDto> responseDto = new ArrayList<>();
+        for (Bookmark bookmark : bookmarks) {
+            List<Tag> tags = bookmarkTagSearchService.findTagsByBookmarkId(bookmark.getBookmarkId());
+            responseDto.add(BookmarkSearchResponseDto.BookmarkContentDto.of(bookmark, tags));
         }
-        return BookmarkSearchResponseDto.of(PageInfoDto.of(searchedBookmarks), bookmarkContentDtos);
+        return responseDto;
     }
 }
