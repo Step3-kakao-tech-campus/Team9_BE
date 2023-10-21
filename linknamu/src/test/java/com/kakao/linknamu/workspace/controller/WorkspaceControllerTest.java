@@ -68,7 +68,8 @@ public class WorkspaceControllerTest extends RestDocs {
 
         em.createNativeQuery("ALTER TABLE workspace_tb ALTER COLUMN `workspace_id` RESTART WITH 1")
                 .executeUpdate();
-
+        em.createNativeQuery("ALTER TABLE category_tb ALTER COLUMN `category_id` RESTART WITH 1")
+                .executeUpdate();
     }
 
     @DisplayName("워크스페이스 리스트 조회 테스트")
