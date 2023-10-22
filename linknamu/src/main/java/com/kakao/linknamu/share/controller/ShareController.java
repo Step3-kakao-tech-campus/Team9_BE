@@ -6,6 +6,7 @@ import com.kakao.linknamu.share.dto.category.GetCategoryFromLinkResponseDto;
 import com.kakao.linknamu.share.dto.workspace.CreateWorkSpaceLinkRequestDto;
 import com.kakao.linknamu.share.dto.workspace.GetWorkSpaceFromLinkResponseDto;
 import com.kakao.linknamu.share.service.category.GetCategoryFromLinkService;
+import com.kakao.linknamu.share.service.workspace.CreateWorkspaceFromLinkService;
 import com.kakao.linknamu.share.service.workspace.CreateWorkspaceLinkService;
 import com.kakao.linknamu.share.service.workspace.GetWorkspaceFromLinkService;
 import jakarta.validation.Valid;
@@ -23,9 +24,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/share")
 public class ShareController {
     private static final int PAGE_SIZE = 10;
-    private final CreateWorkspaceLinkService createWorkspaceLinkService;
     private final GetWorkspaceFromLinkService getWorkSpaceFromLinkService;
     private final GetCategoryFromLinkService getCategoryFromLinkService;
+    private final CreateWorkspaceLinkService createWorkspaceLinkService;
+    private final CreateWorkspaceFromLinkService createWorkspaceFromLinkService;
 
     //우선 어떤 액션을 했을떄 url 생성되서 띄워주는 post요청 -> 만들려면 워크스페이스 id랑 유저 정보 필요함
     @PostMapping("workspace/link")
@@ -58,6 +60,17 @@ public class ShareController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
         GetCategoryFromLinkResponseDto responseDto = getCategoryFromLinkService.getCategory(encodedCategoryId, pageable);
         return ResponseEntity.ok(ApiUtils.success(responseDto));
+
+
+    }
+
+
+    @PostMapping("workspace/link/{encodedWorkSpaceId}")
+    public ResponseEntity<?> CreateWorkspaceFromURL(
+            @PathVariable String encodedWorkSpaceId,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        createWorkspaceFromLinkService.createWorkSpace(encodedWorkSpaceId, userDetails.getUser());
+        return ResponseEntity.ok(ApiUtils.success(null));
 
 
     }
