@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.kakao.linknamu.bookmark.entity.QBookmark.bookmark;
+import static com.kakao.linknamu.category.entity.QCategory.category;
+import static com.kakao.linknamu.workspace.entity.QWorkspace.workspace;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -28,9 +30,10 @@ public class BookmarkJPARepositoryImpl implements BookmarkJPARepositoryCustom{
         JPAQuery<Bookmark> searchQuery = queryFactory
                 .select(bookmark)
                 .from(bookmark)
+                .join(bookmark.category, category)
+                .join(category.workspace, workspace).on(workspace.user.userId.eq(userId))
                 .where(
-                        bookmark.category.workspace.user.userId.eq(userId),
-                        bookmarkNameContains(condition.bookmarkName()),
+                        bookmarkNameLike(condition.bookmarkName()),
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
                         workspaceNameEq(condition.workspaceName())
@@ -45,8 +48,8 @@ public class BookmarkJPARepositoryImpl implements BookmarkJPARepositoryCustom{
         return PageableExecutionUtils.getPage(bookmarks, pageable, searchQuery::fetchCount);
     }
 
-    private BooleanExpression bookmarkNameContains(String bookmarkName) {
-        return hasText(bookmarkName) ? bookmark.bookmarkName.contains(bookmarkName) : null;
+    private BooleanExpression bookmarkNameLike(String bookmarkName) {
+        return hasText(bookmarkName) ? bookmark.bookmarkName.like(bookmarkName + "%") : null;
     }
 
     private BooleanExpression bookmarkLinkContains(String bookmarkLink) {

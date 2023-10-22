@@ -26,7 +26,8 @@ import java.util.Objects;
                                 "bookmark_link"
                         }
                 )
-        }
+        },
+        indexes = @Index(name = "idx__bookmark_name", columnList = "bookmark_name")
 )
 public class Bookmark extends AuditingEntity {
 

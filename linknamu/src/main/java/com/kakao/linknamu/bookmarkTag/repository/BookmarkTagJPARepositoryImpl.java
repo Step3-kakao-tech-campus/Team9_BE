@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.kakao.linknamu.bookmarkTag.entity.QBookmarkTag.bookmarkTag;
 import static com.kakao.linknamu.bookmark.entity.QBookmark.bookmark;
+import static com.kakao.linknamu.tag.entity.QTag.tag;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -34,9 +35,9 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
                 .select(bookmarkTag.bookmark)
                 .from(bookmarkTag)
                 .join(bookmarkTag.bookmark, bookmark)
+                .join(bookmarkTag.tag, tag).on(tag.user.userId.eq(userId))
                 .where(
-                        bookmark.category.workspace.user.userId.eq(userId),
-                        bookmarkNameContains(condition.bookmarkName()),
+                        bookmarkNameLike(condition.bookmarkName()),
                         bookmarkLinkContains(condition.bookmarkLink()),
                         bookmarkDescriptionContains(condition.bookmarkDescription()),
                         workspaceEq(condition.workspaceName()),
@@ -55,8 +56,8 @@ public class BookmarkTagJPARepositoryImpl implements BookmarkTagJPARepositoryCus
         return PageableExecutionUtils.getPage(bookmarks, pageable, searchQuery::fetchCount);
     }
 
-    private BooleanExpression bookmarkNameContains(String bookmarkName) {
-        return hasText(bookmarkName) ? bookmark.bookmarkName.contains(bookmarkName) : null;
+    private BooleanExpression bookmarkNameLike(String bookmarkName) {
+        return hasText(bookmarkName) ? bookmark.bookmarkName.like(bookmarkName + "%") : null;
     }
 
     private BooleanExpression bookmarkLinkContains(String bookmarkLink) {

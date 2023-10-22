@@ -6,6 +6,9 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJPARepository;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,66 +27,72 @@ public class CategoryJPARepositoryTest {
     private CategoryJPARepository categoryJPARepository;
     @Autowired
     private UserJPARepository userJPARepository;
+    @Autowired
+    private WorkspaceJPARepository workspaceJPARepository;
 
-//    @Test
-//    @DisplayName("카테고리_생성_테스트")
-//    public void CategorySaveTest(){
-//        //given
-//        // create user
-//        User user = User.builder()
-//                .email("grindabff@pusan.ac.kr")
-//                .password("password")
-//                .provider(Provider.PROVIDER_NORMAL)
-//                .role(Role.ROLE_USER)
-//                .build();
-//        user = userJPARepository.save(user);
-//        // create root category
-//        Category category = Category.builder()
-//                .categoryName("Category")
-//                .parentCategory(null)
-//                .user(user)
-//                .build();
-//
-//        //when
-//        Category saved = categoryJPARepository.save(category);
-//
-//        //then
-//        assertThat(saved.getCategoryName()).isEqualTo(category.getCategoryName());
-//    }
-//
-//    @Test
-//    @DisplayName("카테고리_조회_테스트")
-//    public void CategoryFindByIdTest(){
-//        //given
-//        // create user
-//        User user = User.builder()
-//                .email("grindabff@pusan.ac.kr")
-//                .password("password")
-//                .provider(Provider.PROVIDER_NORMAL)
-//                .role(Role.ROLE_USER)
-//                .build();
-//        user = userJPARepository.save(user);
-//        // create root category
-//        Category rootCategory = Category.builder()
-//                .categoryName("Root Category")
-//                .parentCategory(null)
-//                .user(user)
-//                .build();
-//        rootCategory = categoryJPARepository.save(rootCategory);
-//        // create category
-//        Category category = Category.builder()
-//                .categoryName("Category1")
-//                .parentCategory(rootCategory)
-//                .user(user)
-//                .build();
-//        category = categoryJPARepository.save(category);
-//
-//        //when
-//        Category found = categoryJPARepository.findById(category.getCategoryId()).orElse(null);
-//
-//        //then
-//        assertThat(found.getCategoryName()).isEqualTo(category.getCategoryName());
-//        assertThat(found.getParentCategory()).isEqualTo(rootCategory);
-//    }
+    @Test
+    @DisplayName("카테고리_생성_테스트")
+    public void CategorySaveTest(){
+        //given
+        User user = User.builder()
+                .email("grindabff@pusan.ac.kr")
+                .password("password")
+                .provider(Provider.PROVIDER_NORMAL)
+                .role(Role.ROLE_USER)
+                .build();
+        user = userJPARepository.save(user);
+
+        Workspace workspace = Workspace.builder()
+                .workspaceName("Workspace")
+                .user(user)
+                .linkProvider(LinkProvider.NORMAL)
+                .build();
+        workspace = workspaceJPARepository.save(workspace);
+
+        Category category = Category.builder()
+                .categoryName("Category")
+                .workspace(workspace)
+                .build();
+
+        //when
+        Category savedCategory = categoryJPARepository.save(category);
+
+        //then
+        assertThat(savedCategory.getCategoryName()).isEqualTo(category.getCategoryName());
+        assertThat(savedCategory.getWorkspace().getWorkspaceName()).isEqualTo(workspace.getWorkspaceName());
+    }
+
+    @Test
+    @DisplayName("카테고리_조회_테스트")
+    public void CategoryFindByIdTest(){
+        //given
+        User user = User.builder()
+                .email("grindabff@pusan.ac.kr")
+                .password("password")
+                .provider(Provider.PROVIDER_NORMAL)
+                .role(Role.ROLE_USER)
+                .build();
+        user = userJPARepository.save(user);
+
+        Workspace workspace = Workspace.builder()
+                .workspaceName("Workspace")
+                .user(user)
+                .linkProvider(LinkProvider.NORMAL)
+                .build();
+        workspace = workspaceJPARepository.save(workspace);
+
+        Category category = Category.builder()
+                .categoryName("Category")
+                .workspace(workspace)
+                .build();
+        category = categoryJPARepository.save(category);
+
+        //when
+        Category found = categoryJPARepository.findById(category.getCategoryId()).get();
+
+        //then
+        assertThat(found.getCategoryName()).isEqualTo(category.getCategoryName());
+        assertThat(found.getWorkspace().getWorkspaceName()).isEqualTo(workspace.getWorkspaceName());
+    }
 
 }

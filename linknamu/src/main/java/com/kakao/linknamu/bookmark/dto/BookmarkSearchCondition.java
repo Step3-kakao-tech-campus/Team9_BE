@@ -1,5 +1,7 @@
 package com.kakao.linknamu.bookmark.dto;
 
+import lombok.Builder;
+
 import java.util.List;
 
 public record BookmarkSearchCondition(
@@ -9,4 +11,7 @@ public record BookmarkSearchCondition(
         List<String> tags,
         String workspaceName
 ) {
+
+    @Builder
+    public BookmarkSearchCondition{}
 }
