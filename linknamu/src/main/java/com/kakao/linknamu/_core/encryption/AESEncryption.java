@@ -51,9 +51,10 @@ public class AESEncryption {
             String encodedBase64 = Base64.getEncoder().encodeToString(iv) + ":" + Base64.getEncoder().encodeToString(encryptedWorkSpaceIdBytes);
             return encodedBase64.replaceAll("/", "-");
 
-        }catch (InvalidKeyException e){
+
+        } catch (InvalidKeyException e) {
             throw new Exception400(EncryptionExceptionStatus.ENCRYPTION_INVALID_KEY);
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new Exception500(EncryptionExceptionStatus.ENCRYPTION_SERVER_ERROR);
         }
@@ -64,14 +65,14 @@ public class AESEncryption {
         try {
             byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
             SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, MAIN_ALGORITHM);
-            String[] parts = encodedString.split(":");
+            String[] parts = encodedString.replaceAll("-", "/").split(":");
             //복호화는 암호화의 역순. 우선 Base64 디코드
 
             byte[] iv = Base64.getDecoder().decode(parts[0]);
             //base64로 인코딩된 문자중에 /가 존재할 경우, path variable로 입력받을시 경로라고 인식되어 오류 발생함
             //이를 해결하기위해 base64에 없는 문자인 -(마이너스)로 /를 대체함
             //그리고 받은 link에서 -를 /로 다시 대체하고 복호화 진행.
-            byte[] cipherBytes = Base64.getDecoder().decode(parts[1].replaceAll("-", "/"));
+            byte[] cipherBytes = Base64.getDecoder().decode(parts[1]);
 
 
             Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -85,7 +86,7 @@ public class AESEncryption {
             String plainString = new String(decryptedBytes, "UTF-8");
 
             return plainString;
-        } catch (InvalidKeyException e){
+        } catch (InvalidKeyException e) {
             throw new Exception400(EncryptionExceptionStatus.ENCRYPTION_INVALID_KEY);
         } catch (Exception e) {
             log.error(e.getMessage());
