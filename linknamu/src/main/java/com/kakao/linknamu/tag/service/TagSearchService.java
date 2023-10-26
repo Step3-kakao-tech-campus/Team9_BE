@@ -17,6 +17,10 @@ import java.util.Optional;
 public class TagSearchService {
     private final TagJPARepository tagJPARepository;
 
+    public Optional<Tag> searchByTagNameAndUserId(String name, Long userId) {
+        return tagJPARepository.findByUserIdAndName(userId, name);
+    }
+
     public Optional<Tag> searchByTagName(String name) {
         return tagJPARepository.findByName(name);
     }
