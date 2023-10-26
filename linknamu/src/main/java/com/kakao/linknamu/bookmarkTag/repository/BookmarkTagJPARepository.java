@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 // BookmarkTagJPARepositoryCustom을 상속받아 BookmarkTagJPARepositoryImpl에서 구현된 search 메서드를 사용할 수 있다.
 public interface BookmarkTagJPARepository extends JpaRepository<BookmarkTag, BookmarkTagId>, BookmarkTagJPARepositoryCustom {
@@ -22,4 +23,7 @@ public interface BookmarkTagJPARepository extends JpaRepository<BookmarkTag, Boo
 
     @Query("select bt.tag from BookmarkTag bt where bt.bookmark.bookmarkId = :bookmarkId")
     List<Tag> findTagByBookmarkId(@Param("bookmarkId") Long bookmarkId);
+
+    @Query("select bt from BookmarkTag bt join fetch bt.tag t where bt.bookmarkTagId = :bookmarkTagId")
+    Optional<BookmarkTag> findByIdFetchJoinTag(@Param("bookmarkTagId") BookmarkTagId bookmarkTagId);
 }
