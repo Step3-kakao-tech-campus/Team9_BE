@@ -55,7 +55,7 @@ public class BookmarkCreateService {
         for (String tagName : bookmarkAddDTO.getTags()) {
             // 해당 태그가 존재하지 않는다면 새롭게 생성해야 한다.
             // 생성된 태그는 태그 테이블에 등록되어야 한다.
-            Tag tag = tagSearchService.searchByTagName(tagName)
+            Tag tag = tagSearchService.searchByTagNameAndUserId(tagName, userDetails.getUserId())
                     .orElseGet(() -> {
                         Tag newTag = Tag.builder()
                                 .user(userDetails)
