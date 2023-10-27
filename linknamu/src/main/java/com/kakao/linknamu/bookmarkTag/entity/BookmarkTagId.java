@@ -1,6 +1,7 @@
 package com.kakao.linknamu.bookmarkTag.entity;
 
 import jakarta.persistence.Embeddable;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class BookmarkTagId implements Serializable {
         return Objects.hash(bookmarkId, tagId);
     }
 
+    @Builder
     public BookmarkTagId(Long bookmarkId, Long tagId) {
         this.bookmarkId = bookmarkId;
         this.tagId = tagId;
