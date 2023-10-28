@@ -9,9 +9,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  #MySQL
-    url:  jdbc:mysql://localhost:3306/linknamu?use_ssl=false
+    url: ${DATABASE_URI}
     username: root
-    password: linknamu12!
+    password: ${DATABASE_PASSWORD}
 
   jpa:
     hibernate:
