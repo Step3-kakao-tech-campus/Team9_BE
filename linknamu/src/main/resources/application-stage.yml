@@ -9,9 +9,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  #MySQL
-    url:  ${DATABASE_URI}
+    url:  jdbc:mysql://localhost:3306/linknamu?use_ssl=false
     username: root
-    password: ${DATABASE_PASSWORD}
+    password: linknamu12!
 
   jpa:
     hibernate:
@@ -60,6 +60,7 @@ oauth2:
     client_secret : ${GOOGLE_CLIENT_SECRET}
     redirect_uri : ${GOOGLE_REDIRECT_URI}
 
+AES_SECRET_KEY: ${AES_SECRET_KEY}
 
 ###사족(볼필요 없습니다)
 #true로 한다면 기본 보안설정을 yml에서 셋팅할수잇습니다...
