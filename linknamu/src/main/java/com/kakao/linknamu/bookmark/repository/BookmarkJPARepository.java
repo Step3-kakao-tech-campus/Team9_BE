@@ -1,5 +1,6 @@
 package com.kakao.linknamu.bookmark.repository;
 
+import com.kakao.linknamu.bookmark.dto.BookmarkUserQueryDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,10 @@ public interface BookmarkJPARepository extends JpaRepository<Bookmark, Long>, Bo
             "join fetch c.workspace w " +
             "where b.bookmarkId = :bookmarkId")
     Optional<Bookmark> findByIdFetchJoinCategoryAndWorkspace(@Param("bookmarkId") Long bookmarkId);
+
+    @Query("select new com.kakao.linknamu.bookmark.dto.BookmarkUserQueryDto(b, b.category.workspace.user.userId) from Bookmark b " +
+            "where b.bookmarkId = :bookmarkId")
+    Optional<BookmarkUserQueryDto> findByIdBookmarkUserDto(@Param("bookmarkId") Long bookmarkId);
 
     @Query("select b from Bookmark b where b.category.categoryId = :categoryId")
     Page<Bookmark> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
