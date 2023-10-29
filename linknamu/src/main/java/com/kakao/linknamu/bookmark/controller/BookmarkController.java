@@ -20,6 +20,7 @@ public class BookmarkController {
     private final BookmarkDeleteService bookmarkDeleteService;
     private final BookmarkUpdateService bookmarkUpdateService;
     private final BookmarkMoveService bookmarkMoveService;
+    private final BookmarkReadService bookmarkReadService;
 
     @PostMapping("/create")
     public ResponseEntity<?> bookmarkCreate(
@@ -57,5 +58,15 @@ public class BookmarkController {
     ) {
         bookmarkMoveService.bookmarkMove(dto, user.getUser().getUserId());
         return ResponseEntity.ok(ApiUtils.success(null));
+    }
+
+    @GetMapping("{bookmark_id}")
+    public ResponseEntity<?> getBookmark(
+        @PathVariable("bookmark_id") Long bookmarkId,
+        @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+
+        BookmarkResponseDto.BookmarkGetResponseDto responseDto = bookmarkReadService.getBookmarkById(bookmarkId, userDetails.getUser());
+        return ResponseEntity.ok(ApiUtils.success(responseDto));
     }
 }

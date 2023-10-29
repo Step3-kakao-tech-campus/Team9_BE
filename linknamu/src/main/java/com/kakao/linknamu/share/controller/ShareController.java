@@ -30,7 +30,7 @@ public class ShareController {
     private final CreateWorkspaceFromLinkService createWorkspaceFromLinkService;
 
     //우선 어떤 액션을 했을떄 url 생성되서 띄워주는 post요청 -> 만들려면 워크스페이스 id랑 유저 정보 필요함
-    @PostMapping("workspace/link")
+    @PostMapping("/workspace/link")
     public ResponseEntity<?> createWorkSpaceShareURL(@RequestBody @Valid CreateWorkSpaceLinkRequestDto requestDto, Errors errors,
                                                      @AuthenticationPrincipal CustomUserDetails userDetails) {
 
@@ -41,7 +41,7 @@ public class ShareController {
     }
 
 
-    @GetMapping("workspace/link/{encodedWorkSpaceId}")
+    @GetMapping("/workspace/link/{encodedWorkSpaceId}")
     public ResponseEntity<?> getWorkspaceFromURL(
             @PathVariable String encodedWorkSpaceId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -53,7 +53,7 @@ public class ShareController {
     }
 
 
-    @GetMapping("category/link/{encodedCategoryId}")
+    @GetMapping("/category/link/{encodedCategoryId}")
     public ResponseEntity<?> CreateWorkspaceFromURL(@RequestParam(defaultValue = "0") int page,
                                                     @PathVariable String encodedCategoryId,
                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -65,7 +65,7 @@ public class ShareController {
     }
 
 
-    @PostMapping("workspace/link/{encodedWorkSpaceId}")
+    @PostMapping("/workspace/link/{encodedWorkSpaceId}")
     public ResponseEntity<?> CreateWorkspaceFromURL(
             @PathVariable String encodedWorkSpaceId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
