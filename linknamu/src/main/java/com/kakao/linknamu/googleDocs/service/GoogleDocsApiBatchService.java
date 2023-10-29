@@ -23,6 +23,8 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kakao.linknamu._core.config.GoogleDocsConfig.getCredentials;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -30,7 +32,6 @@ public class GoogleDocsApiBatchService {
 
     private final GoogleDocsApiGetService googleDocsApiGetService;
     private final BookmarkCreateService bookmarkCreateService;
-    private final Credential credential;
 
     @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
     public void googleDocsApiCronJob() {
@@ -53,7 +54,7 @@ public class GoogleDocsApiBatchService {
         try {
             // 서비스 생성
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-            Docs service = new Docs.Builder(HTTP_TRANSPORT, GoogleDocsConfig.getJSON_FACTORY(), credential)
+            Docs service = new Docs.Builder(HTTP_TRANSPORT, GoogleDocsConfig.getJSON_FACTORY(), getCredentials(HTTP_TRANSPORT))
                     .setApplicationName(GoogleDocsConfig.getAPPLICATION_NAME())
                     .build();
 
