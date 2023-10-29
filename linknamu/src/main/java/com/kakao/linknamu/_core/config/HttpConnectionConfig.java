@@ -3,10 +3,16 @@ package com.kakao.linknamu._core.config;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.time.Duration;
 
+@Profile(value = {"test", "local", "stage"})
 @Configuration
 public class HttpConnectionConfig {
 
@@ -14,8 +20,9 @@ public class HttpConnectionConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder){
         return restTemplateBuilder
-                .setConnectTimeout(Duration.ofMillis(5000))   // 연결시간초과, ms
-                .setReadTimeout(Duration.ofMillis(5000))    // 읽기시간초과, ms
+                .setConnectTimeout(Duration.ofMillis(5000))
+                .setReadTimeout(Duration.ofMillis(5000))
                 .build();
     }
+
 }
