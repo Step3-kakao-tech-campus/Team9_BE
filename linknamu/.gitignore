@@ -1,5 +1,6 @@
 ./.idea
 linknamu_google_api.json
+credentials.json
 
 HELP.md
 .gradle
@@ -70,4 +71,4 @@ replay_pid*
 # environment
 .env
 conf/mysql/*
-keystore.p12₩
+keystore.p12
