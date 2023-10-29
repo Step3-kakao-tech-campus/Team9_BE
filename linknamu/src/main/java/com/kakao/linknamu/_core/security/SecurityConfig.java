@@ -94,7 +94,8 @@ public class SecurityConfig {
                                         new AntPathRequestMatcher("/api/share/**"),
                                         new AntPathRequestMatcher("/api/tag/**"),
                                         new AntPathRequestMatcher("/api/auth/**"),
-                                        new AntPathRequestMatcher("/api/workspace/**"))
+                                        new AntPathRequestMatcher("/api/workspace/**"),
+                                        new AntPathRequestMatcher("/api/google-docs/**"))
                                         .
                                 authenticated()
                                 .anyRequest().permitAll()
