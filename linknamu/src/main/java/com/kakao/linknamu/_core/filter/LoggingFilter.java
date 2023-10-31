@@ -30,12 +30,12 @@ public class LoggingFilter implements Filter {
         log.info("\n" +
                         "[REQUEST] {} - {} {}\n" +
                         "Headers : {}\n" +
-                        "Request : {}\n" +
-                        "Response : {}\n",
-                ((HttpServletRequest) request).getMethod(),
-                ((HttpServletRequest) request).getRequestURI(),
+                        "Request Body : {}\n" +
+                        "Response Body : {}\n",
+                httpRequest.getMethod(),
+                httpRequest.getRequestURI(),
                 responseWrapper.getStatus(),
-                getHeaders((HttpServletRequest) request),
+                getHeaders(httpRequest),
                 getRequestBody(requestWrapper),
                 getResponseBody(responseWrapper));
     }
