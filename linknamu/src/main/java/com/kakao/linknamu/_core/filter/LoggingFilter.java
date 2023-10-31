@@ -11,9 +11,6 @@ import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @WebFilter(urlPatterns = "/api/*")
@@ -29,26 +26,11 @@ public class LoggingFilter implements Filter {
 
         log.info("\n" +
                         "[REQUEST] {} - {} {}\n" +
-                        "Headers : {}\n" +
-                        "Request Body : {}\n" +
-                        "Response Body : {}\n",
+                        "Body : {}",
                 httpRequest.getMethod(),
                 httpRequest.getRequestURI(),
                 responseWrapper.getStatus(),
-                getHeaders(httpRequest),
-                getRequestBody(requestWrapper),
-                getResponseBody(responseWrapper));
-    }
-
-    private Map getHeaders(HttpServletRequest request) {
-        Map<String, Object> headerMap = new HashMap<>();
-
-        Enumeration<String> headerArray = request.getHeaderNames();
-        while (headerArray.hasMoreElements()) {
-            String headerName = headerArray.nextElement();
-            headerMap.put(headerName, request.getHeader(headerName));
-        }
-        return headerMap;
+                getRequestBody(requestWrapper));
     }
 
     private String getRequestBody(ContentCachingRequestWrapper request) {
@@ -61,19 +43,6 @@ public class LoggingFilter implements Filter {
                 } catch (UnsupportedEncodingException e) {
                     return " - ";
                 }
-            }
-        }
-        return " - ";
-    }
-
-    private String getResponseBody(final HttpServletResponse response) throws IOException {
-        ContentCachingResponseWrapper wrapper =
-                WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
-        if (wrapper != null) {
-            byte[] buf = wrapper.getContentAsByteArray();
-            if (buf.length > 0) {
-                wrapper.copyBodyToResponse();
-                return new String(buf, 0, buf.length, wrapper.getCharacterEncoding());
             }
         }
         return " - ";
