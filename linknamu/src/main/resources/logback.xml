@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
+    <!--파일에 로그를 출력한다-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>./log/LogFile-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
@@ -10,13 +11,37 @@
             <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
+
+    <!--콘솔에 로그를 출력한다-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%d{HH:mm:ss.SSS} %-5level - %msg%n</Pattern>
         </layout>
     </appender>
-    <root level="INFO">
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="CONSOLE" />
-    </root>
+
+    <!--WARN 레벨 이상의 로그를 콘솔에 출력한다-->
+    <appender name="CONSOLE-WARN" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} %-5level - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!--배포환경의 로그 설정-->
+    <springProfile name="stage">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE-WARN"/>
+        </root>
+    </springProfile>
+
+    <!--로컬환경의 로그 설정-->
+    <springProfile name="local">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
 </configuration>
