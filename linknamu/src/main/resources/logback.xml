@@ -47,7 +47,7 @@
     </appender>
 
     <!--배포환경의 로그 설정-->
-    <springProfile name="stage">
+    <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE-WARN"/>
