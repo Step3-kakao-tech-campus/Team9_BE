@@ -39,7 +39,7 @@ public class GoogleDocsApiBatchService {
     private final static String PROXY_HOST = "krmp-proxy.9rum.cc";
     private final static int PROXY_PORT = 3128;
 
-    @Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
     public void googleDocsApiCronJob() {
         // 활성화된 페이지들을 리스트에 저장
         List<GooglePage> activeGoogleDocsPages = googleDocsApiGetService.getActiveGoogleDocsPage();

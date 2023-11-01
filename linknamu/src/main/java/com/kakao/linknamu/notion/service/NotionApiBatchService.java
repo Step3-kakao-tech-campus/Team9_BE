@@ -43,7 +43,7 @@ public class NotionApiBatchService {
     private final static String NOTION_VERSION = "2022-06-28";
 
     // 한 시간마다 notion API를 통해서 연동한 페이지의 링크를 가져오는 기능 수행
-    @Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
     public void notionApiCronJob() {
         // 1. isActive==true인 NotionPage를 가져온다.
         log.info("clone start");
