@@ -9,7 +9,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  #MySQL
     url: ${DATABASE_URI}
-    username: root
+    username: ${DATABASE_USER}
     password: ${DATABASE_PASSWORD}
 
   jpa:
@@ -39,10 +39,13 @@ logging:
   level:
     # Spring Framework 패키지의 로깅 레벨을 INFO로 설정합니다.
     org.springframework: INFO
-    # com.example 패키지의 로깅 레벨을 DEBUG로 설정합니다.
-    com.example: DEBUG
+    # com.example 패키지의 로깅 레벨을 INFO로 설정합니다.
+    com.example: INFO
 
-access-jwt-secret-key: KakaoTechCampusLinkNamu
-refresh-jwt-secret-key: KakaoTechCampusLinkNamu1234
+proxy:
+  enabled: true
+
+access-jwt-secret-key: ${ACCESS_JWT_SECRET_KEY}
+refresh-jwt-secret-key: ${REFRESH_JWT_SECRET_KEY}
 
 AES_SECRET_KEY: ${AES_SECRET_KEY}
