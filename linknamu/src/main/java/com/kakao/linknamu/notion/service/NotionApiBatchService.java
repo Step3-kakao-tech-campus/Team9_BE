@@ -10,7 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,22 +22,28 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.yaml.snakeyaml.parser.ParserException;
 
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class NotionApiBatchService {
+    @Value("${proxy.enabled:false}")
+    private boolean isProxyEnabled;
+
     private final RestTemplate restTemplate;
     private final ObjectProvider<JSONParser> jsonParserProvider;
     private final NotionApiUriBuilder notionApiUriBuilder;
     private final NotionApiGetService notionApiGetService;
     private final BookmarkCreateService bookmarkCreateService;
 
+    private final static String PROXY_HOST = "krmp-proxy.9rum.cc";
+    private final static int PROXY_PORT = 3128;
     private final static String NOTION_VERSION = "2022-06-28";
 
     // 한 시간마다 notion API를 통해서 연동한 페이지의 링크를 가져오는 기능 수행
-    @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
     public void notionApiCronJob() {
         // 1. isActive==true인 NotionPage를 가져온다.
         log.info("clone start");
@@ -76,9 +86,9 @@ public class NotionApiBatchService {
                     String type = (String) subObject.get("type");
                     JSONObject subObjectChild = (JSONObject) subObject.get(type);
                     if (type.equals("bookmark") | type.equals("embed")) {
-                        getBookmarkOrEmbedLink(subObjectChild, resultBookmarks, notionPage);
+                        saveBookmarkOrEmbedLink(subObjectChild, resultBookmarks, notionPage);
                     } else {
-                        getOtherLink(subObjectChild, resultBookmarks, notionPage);
+                        saveOtherLink(subObjectChild, resultBookmarks, notionPage);
                     }
                 }
 
@@ -104,30 +114,32 @@ public class NotionApiBatchService {
         return resultBookmarks;
     }
 
-    // 노션 링크 데이터 종류 중 북마크와 임베드 형태를 가져온다.
-    private void getBookmarkOrEmbedLink(JSONObject bookmarkTypeObject, List<Bookmark> resultBookmarks, NotionPage notionPage) {
+    // 노션 링크 데이터 종류 중 북마크와 임베드 형태를 저장한다.
+    private void saveBookmarkOrEmbedLink(JSONObject bookmarkTypeObject, List<Bookmark> resultBookmarks, NotionPage notionPage) {
         JSONArray caption = (JSONArray) bookmarkTypeObject.get("caption");
         String url = (String) bookmarkTypeObject.get("url");
-        String captionText = url;
+        String title = url;
         if (!caption.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < caption.size(); i++) {
                 JSONObject captionObject = (JSONObject) caption.get(i);
                 sb.append(captionObject.get("plain_text"));
-                captionText = sb.toString().strip();
+                title = sb.toString().strip();
             }
+        } else {
+            title = getTitleName(url);
         }
 
         resultBookmarks.add(Bookmark.builder()
                 .bookmarkLink(url)
-                .bookmarkName(captionText.length() > 100 ? captionText.substring(0, 100) : captionText)
+                .bookmarkName(title.length() > 30 ? title.substring(0, 30) : title)
                 .category(notionPage.getCategory())
                 .build()
         );
     }
 
-    // 북마크, 임베드 이외의 링크 데이터를 가져온다.
-    private void getOtherLink(JSONObject otherTypeObject, List<Bookmark> resultBookmarks, NotionPage notionPage) {
+    // 북마크, 임베드 이외의 링크 데이터를 저장한다.
+    private void saveOtherLink(JSONObject otherTypeObject, List<Bookmark> resultBookmarks, NotionPage notionPage) {
         JSONArray richTexts = (JSONArray) otherTypeObject.get("rich_text");
         if (Objects.isNull(richTexts)) return;
 
@@ -135,12 +147,38 @@ public class NotionApiBatchService {
             String href = (String) ((JSONObject) richText).get("href");
             String plainText = (String) ((JSONObject) richText).get("plain_text");
             if (Objects.nonNull(href)) {
+                if(href.equals(plainText)) {
+                    plainText = getTitleName(href);
+                }
+
                 resultBookmarks.add(Bookmark.builder()
                         .bookmarkLink(href.startsWith("/") ? "https://www.notion.so" + href : href)
-                        .bookmarkName(plainText.length() > 100 ? plainText.substring(0, 100) : plainText)
+                        .bookmarkName(plainText.length() > 30 ? plainText.substring(0, 30) : plainText)
                         .category(notionPage.getCategory())
                         .build());
             }
+        }
+    }
+
+    private String getTitleName(String href) {
+        try{
+            Document document = getWebPage(href);
+            return document.title();
+        } catch(IOException e) {
+            return href;
+        }
+    }
+
+    private Document getWebPage(String href) throws IOException {
+        if(isProxyEnabled) {
+            return Jsoup.connect(href)
+                    .timeout(5000)
+                    .proxy(PROXY_HOST, PROXY_PORT)
+                    .get();
+        }else {
+            return Jsoup.connect(href)
+                    .timeout(5000)
+                    .get();
         }
     }
 }
