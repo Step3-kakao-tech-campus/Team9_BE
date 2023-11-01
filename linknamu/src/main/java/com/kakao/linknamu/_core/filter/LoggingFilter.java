@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.util.ContentCachingRequestWrapper;
-import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
@@ -20,16 +19,15 @@ public class LoggingFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(httpRequest);
-        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(httpResponse);
 
-        chain.doFilter(requestWrapper, responseWrapper);
+        chain.doFilter(requestWrapper, response);
 
         log.info("\n" +
                         "[REQUEST] {} - {} {}\n" +
                         "Body : {}",
                 httpRequest.getMethod(),
                 httpRequest.getRequestURI(),
-                responseWrapper.getStatus(),
+                httpResponse.getStatus(),
                 getRequestBody(requestWrapper));
     }
 
