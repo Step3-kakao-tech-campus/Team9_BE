@@ -29,11 +29,29 @@
         </layout>
     </appender>
 
+    <!--ERROR 레벨의 로그를 별도의 파일로 저장한다-->
+    <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>./log/error/ErrorLogFile-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} %M - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!--배포환경의 로그 설정-->
     <springProfile name="stage">
         <root level="INFO">
             <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
         </root>
     </springProfile>
 
@@ -42,6 +60,7 @@
         <root level="INFO">
             <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE-ERROR"/>
         </root>
     </springProfile>
 </configuration>
