@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class BookmarkCreateService {
@@ -33,7 +33,6 @@ public class BookmarkCreateService {
     private final TagSaveService tagSaveService;
     private final BookmarkTagSaveService bookmarkTagSaveService;
 
-    @Transactional
     public void bookmarkAdd(BookmarkRequestDto.BookmarkAddDTO bookmarkAddDTO, User userDetails) {
         /* Bookmark 테이블에 bookmark 항목 추가 */
         Category category = categoryJPARepository.findByIdFetchJoinWorkspace(bookmarkAddDTO.getCategoryId()).orElseThrow(
@@ -82,7 +81,6 @@ public class BookmarkCreateService {
     }
 
 
-    @Transactional
     public void bookmarkAdd(Bookmark bookmark, Category newCategory, List<Tag> tagList, User userDetails) {
 
         //category는 새로만든 카테고리, 북마크는 과거 북마크 user는 새로운 유저

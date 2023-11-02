@@ -1,6 +1,5 @@
 package com.kakao.linknamu.googleDocs.service;
 
-import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.docs.v1.Docs;
@@ -15,6 +14,7 @@ import com.kakao.linknamu.googleDocs.util.InvalidGoogleDocsApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +30,14 @@ import static com.kakao.linknamu._core.config.GoogleDocsConfig.getCredentials;
 @Service
 public class GoogleDocsApiBatchService {
 
+    @Value("${proxy.enabled:false}")
+    private boolean isProxyEnabled;
+
     private final GoogleDocsApiGetService googleDocsApiGetService;
     private final BookmarkCreateService bookmarkCreateService;
+
+    private final static String PROXY_HOST = "krmp-proxy.9rum.cc";
+    private final static int PROXY_PORT = 3128;
 
     @Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
     public void googleDocsApiCronJob() {
@@ -71,10 +77,12 @@ public class GoogleDocsApiBatchService {
                             if (link != null) {
                                 // 링크 항목이 있을 경우 해당 링크의 사이트 제목을 Jsoup 라이브러리를 사용해 받아온다.
                                 // 이를 생성할 북마크의 이름으로 사용한다.
-                                String bookmarkName = Jsoup.connect(link).get().title();
+                                // 만약 해당 데이터를 읽어오지 못하는 경우 link로 저장한다.
+                                String bookmarkName = link;
+                                bookmarkName = getTitleName(link);
                                 resultBookmarks.add(Bookmark.builder()
                                         .bookmarkLink(link)
-                                        .bookmarkName(bookmarkName)
+                                        .bookmarkName(bookmarkName.length() > 30 ? bookmarkName.substring(0, 30) : bookmarkName)
                                         .category(googlePage.getCategory())
                                         .build());
                                 }
@@ -82,12 +90,36 @@ public class GoogleDocsApiBatchService {
                         }
                     }
                 }
-        } catch(GeneralSecurityException gse) {
+        } catch(GeneralSecurityException error) {
             log.error("구글 인증에 문제가 있습니다.");
             throw new InvalidGoogleDocsApiException();
-        } catch(IOException ioe) {
-            log.error("파싱된 사이트의 이름을 불러올 수 없습니다.");
+        } catch (IOException error) {
+            log.error("구글Docs 연동 중 문제가 발생했습니다.");
+            throw new InvalidGoogleDocsApiException();
         }
+
         return resultBookmarks;
+    }
+
+    private String getTitleName(String href) {
+        try{
+            org.jsoup.nodes.Document document = getWebPage(href);
+            return document.title();
+        } catch(IOException e) {
+            return href;
+        }
+    }
+
+    private org.jsoup.nodes.Document getWebPage(String href) throws IOException {
+        if(isProxyEnabled) {
+            return Jsoup.connect(href)
+                    .timeout(5000)
+                    .proxy(PROXY_HOST, PROXY_PORT)
+                    .get();
+        }else {
+            return Jsoup.connect(href)
+                    .timeout(5000)
+                    .get();
+        }
     }
 }
