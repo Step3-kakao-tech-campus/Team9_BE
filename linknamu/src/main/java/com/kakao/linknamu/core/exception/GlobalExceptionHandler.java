@@ -14,6 +14,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 import com.kakao.linknamu.core.util.ApiUtils;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 
 public class GlobalExceptionHandler {
+
+	@ExceptionHandler({ConstraintViolationException.class})
+	public ResponseEntity<?> pathVarValidationException(ConstraintViolationException e) {
+		ApiUtils.ApiResult<?> apiResult = ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+		return new ResponseEntity<>(apiResult, HttpStatus.BAD_REQUEST);
+	}
 
 	@ExceptionHandler({MethodArgumentNotValidException.class})
 	public ResponseEntity<?> dtoValidationException(MethodArgumentNotValidException e) {
