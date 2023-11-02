@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
-public class CreateWorkspaceLinkService {
+public class CreateLinkFromWorkspaceService {
 
 	private final AESEncryption aesEncryption;
 	private final WorkspaceService workspaceService;
