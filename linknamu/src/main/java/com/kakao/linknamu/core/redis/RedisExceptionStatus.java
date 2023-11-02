@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum RedisExceptionStatus implements BaseExceptionStatus {
     REFRESH_TOKEN_NOT_FOUND("존재하지 않는 Refresh토큰입니다.", 404, 14040),
-    BLACKLIST_TOKEN("블랙리스트에 존재하는 토큰입니다.", 403, 14030);
+    BLACKLIST_TOKEN("블랙리스트에 존재하는 토큰입니다.", 403, 14031);
 
 
     @Getter
