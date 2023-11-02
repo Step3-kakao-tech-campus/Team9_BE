@@ -3,6 +3,7 @@ package com.kakao.linknamu.notion.service;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
 import com.kakao.linknamu.notion.entity.NotionPage;
+import com.kakao.linknamu.notion.repository.NotionPageJPARepository;
 import com.kakao.linknamu.notion.util.InvalidNotionApiException;
 import com.kakao.linknamu.notion.util.NotionApiUriBuilder;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class NotionApiBatchService {
+    private final NotionPageJPARepository notionPageJPARepository;
     @Value("${proxy.enabled:false}")
     private boolean isProxyEnabled;
 
@@ -58,6 +60,7 @@ public class NotionApiBatchService {
             } catch (InvalidNotionApiException e) {
                 // 2-2 NotionPage 접근 권한, 없는 페이지라면 isActive를 false로 만들고 종료
                 n.deactivate();
+                notionPageJPARepository.save(n);
             }
         });
     }
