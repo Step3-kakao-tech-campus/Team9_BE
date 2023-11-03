@@ -14,7 +14,6 @@ RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPor
 # gradlew를 이용한 프로젝트 필드
 RUN ./gradlew clean build -x test
 
-ENV DATABASE_URL=jdbc:mysql://mysqldb/linknamu
-
 # 빌드 결과 jar 파일을 실행
-CMD ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/linknamu/build/libs/linknamu.jar"]
+CMD ["java", "-jar","-Dhttp.proxyHost=krmp-proxy.9rum.cc", "-Dhttps.proxyPort=3128", "-Dhttps.proxyHost=krmp-proxy.9rum.cc", "-Dhttp.proxyPort=3128",  "-Dspring.profiles.active=prod", "/home/gradle/project/linknamu/build/libs/linknamu.jar"]
+
