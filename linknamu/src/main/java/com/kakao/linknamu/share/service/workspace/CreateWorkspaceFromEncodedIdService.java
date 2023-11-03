@@ -56,7 +56,7 @@ public class CreateWorkspaceFromEncodedIdService {
 			for (Bookmark bookmark : bookmarkList) {
 				//요기서
 				List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
-				bookmarkCreateService.bookmarkAdd(bookmark, newCategory, tagList, user);
+				bookmarkCreateService.addBookmark(bookmark, newCategory, tagList, user);
 				//여기 사이에서 오류가 나는거 같음 북마크 태그만들때 마지막 북마크에 태그리스트가 만들어지지 않음
 			}
 		}
