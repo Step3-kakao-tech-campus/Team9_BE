@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kakao.linknamu.category.entity.Category;
-import com.kakao.linknamu.category.repository.CategoryJPARepository;
+import com.kakao.linknamu.category.repository.CategoryJpaRepository;
 import com.kakao.linknamu.core.RestDocs;
 import com.kakao.linknamu.core.security.JwtProvider;
 import com.kakao.linknamu.user.entity.User;
@@ -53,7 +53,7 @@ public class WorkspaceControllerTest extends RestDocs {
 	@Autowired
 	private UserJPARepository userJPARepository;
 	@Autowired
-	private CategoryJPARepository categoryJPARepository;
+	private CategoryJpaRepository categoryJPARepository;
 	@Autowired
 	private EntityManager em;
 
