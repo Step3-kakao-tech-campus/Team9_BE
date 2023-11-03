@@ -50,7 +50,7 @@ public class GoogleDocsApiBatchService {
 		activeGoogleDocsPages.forEach((GooglePage gp) -> {
 			try {
 				List<Bookmark> resultBookmarks = getLinks(gp);
-				bookmarkCreateService.bookmarkBatchInsert(resultBookmarks);
+				bookmarkCreateService.batchInsertBookmark(resultBookmarks);
 			} catch (InvalidGoogleDocsApiException e) {
 				gp.deactivate();
 			}

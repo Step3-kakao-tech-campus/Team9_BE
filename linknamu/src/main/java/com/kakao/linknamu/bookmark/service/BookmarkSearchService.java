@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
+import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
 import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.tag.entity.Tag;
@@ -26,15 +26,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class BookmarkSearchService {
 
-	private final BookmarkJPARepository bookmarkJPARepository;
+	private final BookmarkJpaRepository bookmarkJpaRepository;
 	private final BookmarkTagSearchService bookmarkTagSearchService;
 
-	public BookmarkSearchResponseDto bookmarkSearch(BookmarkSearchCondition condition, User user, Pageable pageable) {
+	public BookmarkSearchResponseDto searchBookmark(BookmarkSearchCondition condition, User user, Pageable pageable) {
 		Page<Bookmark> bookmarks;
-		if (isNull(condition.tags()))
-			bookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
-		else
+		if (isNull(condition.tags())) {
+			bookmarks = bookmarkJpaRepository.search(condition, user.getUserId(), pageable);
+		} else {
 			bookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
+		}
 		return BookmarkSearchResponseDto.of(PageInfoDto.of(bookmarks), getBookmarkContentDtos(bookmarks));
 	}
 

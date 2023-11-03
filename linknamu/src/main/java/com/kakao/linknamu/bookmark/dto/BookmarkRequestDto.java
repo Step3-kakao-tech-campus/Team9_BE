@@ -1,7 +1,10 @@
 package com.kakao.linknamu.bookmark.dto;
 
+import java.util.List;
+
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.entity.Category;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,53 +12,54 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 public class BookmarkRequestDto {
-    @Getter
-    @Setter
-    public static class BookmarkAddDTO {
-        @NotEmpty
-        private String bookmarkName;
+	@Getter
+	@Setter
+	public static class BookmarkAddDto {
 
-        @NotEmpty
-        @Pattern(regexp = "https?://[a-zA-Z0-9\\-.]+(:[0-9]+)?\\.[a-zA-Z]{2,3}(\\S*)?", message = "잘못된 웹 링크입니다.")
-        private String bookmarkLink;
+		@NotEmpty
+		private String bookmarkName;
 
-        private String bookmarkDescription;
+		@NotEmpty
+		@Pattern(regexp = "https?://[a-zA-Z0-9\\-.]+(:[0-9]+)?\\.[a-zA-Z]{2,3}(\\S*)?", message = "잘못된 웹 링크입니다.")
+		private String bookmarkLink;
 
-        @NotNull
-        private Long categoryId;
+		private String bookmarkDescription;
 
-        private String imageUrl;
+		@NotNull
+		private Long categoryId;
 
-        private List<String> tags;
+		private String imageUrl;
 
-        public Bookmark toBookmarkEntity(Category category) {
-            return Bookmark.builder()
-                    .bookmarkName(bookmarkName)
-                    .bookmarkLink(bookmarkLink)
-                    .bookmarkDescription(bookmarkDescription)
-                    .category(category)
-                    .bookmarkThumbnail(imageUrl)
-                    .build();
-        }
-    }
+		private List<String> tags;
 
-    public record bookmarkUpdateRequestDto (
-            String bookmarkName,
-            String description
-    ) {
-        @Builder
-        public bookmarkUpdateRequestDto{}
-    }
+		public Bookmark toEntity(Category category) {
+			return Bookmark.builder()
+				.bookmarkName(bookmarkName)
+				.bookmarkLink(bookmarkLink)
+				.bookmarkDescription(bookmarkDescription)
+				.category(category)
+				.bookmarkThumbnail(imageUrl)
+				.build();
+		}
+	}
 
-    public record bookmarkMoveRequestDto (
-            List<Long> bookmarkIdList,
-            Long toCategoryId
-    ) {
-        @Builder
-        public bookmarkMoveRequestDto{}
-    }
+	public record BookmarkUpdateRequestDto(
+		String bookmarkName,
+		String description
+	) {
+		@Builder
+		public BookmarkUpdateRequestDto {
+		}
+	}
+
+	public record BookmarkMoveRequestDto(
+		List<Long> bookmarkIdList,
+		Long toCategoryId
+	) {
+		@Builder
+		public BookmarkMoveRequestDto {
+		}
+	}
 }
 

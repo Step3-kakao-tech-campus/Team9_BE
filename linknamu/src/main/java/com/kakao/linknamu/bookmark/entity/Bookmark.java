@@ -30,15 +30,12 @@ import lombok.NoArgsConstructor;
 @Table(
 	name = "bookmark_tb",
 	uniqueConstraints = {
-		@UniqueConstraint(
-			name = "categoryId_bookmarkLink unique constraint",
-			columnNames = {
-				"category_id",
-				"bookmark_link"
-			}
-		)
+		@UniqueConstraint(name = "category_id bookmark_link unique_constraint", columnNames = {"category_id",
+			"bookmark_link"}),
 	},
-	indexes = @Index(name = "idx__bookmark_name", columnList = "bookmark_name")
+	indexes = {
+		@Index(name = "bookmark_name_index", columnList = "bookmark_name"),
+	}
 )
 public class Bookmark extends AuditingEntity {
 
@@ -52,7 +49,7 @@ public class Bookmark extends AuditingEntity {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@QueryInit("workspace.*")
 	private Category category;
-
+	
 	@Column(length = 100, nullable = false, name = "bookmark_name")
 	private String bookmarkName;
 
@@ -81,12 +78,16 @@ public class Bookmark extends AuditingEntity {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+
+		if (object == null || getClass() != object.getClass()) {
 			return false;
-		Bookmark bookmark = (Bookmark)o;
+		}
+
+		Bookmark bookmark = (Bookmark)object;
 		return Objects.equals(bookmarkId, bookmark.bookmarkId);
 	}
 

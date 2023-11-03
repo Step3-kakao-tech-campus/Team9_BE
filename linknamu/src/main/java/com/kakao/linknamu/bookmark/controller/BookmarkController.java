@@ -34,50 +34,50 @@ public class BookmarkController {
 	private final BookmarkReadService bookmarkReadService;
 
 	@PostMapping("/create")
-	public ResponseEntity<?> bookmarkCreate(
-		@RequestBody @Valid BookmarkRequestDto.BookmarkAddDTO dto,
+	public ResponseEntity<?> createBookmark(
+		@RequestBody @Valid
+		BookmarkRequestDto.BookmarkAddDto dto,
 		Errors errors,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		bookmarkCreateService.bookmarkAdd(dto, user.getUser());
+		bookmarkCreateService.addBookmark(dto, user.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
-	@PostMapping("/delete/{bookmark_id}")
-	public ResponseEntity<?> bookmarkDelete(
-		@PathVariable Long bookmark_id,
+	@PostMapping("/delete/{bookmarkId}")
+	public ResponseEntity<?> deleteBookmark(
+		@PathVariable Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		bookmarkDeleteService.bookmarkDelete(user.getUser().getUserId(), bookmark_id);
+		bookmarkDeleteService.deleteBookmark(user.getUser().getUserId(), bookmarkId);
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
-	@PostMapping("/update/{bookmark_id}")
-	public ResponseEntity<?> bookmarkUpdate(
-		@RequestBody @Valid BookmarkRequestDto.bookmarkUpdateRequestDto dto,
-		@PathVariable Long bookmark_id,
+	@PostMapping("/update/{bookmarkId}")
+	public ResponseEntity<?> updateBookmark(
+		@RequestBody @Valid BookmarkRequestDto.BookmarkUpdateRequestDto dto,
+		@PathVariable Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		BookmarkResponseDto.bookmarkUpdateResponseDto responseDto = bookmarkUpdateService.bookmarkUpdate(dto,
-			user.getUser().getUserId(), bookmark_id);
+		BookmarkResponseDto.BookmarkUpdateResponseDto responseDto = bookmarkUpdateService.updateBookmark(dto,
+			user.getUser().getUserId(), bookmarkId);
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}
 
 	@PostMapping("/move")
-	public ResponseEntity<?> bookmarkMove(
-		@RequestBody @Valid BookmarkRequestDto.bookmarkMoveRequestDto dto,
+	public ResponseEntity<?> moveBookmark(
+		@RequestBody @Valid BookmarkRequestDto.BookmarkMoveRequestDto dto,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		bookmarkMoveService.bookmarkMove(dto, user.getUser().getUserId());
+		bookmarkMoveService.moveBookmark(dto, user.getUser().getUserId());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
-	@GetMapping("{bookmark_id}")
+	@GetMapping("{bookmarkId}")
 	public ResponseEntity<?> getBookmark(
-		@PathVariable("bookmark_id") Long bookmarkId,
+		@PathVariable("bookmarkId") Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
-
 		BookmarkResponseDto.BookmarkGetResponseDto responseDto = bookmarkReadService.getBookmarkById(bookmarkId,
 			userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
