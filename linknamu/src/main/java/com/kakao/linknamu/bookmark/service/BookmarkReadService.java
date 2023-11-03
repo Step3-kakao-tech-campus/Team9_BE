@@ -2,6 +2,7 @@ package com.kakao.linknamu.bookmark.service;
 
 import java.util.List;
 
+import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -50,18 +51,8 @@ public class BookmarkReadService {
 
 		List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
 
-<<<<<<< HEAD
 		return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
 	}
-=======
-        if (!user.getUserId().equals(bookmark.getUserId())) {
-            throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
-        }
-
-        List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
-
-        return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
-    }
 
     public boolean existByBookmarkLinkAndCategoryId(String bookmarkLink, Long categoryId) {
         return bookmarkJPARepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();

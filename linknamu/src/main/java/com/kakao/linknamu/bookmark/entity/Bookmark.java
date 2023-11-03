@@ -80,18 +80,6 @@ public class Bookmark extends AuditingEntity {
 		this.bookmarkThumbnail = bookmarkThumbnail;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Bookmark bookmark = (Bookmark)o;
-		return Objects.equals(bookmarkId, bookmark.bookmarkId);
-	}
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

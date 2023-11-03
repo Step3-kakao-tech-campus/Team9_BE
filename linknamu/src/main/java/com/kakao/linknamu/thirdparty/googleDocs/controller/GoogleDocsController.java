@@ -7,6 +7,9 @@ import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiCreateServi
 import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiDeleteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +21,7 @@ public class GoogleDocsController {
 
 	@PostMapping("/registration")
 	public ResponseEntity<?> apiRegistration(@RequestBody @Valid GoogleDocsApiRegistrationRequestDto dto,
-		@AuthenticationPrincipal CustomUserDetails userDetails) {
+											 @AuthenticationPrincipal CustomUserDetails userDetails) {
 		googleDocsApiCreateService.createDocsApi(dto, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}

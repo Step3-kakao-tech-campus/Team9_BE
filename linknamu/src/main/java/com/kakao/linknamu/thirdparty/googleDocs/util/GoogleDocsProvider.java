@@ -5,10 +5,10 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.docs.v1.model.Document;
-import com.kakao.linknamu._core.config.GoogleDocsConfig;
-import com.kakao.linknamu._core.exception.Exception403;
-import com.kakao.linknamu._core.exception.Exception404;
-import com.kakao.linknamu._core.exception.Exception500;
+import com.kakao.linknamu.core.config.GoogleDocsConfig;
+import com.kakao.linknamu.core.exception.Exception403;
+import com.kakao.linknamu.core.exception.Exception404;
+import com.kakao.linknamu.core.exception.Exception500;
 import com.kakao.linknamu.thirdparty.googleDocs.GoogleDocsExceptionStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-import static com.kakao.linknamu._core.config.GoogleDocsConfig.getCredentials;
+import static com.kakao.linknamu.core.config.GoogleDocsConfig.getCredentials;
 
 @Slf4j
 @RequiredArgsConstructor

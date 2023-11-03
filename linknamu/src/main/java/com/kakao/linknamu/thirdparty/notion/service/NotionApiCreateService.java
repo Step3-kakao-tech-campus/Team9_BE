@@ -59,17 +59,6 @@ public class NotionApiCreateService {
                     return notionAccountJPARepository.save(createNotionAccount);
                 });
 
-		// notionAccount가 이미 존재하다면 그대로 가져오고 아니면 새로 생성
-		NotionAccount notionAccount = notionAccountJPARepository
-			.findByUserIdAndAccessToken(user.getUserId(), requestDto.accessToken())
-			.orElseGet(() -> {
-				NotionAccount createNotionAccount = NotionAccount.builder()
-					.token(requestDto.accessToken())
-					.user(user)
-					.build();
-				return notionAccountJPARepository.save(createNotionAccount);
-			});
-
 		if (notionPageJPARepository.existsByPageIdAndNotionAccount(requestDto.pageId(), notionAccount)) {
 			throw new Exception400(NotionExceptionStatus.NOTION_ALREADY_EXIST);
 		}

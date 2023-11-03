@@ -1,7 +1,7 @@
 package com.kakao.linknamu.thirdparty.notion.util;
 
-import com.kakao.linknamu._core.exception.Exception400;
-import com.kakao.linknamu._core.exception.Exception500;
+import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception500;
 import com.kakao.linknamu.thirdparty.notion.NotionExceptionStatus;
 import com.kakao.linknamu.thirdparty.notion.dto.NotionTokenDto;
 import lombok.RequiredArgsConstructor;
