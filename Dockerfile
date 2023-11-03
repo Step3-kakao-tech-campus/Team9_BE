@@ -16,3 +16,4 @@ RUN ./gradlew clean build -x test
 
 # 빌드 결과 jar 파일을 실행
 CMD ["java", "-jar","-Dhttp.proxyHost=krmp-proxy.9rum.cc", "-Dhttps.proxyPort=3128", "-Dhttps.proxyHost=krmp-proxy.9rum.cc", "-Dhttp.proxyPort=3128",  "-Dspring.profiles.active=prod", "/home/gradle/project/linknamu/build/libs/linknamu.jar"]
+
