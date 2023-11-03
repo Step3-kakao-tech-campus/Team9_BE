@@ -27,12 +27,12 @@ public class BookmarkSearchController {
 	private final BookmarkSearchService bookmarkSearchService;
 
 	@PostMapping("")
-	public ResponseEntity<?> bookmarkSearch(
+	public ResponseEntity<?> searchBookmark(
 		@RequestBody BookmarkSearchCondition condition,
 		@RequestParam(name = "page", defaultValue = "0") int page,
 		@AuthenticationPrincipal CustomUserDetails user) {
 		Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-		BookmarkSearchResponseDto responseDto = bookmarkSearchService.bookmarkSearch(condition, user.getUser(),
+		BookmarkSearchResponseDto responseDto = bookmarkSearchService.searchBookmark(condition, user.getUser(),
 			pageable);
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}

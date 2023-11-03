@@ -9,35 +9,36 @@ import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import com.kakao.linknamu.bookmark.dto.BookmarkResponseDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
+import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
 import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 
 import lombok.RequiredArgsConstructor;
 
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class BookmarkUpdateService {
-	private final BookmarkJPARepository bookmarkJPARepository;
+	private final BookmarkJpaRepository bookmarkJpaRepository;
 	private final BookmarkTagSearchService bookmarkTagSearchService;
 
-	@Transactional
-	public BookmarkResponseDto.bookmarkUpdateResponseDto bookmarkUpdate(
-		BookmarkRequestDto.bookmarkUpdateRequestDto dto,
+	public BookmarkResponseDto.BookmarkUpdateResponseDto updateBookmark(
+		BookmarkRequestDto.BookmarkUpdateRequestDto dto,
 		Long userId,
 		Long bookmarkId
 	) {
-		bookmarkJPARepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
-		Bookmark bookmark = bookmarkJPARepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId).orElseThrow(
-			() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND)
-		);
+		bookmarkJpaRepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
+
+		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
+			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
+
 		if (!bookmark.getCategory().getWorkspace().getUser().getUserId().equals(userId)) {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
 		}
 		List<String> tags = bookmarkTagSearchService.searchTagNamesByBookmarkId(bookmarkId);
-		return BookmarkResponseDto.bookmarkUpdateResponseDto.builder()
+
+		return BookmarkResponseDto.BookmarkUpdateResponseDto.builder()
 			.bookmarkId(bookmarkId)
 			.title(bookmark.getBookmarkName())
 			.description(bookmark.getBookmarkDescription())
