@@ -2,8 +2,6 @@ package com.kakao.linknamu.thirdparty.googleDocs.controller;
 
 import com.kakao.linknamu.core.util.ApiUtils;
 import com.kakao.linknamu.core.security.CustomUserDetails;
-import com.kakao.linknamu._core.security.CustomUserDetails;
-import com.kakao.linknamu._core.util.ApiUtils;
 import com.kakao.linknamu.thirdparty.googleDocs.dto.GoogleDocsApiRegistrationRequestDto;
 import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiCreateService;
 import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiDeleteService;

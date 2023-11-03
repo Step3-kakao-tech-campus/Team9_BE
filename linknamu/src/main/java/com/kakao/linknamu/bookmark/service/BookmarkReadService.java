@@ -66,5 +66,4 @@ public class BookmarkReadService {
     public boolean existByBookmarkLinkAndCategoryId(String bookmarkLink, Long categoryId) {
         return bookmarkJPARepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();
     }
->>>>>>> 04f8984 (#149 Feat: ThirdParty 로직 변경 및 검증 단계 추가)
 }
