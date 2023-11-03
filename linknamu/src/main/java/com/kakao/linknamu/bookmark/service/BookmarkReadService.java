@@ -2,6 +2,7 @@ package com.kakao.linknamu.bookmark.service;
 
 import java.util.List;
 
+import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -54,4 +55,8 @@ public class BookmarkReadService {
 
 		return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
 	}
+
+    public boolean existByBookmarkLinkAndCategoryId(String bookmarkLink, Long categoryId) {
+        return bookmarkJPARepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();
+    }
 }

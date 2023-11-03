@@ -30,12 +30,15 @@ import lombok.NoArgsConstructor;
 @Table(
 	name = "bookmark_tb",
 	uniqueConstraints = {
-		@UniqueConstraint(name = "category_id bookmark_link unique_constraint", columnNames = {"category_id",
-			"bookmark_link"}),
+		@UniqueConstraint(
+			name = "categoryId_bookmarkLink unique constraint",
+			columnNames = {
+				"category_id",
+				"bookmark_link"
+			}
+		)
 	},
-	indexes = {
-		@Index(name = "bookmark_name_index", columnList = "bookmark_name"),
-	}
+	indexes = @Index(name = "idx__bookmark_name", columnList = "bookmark_name")
 )
 public class Bookmark extends AuditingEntity {
 
@@ -49,7 +52,7 @@ public class Bookmark extends AuditingEntity {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@QueryInit("workspace.*")
 	private Category category;
-	
+
 	@Column(length = 100, nullable = false, name = "bookmark_name")
 	private String bookmarkName;
 
@@ -77,22 +80,16 @@ public class Bookmark extends AuditingEntity {
 		this.bookmarkThumbnail = bookmarkThumbnail;
 	}
 
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bookmark bookmark = (Bookmark) o;
+        return Objects.equals(getBookmarkId(), bookmark.getBookmarkId()) && Objects.equals(getBookmarkLink(), bookmark.getBookmarkLink());
+    }
 
-		if (object == null || getClass() != object.getClass()) {
-			return false;
-		}
-
-		Bookmark bookmark = (Bookmark)object;
-		return Objects.equals(bookmarkId, bookmark.bookmarkId);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(bookmarkId);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBookmarkId(), getBookmarkLink());
+    }
 }
