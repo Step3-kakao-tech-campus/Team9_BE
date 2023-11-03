@@ -63,7 +63,7 @@ access-jwt-secret-key: KakaoTechCampusLinkNamu
 refresh-jwt-secret-key: KakaoTechCampusLinkNamu1234
 
 AES_SECRET_KEY: 9a8f7e6d5c4b3a291b0c9d8e7f6a5b4c
-###사족(볼필요 없습니다)
+
 #true로 한다면 기본 보안설정을 yml에서 셋팅할수잇습니다...
 #    security:
 #      basic:
