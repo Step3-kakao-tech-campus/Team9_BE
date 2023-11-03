@@ -50,6 +50,21 @@ public class BookmarkReadService {
 
 		List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
 
+<<<<<<< HEAD
 		return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
 	}
+=======
+        if (!user.getUserId().equals(bookmark.getUserId())) {
+            throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
+        }
+
+        List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
+
+        return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
+    }
+
+    public boolean existByBookmarkLinkAndCategoryId(String bookmarkLink, Long categoryId) {
+        return bookmarkJPARepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();
+    }
+>>>>>>> 04f8984 (#149 Feat: ThirdParty 로직 변경 및 검증 단계 추가)
 }

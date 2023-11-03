@@ -90,8 +90,17 @@ public class Bookmark extends AuditingEntity {
 		return Objects.equals(bookmarkId, bookmark.bookmarkId);
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(bookmarkId);
-	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bookmark bookmark = (Bookmark) o;
+        return Objects.equals(getBookmarkId(), bookmark.getBookmarkId()) && Objects.equals(getBookmarkLink(), bookmark.getBookmarkLink());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBookmarkId(), getBookmarkLink());
+    }
 }
