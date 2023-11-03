@@ -24,7 +24,7 @@ public class BookmarkCustomRepositoryImpl implements BookmarkCustomRepository{
     @Override
     public void bookmarkBatchInsert(List<Bookmark> bookmarkList) {
         // 중복되는 값이 있다면 무시한다.
-        String insertQuery = String.format("INSERT IGNORE INTO %s ( category_id, bookmark_name, bookmark_link, " +
+        String insertQuery = String.format("INSERT INTO %s ( category_id, bookmark_name, bookmark_link, " +
                 "bookmark_description, bookmark_thumbnail, created_at, last_modified_at) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)", TABLE);
 
