@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.kakao.linknamu.category.CategoryExceptionStatus;
 import com.kakao.linknamu.category.entity.Category;
-import com.kakao.linknamu.category.repository.CategoryJPARepository;
+import com.kakao.linknamu.category.repository.CategoryJpaRepository;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.user.entity.User;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoryService {
 
-	private final CategoryJPARepository categoryJPARepository;
+	private final CategoryJpaRepository categoryJPARepository;
 
 	public Category save(String categoryName, Workspace workspace) {
 		Category category = Category.builder()

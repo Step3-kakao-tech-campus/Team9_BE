@@ -45,6 +45,12 @@ logging:
 proxy:
   enabled: true
 
+oauth2:
+  notion:
+    client_id: ${NOTION_CLIENT_ID}
+    secret: ${NOTION_SECRET}
+    redirect_uri: ${NOTION_REDIRECT_URI}
+
 access-jwt-secret-key: ${ACCESS_JWT_SECRET_KEY}
 refresh-jwt-secret-key: ${REFRESH_JWT_SECRET_KEY}
 

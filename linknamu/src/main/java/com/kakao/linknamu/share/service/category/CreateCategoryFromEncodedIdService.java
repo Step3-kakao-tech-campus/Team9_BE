@@ -46,7 +46,7 @@ public class CreateCategoryFromEncodedIdService {
 		List<Bookmark> bookmarkList = bookmarkReadService.getBookmarkListByCategoryId(category.getCategoryId());
 		for (Bookmark bookmark : bookmarkList) {
 			List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
-			bookmarkCreateService.bookmarkAdd(bookmark, newCategory, tagList, user);
+			bookmarkCreateService.addBookmark(bookmark, newCategory, tagList, user);
 		}
 
 	}

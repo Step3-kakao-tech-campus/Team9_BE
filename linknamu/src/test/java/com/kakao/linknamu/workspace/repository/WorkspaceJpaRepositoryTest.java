@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.kakao.linknamu.category.entity.Category;
-import com.kakao.linknamu.category.repository.CategoryJPARepository;
+import com.kakao.linknamu.category.repository.CategoryJpaRepository;
 import com.kakao.linknamu.core.TestConfig;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
@@ -37,7 +37,7 @@ public class WorkspaceJpaRepositoryTest {
 	@Autowired
 	private UserJPARepository userJPARepository;
 	@Autowired
-	private CategoryJPARepository categoryJPARepository;
+	private CategoryJpaRepository categoryJPARepository;
 	@Autowired
 	private EntityManager em;
 

@@ -1,28 +1,16 @@
 package com.kakao.linknamu.bookmark.entity;
 
-import java.util.Objects;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.querydsl.core.annotations.QueryInit;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -31,14 +19,13 @@ import lombok.NoArgsConstructor;
 	name = "bookmark_tb",
 	uniqueConstraints = {
 		@UniqueConstraint(
-			name = "categoryId_bookmarkLink unique constraint",
-			columnNames = {
-				"category_id",
-				"bookmark_link"
-			}
-		)
+			name = "category_id bookmark_link unique_constraint",
+			columnNames = {"category_id", "bookmark_link"})
 	},
-	indexes = @Index(name = "idx__bookmark_name", columnList = "bookmark_name")
+	indexes = {
+		@Index(
+			name = "bookmark_name_index",
+			columnList = "bookmark_name")}
 )
 public class Bookmark extends AuditingEntity {
 
@@ -71,7 +58,7 @@ public class Bookmark extends AuditingEntity {
 
 	@Builder
 	public Bookmark(Long bookmarkId, Category category, String bookmarkName, String bookmarkLink,
-		String bookmarkDescription, String bookmarkThumbnail) {
+					String bookmarkDescription, String bookmarkThumbnail) {
 		this.bookmarkId = bookmarkId;
 		this.category = category;
 		this.bookmarkName = bookmarkName;
@@ -81,17 +68,20 @@ public class Bookmark extends AuditingEntity {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
-		Bookmark bookmark = (Bookmark)o;
-		return Objects.equals(bookmarkId, bookmark.bookmarkId);
+		}
+		Bookmark bookmark = (Bookmark) obj;
+		return Objects.equals(getBookmarkId(), bookmark.getBookmarkId())
+			&& Objects.equals(getBookmarkLink(), bookmark.getBookmarkLink());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bookmarkId);
+		return Objects.hash(getBookmarkId(), getBookmarkLink());
 	}
 }
