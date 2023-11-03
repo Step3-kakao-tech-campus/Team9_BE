@@ -53,4 +53,8 @@ public class BookmarkReadService {
 
         return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
     }
+
+    public boolean existByBookmarkLinkAndCategoryId(String bookmarkLink, Long categoryId) {
+        return bookmarkJPARepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();
+    }
 }

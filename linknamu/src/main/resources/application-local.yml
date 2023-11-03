@@ -55,7 +55,6 @@ logging:
 
 
 oauth2:
-
   google:
     client_id: ${google-client-id}
     auth_uri: ${google-auth-uri}
@@ -67,7 +66,7 @@ oauth2:
     client_id: ${NOTION_CLIENT_ID}
     auth_uri: ${NOTION_URL}
     secret: ${NOTION_SECRET}
-
+    redirect_uri: https://localhost:8000/dev/notion/redirect
 
 
 

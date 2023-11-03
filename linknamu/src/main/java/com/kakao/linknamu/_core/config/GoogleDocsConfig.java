@@ -10,7 +10,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.docs.v1.DocsScopes;
-import com.kakao.linknamu.googleDocs.service.GoogleDocsApiBatchService;
+import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiBatchService;
 import lombok.Getter;
 import org.springframework.context.annotation.Configuration;
 
