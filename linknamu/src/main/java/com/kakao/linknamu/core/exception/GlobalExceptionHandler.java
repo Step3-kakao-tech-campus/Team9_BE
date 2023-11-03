@@ -26,33 +26,33 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({ConstraintViolationException.class})
 	public ResponseEntity<?> pathVarValidationException(ConstraintViolationException e) {
-		ApiUtils.ApiResult<?> apiResult = ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+		ApiUtils.ApiResult<?> apiResult = ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST.value(), "04000");
 		return new ResponseEntity<>(apiResult, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler({MethodArgumentNotValidException.class})
 	public ResponseEntity<?> dtoValidationException(MethodArgumentNotValidException e) {
 		List<ObjectError> errors = e.getBindingResult().getAllErrors();
-		return new ResponseEntity<>(ApiUtils.error(errors.get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST.value()),
+		return new ResponseEntity<>(ApiUtils.error(errors.get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST.value(), "04001"),
 			HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ResponseEntity<?> inValidInput() {
-		ApiUtils.ApiResult<?> apiResult = ApiUtils.error("정상적인 입력이 아닙니다.", HttpStatus.BAD_REQUEST.value());
+		ApiUtils.ApiResult<?> apiResult = ApiUtils.error("정상적인 입력이 아닙니다.", HttpStatus.BAD_REQUEST.value(), "04002");
 		return new ResponseEntity<>(apiResult, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler({MethodArgumentTypeMismatchException.class})
 	public ResponseEntity<?> dtoTypeMismatchException() {
-		return new ResponseEntity<>(ApiUtils.error("입력의 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST.value()),
+		return new ResponseEntity<>(ApiUtils.error("입력의 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST.value(), "04003"),
 			HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler({MissingServletRequestPartException.class})
 	public ResponseEntity<?> requestPartMissingException() {
 		return new ResponseEntity<>(
-			ApiUtils.error("form-data 형식에 file이라는 이름이 존재하지 않습니다.", HttpStatus.BAD_REQUEST.value()),
+			ApiUtils.error("form-data 형식에 file이라는 이름이 존재하지 않습니다.", HttpStatus.BAD_REQUEST.value(), "84001"),
 			HttpStatus.BAD_REQUEST);
 	}
 
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> unknownServerError(Exception e) {
 
 		return new ResponseEntity<>(
-			ApiUtils.error("서버에서 알 수 없는 에러가 발생했습니다." + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()),
+			ApiUtils.error("서버에서 알 수 없는 에러가 발생했습니다." + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "05000"),
 			HttpStatus.INTERNAL_SERVER_ERROR
 		);
 	}

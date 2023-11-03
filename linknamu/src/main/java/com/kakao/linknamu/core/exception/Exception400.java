@@ -12,7 +12,7 @@ public class Exception400 extends ClientException{
     }
 
     @Override
-    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), exceptionStatus.getStatus());}
+    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), exceptionStatus.getStatus(), exceptionStatus.getErrorCode());}
 
     @Override
     public HttpStatus status() { return HttpStatus.BAD_REQUEST;}
