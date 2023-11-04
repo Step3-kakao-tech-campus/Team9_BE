@@ -1,26 +1,15 @@
 package com.kakao.linknamu.tag.entity;
 
-import java.util.Objects;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -28,13 +17,11 @@ import lombok.NoArgsConstructor;
 @Table(
 	name = "tag_tb",
 	uniqueConstraints = {
-		@UniqueConstraint(
-			name = "userId_tagName unique constraint",
-			columnNames = {
-				"user_id",
-				"tag_name"
-			}
-		)
+		@UniqueConstraint
+			(
+				name = "user_id_tag_name unique_constraint",
+				columnNames = {"user_id", "tag_name"}
+			)
 	}
 )
 public class Tag extends AuditingEntity {
@@ -60,12 +47,14 @@ public class Tag extends AuditingEntity {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
-		Tag tag = (Tag)o;
+		}
+		Tag tag = (Tag) obj;
 		return Objects.equals(tagId, tag.tagId);
 	}
 

@@ -7,7 +7,7 @@ import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJpaRepository;
 import com.kakao.linknamu.tag.entity.Tag;
-import com.kakao.linknamu.tag.repository.TagJPARepository;
+import com.kakao.linknamu.tag.repository.TagJpaRepository;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
@@ -39,7 +39,7 @@ public class BookmarkTagJpaRepositoryTest {
 	@Autowired
 	BookmarkJpaRepository bookmarkJPARepository;
 	@Autowired
-	TagJPARepository tagJPARepository;
+	TagJpaRepository tagJPARepository;
 	@Autowired
 	BookmarkTagJpaRepository bookmarkTagJPARepository;
 	@Autowired
