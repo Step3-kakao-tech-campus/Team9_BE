@@ -1,24 +1,22 @@
 package com.kakao.linknamu.share.service.category;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkReadService;
-import com.kakao.linknamu.bookmarkTag.service.BookmarkTagReadService;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.encryption.AESEncryption;
 import com.kakao.linknamu.share.dto.PageInfoDto;
 import com.kakao.linknamu.share.dto.category.GetCategoryFromLinkResponseDto;
 import com.kakao.linknamu.tag.entity.Tag;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

@@ -1,7 +1,14 @@
 package com.kakao.linknamu.category;
 
-import static org.assertj.core.api.Assertions.*;
-
+import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.category.repository.CategoryJpaRepository;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kakao.linknamu.category.entity.Category;
-import com.kakao.linknamu.category.repository.CategoryJpaRepository;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.user.entity.constant.Provider;
-import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
-import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -27,7 +26,7 @@ public class CategoryJpaRepositoryTest {
 	@Autowired
 	private CategoryJpaRepository categoryJPARepository;
 	@Autowired
-	private UserJPARepository userJPARepository;
+	private UserJpaRepository userJPARepository;
 	@Autowired
 	private WorkspaceJPARepository workspaceJPARepository;
 

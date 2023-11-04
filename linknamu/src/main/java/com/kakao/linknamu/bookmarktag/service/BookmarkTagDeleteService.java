@@ -1,24 +1,22 @@
-package com.kakao.linknamu.bookmarkTag.service;
+package com.kakao.linknamu.bookmarktag.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.kakao.linknamu.bookmarkTag.BookmarkTagExceptionStatus;
-import com.kakao.linknamu.bookmarkTag.dto.DeleteBookmarkTagRequestDto;
-import com.kakao.linknamu.bookmarkTag.entity.BookmarkTag;
-import com.kakao.linknamu.bookmarkTag.entity.BookmarkTagId;
-import com.kakao.linknamu.bookmarkTag.repository.BookmarkTagJPARepository;
+import com.kakao.linknamu.bookmarktag.BookmarkTagExceptionStatus;
+import com.kakao.linknamu.bookmarktag.dto.DeleteBookmarkTagRequestDto;
+import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
+import com.kakao.linknamu.bookmarktag.entity.BookmarkTagId;
+import com.kakao.linknamu.bookmarktag.repository.BookmarkTagJpaRepository;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.user.entity.User;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @RequiredArgsConstructor
 @Service
 public class BookmarkTagDeleteService {
-	private final BookmarkTagJPARepository bookmarkTagJPARepository;
+	private final BookmarkTagJpaRepository bookmarkTagJPARepository;
 
 	public void deleteBookmarkTag(Long bookmarkId, String tagName) {
 		BookmarkTag bookmarkTag = bookmarkTagJPARepository.findMatchingBookmarkTag(bookmarkId, tagName);

@@ -1,11 +1,5 @@
 package com.kakao.linknamu.user.service;
 
-import java.util.UUID;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
@@ -22,11 +16,15 @@ import com.kakao.linknamu.user.dto.ReissueDto;
 import com.kakao.linknamu.user.dto.oauth.OauthUserInfo;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
 import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,16 +32,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserService {
 	private final PasswordEncoder passwordEncoder;
-	private final UserJPARepository userJPARepository;
+	private final UserJpaRepository userJpaRepository;
 	private final RefreshTokenService refreshTokenService;
 	private final BlackListTokenService blackListTokenService;
 	private final WorkspaceSaveService workspaceSaveService;
 
 	@Transactional
 	public LoginResponseDto socialLogin(OauthUserInfo userInfo) {
-		User user = userJPARepository.findByEmail(userInfo.email()).orElseGet(
+		User user = userJpaRepository.findByEmail(userInfo.email()).orElseGet(
 			() -> {
-				User signUpUser = userJPARepository.save(User.builder()
+				User signUpUser = userJpaRepository.save(User.builder()
 					.email(userInfo.email())
 					.password(passwordEncoder.encode(UUID.randomUUID().toString()))
 					.role(Role.ROLE_USER)
@@ -86,8 +84,8 @@ public class UserService {
 
 	@Transactional
 	public void withdrawal(User user, String accessToken) {
-		userJPARepository.findById(user.getUserId()).ifPresentOrElse(
-			userJPARepository::delete,
+		userJpaRepository.findById(user.getUserId()).ifPresentOrElse(
+			userJpaRepository::delete,
 			() -> {
 				throw new Exception404(UserExceptionStatus.USER_NOT_FOUND);
 			}
@@ -106,10 +104,10 @@ public class UserService {
 
 	private User getUserByRefreshToken(String refreshToken) {
 		try {
-			DecodedJWT decodedJWT = JwtProvider.verifyRefreshToken(refreshToken);
-			String email = decodedJWT.getClaim("email").asString();
-			Long id = decodedJWT.getClaim("id").asLong();
-			Role role = decodedJWT.getClaim("role").as(Role.class);
+			DecodedJWT decodedJwt = JwtProvider.verifyRefreshToken(refreshToken);
+			String email = decodedJwt.getClaim("email").asString();
+			Long id = decodedJwt.getClaim("id").asLong();
+			Role role = decodedJwt.getClaim("role").as(Role.class);
 			return User.builder().userId(id).email(email).role(role).build();
 		} catch (SignatureVerificationException | JWTDecodeException e) {
 			log.error(e.getMessage());

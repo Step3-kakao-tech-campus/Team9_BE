@@ -1,21 +1,5 @@
 package com.kakao.linknamu.user.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.security.test.context.support.TestExecutionEvent;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kakao.linknamu.core.RedisContainerExtension;
 import com.kakao.linknamu.core.RestDocs;
@@ -30,7 +14,23 @@ import com.kakao.linknamu.user.dto.ReissueDto;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(RedisContainerExtension.class)
 public class UserControllerTest extends RestDocs {
@@ -38,7 +38,7 @@ public class UserControllerTest extends RestDocs {
 	private static final String TEST_USER_EMAIL = "rjsdnxogh55@gmail.com";
 
 	@Autowired
-	private UserJPARepository userJPARepository;
+	private UserJpaRepository userJPARepository;
 
 	@Autowired
 	private RefreshTokenRepository refreshTokenRepository;

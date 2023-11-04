@@ -1,7 +1,6 @@
 package com.kakao.linknamu.tag;
 
 import com.kakao.linknamu.core.exception.BaseExceptionStatus;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -17,3 +16,5 @@ public enum TagExceptionStatus implements BaseExceptionStatus {
 	@Getter
 	private final String errorCode;
 }
+
+

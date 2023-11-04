@@ -1,22 +1,20 @@
 package com.kakao.linknamu.category.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkReadService;
-import com.kakao.linknamu.bookmarkTag.service.BookmarkTagReadService;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.dto.CategoryGetResponseDto;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service

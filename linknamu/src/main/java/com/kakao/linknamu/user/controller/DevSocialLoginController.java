@@ -31,65 +31,70 @@ import java.util.Optional;
 @RequestMapping("/dev")
 public class DevSocialLoginController {
 
-    @Value("${oauth2.google.client_id}")
-    private String clientId;
 
-    @Value("${oauth2.google.auth_uri}")
-    private String authUri;
+	@Value("${oauth2.google.client_id}")
+	private String clientId;
 
-    @Value("${oauth2.google.token_uri}")
-    private String tokenUri;
+	@Value("${oauth2.google.auth_uri}")
+	private String authUri;
 
-    @Value("${oauth2.google.client_secret}")
-    private String clientSecret;
+	@Value("${oauth2.google.token_uri}")
+	private String tokenUri;
 
-    @Value("${oauth2.google.redirect_uri}")
-    private String redirectUri;
+	@Value("${oauth2.google.client_secret}")
+	private String clientSecret;
 
-    private final ObjectMapper om;
-    private final RestTemplate restTemplate;
+	@Value("${oauth2.google.redirect_uri}")
+	private String redirectUri;
 
-    @GetMapping("/google/login")
-    public void googleLogin(HttpServletResponse response) throws IOException {
-        String uri = String.format(authUri +
-                        "?client_id=%s&response_type=code&redirect_uri=%s&scope=https://www.googleapis.com/auth/userinfo.email"
-                , clientId, redirectUri);
-        response.sendRedirect(uri);
-    }
+	private final ObjectMapper om;
+	private final RestTemplate restTemplate;
 
-    @GetMapping("/google/login/redirect")
-    public String googleLoginRedirect(@RequestParam("code") String code, @RequestParam(value = "error", required = false) Optional<String> error) {
-        // 로그인 요청 에러 발생 시 error 쿼리 스트링 값이 존재.
-        if (error.isPresent()) {
-            return error.get();
-        }
+	@GetMapping("/google/login")
+	public void loginGoogle(HttpServletResponse response) throws IOException {
+		String uri = String.format(authUri
+				+ "?client_id=%s&response_type=code&redirect_uri=%s&scope=https://www.googleapis.com/auth/userinfo.email",
+			clientId, redirectUri);
+		response.sendRedirect(uri);
+	}
 
-        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("grant_type", "authorization_code");
-        parameters.add("client_id", clientId);
-        parameters.add("redirect_uri", redirectUri);
-        parameters.add("code", code);
-        parameters.add("client_secret", clientSecret);
+	@GetMapping("/google/login/redirect")
+	public String redirectGoogleLogin(
+		@RequestParam("code") String code,
+		@RequestParam(value = "error", required = false) Optional<String> error
+	) {
 
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            HttpEntity<?> httpRequestEntity = new HttpEntity<>(parameters, headers);
-            ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, httpRequestEntity, String.class);
-            GoogleTokenResponseDto responseDto = om.readValue(response.getBody(), GoogleTokenResponseDto.class);
-            return responseDto.accessToken();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return "failed";
-    }
+		// 로그인 요청 에러 발생 시 error 쿼리 스트링 값이 존재.
+		if (error.isPresent()) {
+			return error.get();
+		}
 
-    private record GoogleTokenResponseDto(
-            @JsonProperty("access_token") String accessToken,
-            @JsonProperty("expires_in") Integer expiresIn,
-            @JsonProperty("token_type") String tokenType,
-            @JsonProperty("scope") String scope,
-            @JsonProperty("refresh_token") String refreshToken
-    ) {
-    }
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+		parameters.add("grant_type", "authorization_code");
+		parameters.add("client_id", clientId);
+		parameters.add("redirect_uri", redirectUri);
+		parameters.add("code", code);
+		parameters.add("client_secret", clientSecret);
+
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			HttpEntity<?> httpRequestEntity = new HttpEntity<>(parameters, headers);
+			ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, httpRequestEntity, String.class);
+			GoogleTokenResponseDto responseDto = om.readValue(response.getBody(), GoogleTokenResponseDto.class);
+			return responseDto.accessToken();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "failed";
+	}
+
+	private record GoogleTokenResponseDto(
+		@JsonProperty("access_token") String accessToken,
+		@JsonProperty("expires_in") Integer expiresIn,
+		@JsonProperty("token_type") String tokenType,
+		@JsonProperty("scope") String scope,
+		@JsonProperty("refresh_token") String refreshToken
+	) {
+	}
 }

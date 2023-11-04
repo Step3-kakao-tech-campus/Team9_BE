@@ -1,25 +1,23 @@
 package com.kakao.linknamu.bookmark.service;
 
-import static java.util.Objects.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
+import com.kakao.linknamu.bookmark.entity.Bookmark;
+import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagSearchService;
+import com.kakao.linknamu.core.dto.PageInfoDto;
+import com.kakao.linknamu.tag.entity.Tag;
+import com.kakao.linknamu.user.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
-import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
-import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
-import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
-import com.kakao.linknamu.core.dto.PageInfoDto;
-import com.kakao.linknamu.tag.entity.Tag;
-import com.kakao.linknamu.user.entity.User;
+import java.util.ArrayList;
+import java.util.List;
 
-import lombok.RequiredArgsConstructor;
+import static java.util.Objects.isNull;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
