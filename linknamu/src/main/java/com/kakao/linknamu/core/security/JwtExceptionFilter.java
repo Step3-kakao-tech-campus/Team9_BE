@@ -35,12 +35,12 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     private void setJwtExceptionResponse(HttpServletRequest request, HttpServletResponse response, Throwable exception) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getOutputStream().write(om.writeValueAsBytes(ApiUtils.error(exception.getMessage(), HttpStatus.UNAUTHORIZED.value())));
+        response.getOutputStream().write(om.writeValueAsBytes(ApiUtils.error(exception.getMessage(), HttpStatus.UNAUTHORIZED.value(), "04010")));
     }
 
     private void setForbiddenResponse(HttpServletRequest request, HttpServletResponse response, Throwable exception) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.getOutputStream().write(om.writeValueAsBytes(ApiUtils.error(exception.getMessage(), HttpStatus.FORBIDDEN.value())));
+        response.getOutputStream().write(om.writeValueAsBytes(ApiUtils.error(exception.getMessage(), HttpStatus.FORBIDDEN.value(), "04030")));
     }
 }

@@ -12,7 +12,7 @@ public class Exception401 extends ClientException{
     }
 
     @Override
-    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), exceptionStatus.getStatus());}
+    public ApiUtils.ApiResult<?> body() {return ApiUtils.error(getMessage(), exceptionStatus.getStatus(), exceptionStatus.getErrorCode());}
 
     @Override
     public HttpStatus status() { return HttpStatus.UNAUTHORIZED;}

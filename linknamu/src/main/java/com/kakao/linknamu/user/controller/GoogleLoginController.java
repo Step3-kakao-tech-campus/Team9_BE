@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception401;
 import com.kakao.linknamu.core.util.ApiUtils;
 import com.kakao.linknamu.user.UserExceptionStatus;
 import com.kakao.linknamu.user.dto.LoginResponseDto;
@@ -28,8 +28,8 @@ public class GoogleLoginController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> googleLogin(HttpServletRequest request) {
-		String token = Optional.of(request.getHeader("Google")).orElseThrow(
-			() -> new Exception400(UserExceptionStatus.GOOGLE_TOKEN_MISSING));
+		String token = Optional.ofNullable(request.getHeader("Google")).orElseThrow(
+				() -> new Exception401(UserExceptionStatus.GOOGLE_TOKEN_MISSING));
 
 		GoogleUserInfo userInfo = googleService.getGoogleUserInfo(token);
 		LoginResponseDto resultDto = userService.socialLogin(userInfo);
