@@ -14,10 +14,7 @@ import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiBatchServic
 import lombok.Getter;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,12 +36,12 @@ public class GoogleDocsConfig {
     private static final List<String> SCOPES =
             Collections.singletonList(DocsScopes.DOCUMENTS_READONLY);
     // OAuth 2.0 credentials.json 경로 지정
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "./src/main/resources/credentials.json";
 
     public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
         // credentials.json 가져오기
-        InputStream in = GoogleDocsApiBatchService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = new FileInputStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
