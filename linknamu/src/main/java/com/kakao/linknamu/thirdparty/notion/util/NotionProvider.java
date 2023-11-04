@@ -90,7 +90,7 @@ public class NotionProvider {
             if(e.getStatusCode().value() == 400) {
                 throw new Exception400(NotionExceptionStatus.INVALID_NOTION_CODE);
             }else if(e.getStatusCode().value() == 404) {
-                throw new Exception400(NotionExceptionStatus.INVALID_NOTION_PAGE_AND_AUTHORIAZION);
+                throw new Exception400(NotionExceptionStatus.INVALID_NOTION_PAGE_AND_AUTHORIZATION);
             }
             log.error(e.getMessage());
             throw new Exception500(NotionExceptionStatus.NOTION_LINK_ERROR);
