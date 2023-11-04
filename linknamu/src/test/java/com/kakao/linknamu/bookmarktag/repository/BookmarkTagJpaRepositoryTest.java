@@ -11,7 +11,7 @@ import com.kakao.linknamu.tag.repository.TagJpaRepository;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
 import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
@@ -33,7 +33,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Transactional
 public class BookmarkTagJpaRepositoryTest {
 	@Autowired
-	UserJPARepository userJPARepository;
+	UserJpaRepository userJPARepository;
 	@Autowired
 	CategoryJpaRepository categoryJPARepository;
 	@Autowired

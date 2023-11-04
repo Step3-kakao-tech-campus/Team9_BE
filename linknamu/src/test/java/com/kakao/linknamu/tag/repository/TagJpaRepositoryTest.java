@@ -4,7 +4,7 @@ import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Transactional
 public class TagJpaRepositoryTest {
 	@Autowired
-	UserJPARepository userJPARepository;
+	UserJpaRepository userJPARepository;
 	@Autowired
 	TagJpaRepository tagJPARepository;
 
