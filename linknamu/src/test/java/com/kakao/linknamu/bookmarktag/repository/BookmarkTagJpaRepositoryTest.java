@@ -1,22 +1,9 @@
-package com.kakao.linknamu.bookmarkTag.repository;
-
-import static org.assertj.core.api.AssertionsForClassTypes.*;
-
-import java.util.List;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
+package com.kakao.linknamu.bookmarktag.repository;
 
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
-import com.kakao.linknamu.bookmarkTag.entity.BookmarkTag;
+import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJpaRepository;
 import com.kakao.linknamu.tag.entity.Tag;
@@ -28,11 +15,23 @@ import com.kakao.linknamu.user.repository.UserJPARepository;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
 import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class BookmarkTagJPARepositoryTest {
+public class BookmarkTagJpaRepositoryTest {
 	@Autowired
 	UserJPARepository userJPARepository;
 	@Autowired
@@ -42,7 +41,7 @@ public class BookmarkTagJPARepositoryTest {
 	@Autowired
 	TagJPARepository tagJPARepository;
 	@Autowired
-	BookmarkTagJPARepository bookmarkTagJPARepository;
+	BookmarkTagJpaRepository bookmarkTagJPARepository;
 	@Autowired
 	WorkspaceJPARepository workspaceJPARepository;
 
