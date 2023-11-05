@@ -1,11 +1,19 @@
 package com.kakao.linknamu.user.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
-
-import java.util.Optional;
-import java.util.UUID;
-
+import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception404;
+import com.kakao.linknamu.core.redis.service.BlackListTokenService;
+import com.kakao.linknamu.core.redis.service.RefreshTokenService;
+import com.kakao.linknamu.core.security.JwtProvider;
+import com.kakao.linknamu.user.UserExceptionStatus;
+import com.kakao.linknamu.user.dto.LoginResponseDto;
+import com.kakao.linknamu.user.dto.ReissueDto;
+import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
+import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,20 +27,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.kakao.linknamu.core.exception.Exception400;
-import com.kakao.linknamu.core.exception.Exception404;
-import com.kakao.linknamu.core.redis.service.BlackListTokenService;
-import com.kakao.linknamu.core.redis.service.RefreshTokenService;
-import com.kakao.linknamu.core.security.JwtProvider;
-import com.kakao.linknamu.user.UserExceptionStatus;
-import com.kakao.linknamu.user.dto.LoginResponseDto;
-import com.kakao.linknamu.user.dto.ReissueDto;
-import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.user.entity.constant.Provider;
-import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -42,7 +41,7 @@ public class UserServiceTest {
 	@Spy
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	@Mock
-	private UserJPARepository userJPARepository;
+	private UserJpaRepository userJPARepository;
 	@Mock
 	private RefreshTokenService refreshTokenService;
 	@Mock

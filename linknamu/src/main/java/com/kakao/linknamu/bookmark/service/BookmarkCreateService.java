@@ -1,17 +1,11 @@
 package com.kakao.linknamu.bookmark.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
-import com.kakao.linknamu.bookmarkTag.entity.BookmarkTag;
-import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSaveService;
+import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagSaveService;
 import com.kakao.linknamu.category.CategoryExceptionStatus;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.repository.CategoryJpaRepository;
@@ -22,8 +16,12 @@ import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.tag.service.TagSaveService;
 import com.kakao.linknamu.tag.service.TagSearchService;
 import com.kakao.linknamu.user.entity.User;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor

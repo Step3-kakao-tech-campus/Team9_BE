@@ -1,9 +1,9 @@
 package com.kakao.linknamu.user.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Optional;
-
+import com.kakao.linknamu.core.config.QueryDslConfig;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.kakao.linknamu.core.config.QueryDslConfig;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.user.entity.constant.Provider;
-import com.kakao.linknamu.user.entity.constant.Role;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -24,10 +24,10 @@ import com.kakao.linknamu.user.entity.constant.Role;
 @DataJpaTest
 @Import(QueryDslConfig.class)
 public class UserJPAReposiotryTest {
-	private final UserJPARepository userJPARepository;
+	private final UserJpaRepository userJPARepository;
 
 	@Autowired
-	public UserJPAReposiotryTest(UserJPARepository userJPARepository) {
+	public UserJPAReposiotryTest(UserJpaRepository userJPARepository) {
 		this.userJPARepository = userJPARepository;
 	}
 

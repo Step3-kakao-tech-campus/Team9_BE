@@ -1,15 +1,9 @@
 package com.kakao.linknamu.share.service.workspace;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
 import com.kakao.linknamu.bookmark.service.BookmarkReadService;
-import com.kakao.linknamu.bookmarkTag.service.BookmarkTagReadService;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.encryption.AESEncryption;
@@ -21,8 +15,12 @@ import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.service.WorkspaceReadService;
 import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
