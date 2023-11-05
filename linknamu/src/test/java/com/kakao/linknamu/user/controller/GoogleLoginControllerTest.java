@@ -1,10 +1,13 @@
 package com.kakao.linknamu.user.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import com.kakao.linknamu.core.RedisContainerExtension;
+import com.kakao.linknamu.core.RestDocs;
+import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
+import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,20 +22,16 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.kakao.linknamu.core.RedisContainerExtension;
-import com.kakao.linknamu.core.RestDocs;
-import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.user.entity.constant.Provider;
-import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(RedisContainerExtension.class)
 public class GoogleLoginControllerTest extends RestDocs {
 
 	@Autowired
-	private UserJPARepository userJPARepository;
+	private UserJpaRepository userJPARepository;
 	@Autowired
 	private WorkspaceJPARepository workspaceJPARepository;
 	@MockBean

@@ -1,13 +1,12 @@
 package com.kakao.linknamu.category.dto;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.tag.entity.Tag;
-
 import lombok.Builder;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public record CategoryGetResponseDto(
 	PageInfoDto pageInfo,

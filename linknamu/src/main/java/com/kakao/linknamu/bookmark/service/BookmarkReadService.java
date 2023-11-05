@@ -5,7 +5,7 @@ import com.kakao.linknamu.bookmark.dto.BookmarkResponseDto;
 import com.kakao.linknamu.bookmark.dto.BookmarkUserQueryDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
-import com.kakao.linknamu.bookmarkTag.service.BookmarkTagReadService;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.tag.entity.Tag;

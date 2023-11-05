@@ -1,12 +1,5 @@
 package com.kakao.linknamu.user.controller;
 
-import java.util.Optional;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.kakao.linknamu.core.exception.Exception401;
 import com.kakao.linknamu.core.util.ApiUtils;
 import com.kakao.linknamu.user.UserExceptionStatus;
@@ -14,9 +7,14 @@ import com.kakao.linknamu.user.dto.LoginResponseDto;
 import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
 import com.kakao.linknamu.user.service.GoogleService;
 import com.kakao.linknamu.user.service.UserService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,9 +25,9 @@ public class GoogleLoginController {
 	private final UserService userService;
 
 	@PostMapping("/login")
-	public ResponseEntity<?> googleLogin(HttpServletRequest request) {
+	public ResponseEntity<?> loginGoogle(HttpServletRequest request) {
 		String token = Optional.ofNullable(request.getHeader("Google")).orElseThrow(
-				() -> new Exception401(UserExceptionStatus.GOOGLE_TOKEN_MISSING));
+			() -> new Exception401(UserExceptionStatus.GOOGLE_TOKEN_MISSING));
 
 		GoogleUserInfo userInfo = googleService.getGoogleUserInfo(token);
 		LoginResponseDto resultDto = userService.socialLogin(userInfo);

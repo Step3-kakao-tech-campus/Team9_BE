@@ -1,9 +1,15 @@
 package com.kakao.linknamu.workspace.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-
+import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.category.repository.CategoryJpaRepository;
+import com.kakao.linknamu.core.TestConfig;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,17 +20,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.kakao.linknamu.category.entity.Category;
-import com.kakao.linknamu.category.repository.CategoryJpaRepository;
-import com.kakao.linknamu.core.TestConfig;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.user.entity.constant.Provider;
-import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
-import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import java.util.List;
 
-import jakarta.persistence.EntityManager;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -35,7 +33,7 @@ public class WorkspaceJpaRepositoryTest {
 	@Autowired
 	private WorkspaceJPARepository workspaceJPARepository;
 	@Autowired
-	private UserJPARepository userJPARepository;
+	private UserJpaRepository userJPARepository;
 	@Autowired
 	private CategoryJpaRepository categoryJPARepository;
 	@Autowired

@@ -1,24 +1,16 @@
-package com.kakao.linknamu.bookmarkTag.entity;
-
-import java.util.Objects;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+package com.kakao.linknamu.bookmarktag.entity;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.tag.entity.Tag;
-
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -48,12 +40,14 @@ public class BookmarkTag extends AuditingEntity {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
-		BookmarkTag that = (BookmarkTag)o;
+		}
+		BookmarkTag that = (BookmarkTag) obj;
 		return Objects.equals(bookmarkTagId, that.bookmarkTagId);
 	}
 

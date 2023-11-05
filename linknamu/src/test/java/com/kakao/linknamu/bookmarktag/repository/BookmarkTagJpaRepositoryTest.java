@@ -1,9 +1,20 @@
-package com.kakao.linknamu.bookmarkTag.repository;
+package com.kakao.linknamu.bookmarktag.repository;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
-
-import java.util.List;
-
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
+import com.kakao.linknamu.bookmark.entity.Bookmark;
+import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
+import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
+import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.category.repository.CategoryJpaRepository;
+import com.kakao.linknamu.tag.entity.Tag;
+import com.kakao.linknamu.tag.repository.TagJpaRepository;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Provider;
+import com.kakao.linknamu.user.entity.constant.Role;
+import com.kakao.linknamu.user.repository.UserJpaRepository;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +24,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
-import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
-import com.kakao.linknamu.bookmarkTag.entity.BookmarkTag;
-import com.kakao.linknamu.category.entity.Category;
-import com.kakao.linknamu.category.repository.CategoryJpaRepository;
-import com.kakao.linknamu.tag.entity.Tag;
-import com.kakao.linknamu.tag.repository.TagJPARepository;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.user.entity.constant.Provider;
-import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.user.repository.UserJPARepository;
-import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class BookmarkTagJPARepositoryTest {
+public class BookmarkTagJpaRepositoryTest {
 	@Autowired
-	UserJPARepository userJPARepository;
+	UserJpaRepository userJPARepository;
 	@Autowired
 	CategoryJpaRepository categoryJPARepository;
 	@Autowired
 	BookmarkJpaRepository bookmarkJPARepository;
 	@Autowired
-	TagJPARepository tagJPARepository;
+	TagJpaRepository tagJPARepository;
 	@Autowired
-	BookmarkTagJPARepository bookmarkTagJPARepository;
+	BookmarkTagJpaRepository bookmarkTagJPARepository;
 	@Autowired
 	WorkspaceJPARepository workspaceJPARepository;
 
