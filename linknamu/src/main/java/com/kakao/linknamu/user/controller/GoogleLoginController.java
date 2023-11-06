@@ -26,10 +26,11 @@ public class GoogleLoginController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> loginGoogle(HttpServletRequest request) {
-		String token = Optional.ofNullable(request.getHeader("Google")).orElseThrow(
-			() -> new Exception400(UserExceptionStatus.GOOGLE_TOKEN_MISSING));
+		String code = Optional.ofNullable(request.getHeader("Google")).orElseThrow(
+			() -> new Exception400(UserExceptionStatus.GOOGLE_CODE_MISSING));
 
-		GoogleUserInfo userInfo = googleService.getGoogleUserInfo(token);
+		String accessToken = googleService.getGoogleAccessToken(code);
+		GoogleUserInfo userInfo = googleService.getGoogleUserInfo(accessToken);
 		LoginResponseDto resultDto = userService.socialLogin(userInfo);
 		return ResponseEntity.ok(ApiUtils.success(resultDto));
 	}
