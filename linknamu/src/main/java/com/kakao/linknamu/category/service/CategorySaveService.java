@@ -10,8 +10,10 @@ import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CategorySaveService {
 

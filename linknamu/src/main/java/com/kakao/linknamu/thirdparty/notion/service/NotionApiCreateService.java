@@ -19,9 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class NotionApiCreateService {
 	private final NotionAccountJpaRepository notionAccountJpaRepository;
 	private final NotionPageJpaRepository notionPageJpaRepository;

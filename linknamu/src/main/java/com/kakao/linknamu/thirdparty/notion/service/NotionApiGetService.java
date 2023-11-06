@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
+
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
+@Service
 public class NotionApiGetService {
 	private final NotionPageJpaRepository notionPageJpaRepository;
 	private final NotionAccountJpaRepository notionAccountJpaRepository;
