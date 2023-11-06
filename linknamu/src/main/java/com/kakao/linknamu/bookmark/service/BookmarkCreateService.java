@@ -53,9 +53,7 @@ public class BookmarkCreateService {
 
 		bookmarkJpaRepository.save(bookmark);
 
-		//새로운 Tag일 경우 Tag 테이블에 등록해야 한다.
-		List<Tag> tagEntities = new ArrayList<>();
-
+		List<BookmarkTag> bookmarkTagList = new ArrayList<>();
 		for (String tagName : bookmarkAddDto.getTags()) {
 			// 해당 태그가 존재하지 않는다면 새롭게 생성한다.
 			Tag tag = tagSearchService.searchByTagNameAndUserId(tagName, userDetails.getUserId())
