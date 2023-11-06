@@ -26,10 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
+@Transactional
+@RequiredArgsConstructor
+@Service
 public class UserService {
 	private final PasswordEncoder passwordEncoder;
 	private final UserJpaRepository userJpaRepository;
@@ -37,7 +37,6 @@ public class UserService {
 	private final BlackListTokenService blackListTokenService;
 	private final WorkspaceSaveService workspaceSaveService;
 
-	@Transactional
 	public LoginResponseDto socialLogin(OauthUserInfo userInfo) {
 		User user = userJpaRepository.findByEmail(userInfo.email()).orElseGet(
 			() -> {
@@ -82,7 +81,6 @@ public class UserService {
 		blackListTokenService.save(accessToken);
 	}
 
-	@Transactional
 	public void withdrawal(User user, String accessToken) {
 		userJpaRepository.findById(user.getUserId()).ifPresentOrElse(
 			userJpaRepository::delete,

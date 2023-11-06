@@ -1,5 +1,4 @@
 package com.kakao.linknamu.thirdparty.notion.util;
 
-public class InvalidNotionApiException extends RuntimeException{
-
+public class InvalidNotionApiException extends RuntimeException {
 }

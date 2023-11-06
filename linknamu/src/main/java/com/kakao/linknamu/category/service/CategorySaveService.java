@@ -1,7 +1,5 @@
 package com.kakao.linknamu.category.service;
 
-import org.springframework.stereotype.Service;
-
 import com.kakao.linknamu.category.CategoryExceptionStatus;
 import com.kakao.linknamu.category.dto.CategorySaveRequestDto;
 import com.kakao.linknamu.core.exception.Exception400;
@@ -9,16 +7,18 @@ import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
 import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
-
+import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CategorySaveService {
 
 	private final CategoryService categoryService;
-	private final WorkspaceJPARepository workspaceJPARepository;
+	private final WorkspaceJpaRepository workspaceJPARepository;
 
 	public void save(CategorySaveRequestDto requestDto, User user) {
 		Workspace workspace = workspaceJPARepository.findById(requestDto.workspaceId()).orElseThrow(() ->

@@ -16,17 +16,17 @@ import java.util.Optional;
 @Configuration
 public class JpaConfig {
 
-    /**
-     * 해당 코드는 @createdBy를 사용할 때 필요합니다.
-     * 현재는 필요하지 않습니다.
-     */
-    @Bean
-    public AuditorAware<String> auditorAware() {
-        return () -> Optional.of(SecurityContextHolder.getContext())
-                .map(SecurityContext::getAuthentication)
-                .filter(authentication -> !(authentication instanceof AnonymousAuthenticationToken))
-                .map(Authentication::getPrincipal)
-                .map(CustomUserDetails.class::cast)
-                .map(CustomUserDetails::getUsername);
-    }
+	/**
+	 * 해당 코드는 @createdBy를 사용할 때 필요합니다.
+	 * 현재는 필요하지 않습니다.
+	 */
+	@Bean
+	public AuditorAware<String> auditorAware() {
+		return () -> Optional.of(SecurityContextHolder.getContext())
+			.map(SecurityContext::getAuthentication)
+			.filter(authentication -> !(authentication instanceof AnonymousAuthenticationToken))
+			.map(Authentication::getPrincipal)
+			.map(CustomUserDetails.class::cast)
+			.map(CustomUserDetails::getUsername);
+	}
 }

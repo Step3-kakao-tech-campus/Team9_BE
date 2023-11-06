@@ -9,9 +9,11 @@ import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.tag.entity.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class BookmarkTagReadService {

@@ -11,21 +11,21 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BlackListTokenService {
-    private final BlackListTokenRepository blackListTokenRepository;
+	private final BlackListTokenRepository blackListTokenRepository;
 
-    public void save(String accessToken) {
-        Long remainTime = JwtProvider.getRemainExpiration(accessToken);
-        BlackListToken blackListToken = BlackListToken.builder()
-                .accessToken(accessToken)
-                .expiration(remainTime)
-                .build();
+	public void save(String accessToken) {
+		Long remainTime = JwtProvider.getRemainExpiration(accessToken);
+		BlackListToken blackListToken = BlackListToken.builder()
+			.accessToken(accessToken)
+			.expiration(remainTime)
+			.build();
 
-        blackListTokenRepository.save(blackListToken);
-    }
+		blackListTokenRepository.save(blackListToken);
+	}
 
-    public void validAccessToken(String accessToken) {
-        if (blackListTokenRepository.existsById(accessToken)) {
-            throw new Exception403(RedisExceptionStatus.BLACKLIST_TOKEN);
-        }
-    }
+	public void validAccessToken(String accessToken) {
+		if (blackListTokenRepository.existsById(accessToken)) {
+			throw new Exception403(RedisExceptionStatus.BLACKLIST_TOKEN);
+		}
+	}
 }
