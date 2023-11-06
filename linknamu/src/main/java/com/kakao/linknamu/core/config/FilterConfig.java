@@ -1,9 +1,8 @@
-package com.kakao.linknamu._core.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+package com.kakao.linknamu.core.config;
 
 import com.kakao.linknamu.core.filter.LoggingFilter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FilterConfig {

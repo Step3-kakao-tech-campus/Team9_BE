@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class JsonParserConfig {
 
-    @Scope("prototype")
-    @Bean
-    public JSONParser jsonParser() {
-        return new JSONParser();
-    }
+	@Scope("prototype")
+	@Bean
+	public JSONParser jsonParser() {
+		return new JSONParser();
+	}
 }

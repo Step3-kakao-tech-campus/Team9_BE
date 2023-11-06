@@ -1,10 +1,13 @@
 package com.kakao.linknamu.workspace.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
-
-import java.util.Optional;
-
+import com.kakao.linknamu.core.exception.Exception403;
+import com.kakao.linknamu.core.exception.Exception404;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.user.entity.constant.Role;
+import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,14 +16,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.kakao.linknamu.core.exception.Exception403;
-import com.kakao.linknamu.core.exception.Exception404;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.user.entity.constant.Role;
-import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
-import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class WorkspaceDeleteServiceTest {
@@ -28,7 +28,7 @@ public class WorkspaceDeleteServiceTest {
 	private WorkspaceDeleteService workspaceDeleteService;
 
 	@Mock
-	private WorkspaceJPARepository workspaceJPARepository;
+	private WorkspaceJpaRepository workspaceJPARepository;
 
 	@DisplayName("워크스페이스 삭제 테스트")
 	@Nested

@@ -1,24 +1,14 @@
 package com.kakao.linknamu.thirdparty.notion.entity;
 
-import java.util.Objects;
-
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -28,6 +18,7 @@ import lombok.NoArgsConstructor;
 		@UniqueConstraint(name = "uk_user_token", columnNames = {"user_id", "token"})
 	}
 )
+
 public class NotionAccount extends AuditingEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,12 +40,14 @@ public class NotionAccount extends AuditingEntity {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
-		NotionAccount notion = (NotionAccount)o;
+		}
+		NotionAccount notion = (NotionAccount) obj;
 		return Objects.equals(getId(), notion.getId()) && Objects.equals(getToken(), notion.getToken());
 	}
 

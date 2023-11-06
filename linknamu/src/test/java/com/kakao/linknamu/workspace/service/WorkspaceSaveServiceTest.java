@@ -1,11 +1,11 @@
 package com.kakao.linknamu.workspace.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.*;
-
-import java.util.Optional;
-
+import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
+import com.kakao.linknamu.workspace.entity.Workspace;
+import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,12 +15,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.kakao.linknamu.core.exception.Exception400;
-import com.kakao.linknamu.user.entity.User;
-import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
-import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class WorkspaceSaveServiceTest {
@@ -28,7 +28,7 @@ public class WorkspaceSaveServiceTest {
 	private WorkspaceSaveService workspaceSaveService;
 
 	@Mock
-	private WorkspaceJPARepository workspaceJPARepository;
+	private WorkspaceJpaRepository workspaceJPARepository;
 
 	@DisplayName("워크스페이스 생성 서비스 테스트")
 	@Nested

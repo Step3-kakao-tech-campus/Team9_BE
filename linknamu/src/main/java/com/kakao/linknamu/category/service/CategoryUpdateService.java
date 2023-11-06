@@ -12,6 +12,7 @@ import com.kakao.linknamu.user.entity.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class CategoryUpdateService {
 

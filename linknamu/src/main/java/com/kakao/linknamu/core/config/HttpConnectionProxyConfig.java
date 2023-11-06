@@ -12,16 +12,16 @@ import java.net.Proxy;
 @Profile(value = {"prod"})
 @Configuration
 public class HttpConnectionProxyConfig {
-    private final static String PROXY_HOST = "krmp-proxy.9rum.cc";
-    private final static int PROXY_PORT = 3128;
+	private static final String PROXY_HOST = "krmp-proxy.9rum.cc";
+	private static final int PROXY_PORT = 3128;
 
     @Bean
     public RestTemplate restTemplateWithProxy() {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(PROXY_HOST, PROXY_PORT));
         requestFactory.setProxy(proxy);
-        requestFactory.setConnectTimeout(5000); // 연결시간초과, ms
-        requestFactory.setReadTimeout(5000); // 읽기시간초과, ms
+        requestFactory.setConnectTimeout(5000);
+        requestFactory.setReadTimeout(5000);
         return new RestTemplate(requestFactory);
     }
 }

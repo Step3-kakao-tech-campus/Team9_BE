@@ -12,11 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class CategoryReadService {
 
@@ -29,7 +31,7 @@ public class CategoryReadService {
 		categoryService.validUser(category.getWorkspace(), user);
 
 		Page<Bookmark> bookmarkPage = bookmarkReadService.findByCategoryId(categoryId, pageable);
-		PageInfoDto pageInfoDto = PageInfoDto.of(bookmarkPage);
+		PageInfoDto pageInfoDto = new PageInfoDto(bookmarkPage);
 		List<CategoryGetResponseDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
 		for (Bookmark bookmark : bookmarkPage.getContent()) {
 			List<Tag> tags = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
