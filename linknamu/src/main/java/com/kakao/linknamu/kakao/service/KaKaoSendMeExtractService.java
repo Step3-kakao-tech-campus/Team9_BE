@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class KaKaoSendMeExtractService {
 
 	private final JsoupUtils jsoupUtils;
-	private static final String DEFAULT_TITLE = "북마크 링크";
+	private static final String DEFAULT_TITLE = "추출된 링크";
 
 	public List<KakaoSendMeResponseDto> extractLink(MultipartFile multipartFile) {
 
