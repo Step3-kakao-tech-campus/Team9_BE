@@ -46,6 +46,10 @@ proxy:
   enabled: true
 
 oauth2:
+  google:
+    client_id: ${GOOGLE_CLIENT_ID}
+    client_secret: ${GOOGLE_CLIENT_SECRET}
+    redirect_uri: ${GOOGLE_REDIRECT_URI}
   notion:
     client_id: ${NOTION_CLIENT_ID}
     secret: ${NOTION_SECRET}
