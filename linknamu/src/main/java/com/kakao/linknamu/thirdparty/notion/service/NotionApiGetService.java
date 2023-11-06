@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class NotionApiGetService {
 	private final NotionPageJpaRepository notionPageJpaRepository;
-	private final NotionAccountJpaRepository notionAccountJpaRepository;
 
 	public List<NotionPage> getActiveNotionPage() {
 		return notionPageJpaRepository.findByActivePageFetchJoin();

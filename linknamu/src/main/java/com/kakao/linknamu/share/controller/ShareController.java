@@ -34,7 +34,7 @@ public class ShareController {
 	private final GetCategoryFromEncodedIdService getCategoryFromEncodedIdService;
 	private final CreateCategoryFromEncodedIdService createCategoryFromEncodedIdService;
 
-	//워크스페이스
+	// 워크스페이스
 	@GetMapping("/workspace/{workSpaceId}")
 	public ResponseEntity<?> createLinkFromWorkSpaceId(
 		@PathVariable("workSpaceId") @Positive(message = "id는 양수여야함.") Long workSpaceId) {
@@ -57,7 +57,7 @@ public class ShareController {
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
-	//카테고리
+	// 카테고리
 	@GetMapping("/category/{categoryId}")
 	public ResponseEntity<?> createLinkFromCategoryId(
 		@PathVariable("categoryId") @Positive(message = "id는 양수여야함.") Long categoryId) {
