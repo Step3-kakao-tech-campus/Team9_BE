@@ -16,7 +16,6 @@ public class CreateLinkFromCategoryService {
 	private static final String DOMAIN = "https://www.linknamu.com/share-link/category/share?category=";
 
 	public String createLink(Long categoryId) {
-		aesEncryption.getMainAlgorithm()
 		categoryService.findById(categoryId);
 		String encodedString = aesEncryption.encode(categoryId.toString());
 		String link = DOMAIN + encodedString;

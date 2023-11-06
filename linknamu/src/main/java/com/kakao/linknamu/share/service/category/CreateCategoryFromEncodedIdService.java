@@ -11,8 +11,6 @@ import com.kakao.linknamu.share.dto.category.CreateCategoryFromEncodedIdRequestD
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.service.WorkspaceReadService;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,11 +26,9 @@ public class CreateCategoryFromEncodedIdService {
 	private final WorkspaceService workspaceService;
 
 	private final AesEncryption aesEncryption;
-	private final WorkspaceSaveService workspaceSaveService;
 	private final CategoryService categoryService;
 	private final BookmarkReadService bookmarkReadService;
 	private final BookmarkCreateService bookmarkCreateService;
-	private final WorkspaceReadService workspaceReadService;
 	private final BookmarkTagReadService bookmarkTagReadService;
 
 	public void createCategory(String encodedCategoryId, CreateCategoryFromEncodedIdRequestDto requestDto, User user) {

@@ -8,7 +8,7 @@ import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJpaRepository;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class CategoryJpaRepositoryTest {
 	@Autowired
 	private UserJpaRepository userJPARepository;
 	@Autowired
-	private WorkspaceJPARepository workspaceJPARepository;
+	private WorkspaceJpaRepository workspaceJPARepository;
 
 	@Test
 	@DisplayName("카테고리_생성_테스트")

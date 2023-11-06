@@ -25,32 +25,31 @@ public class WorkspaceController {
 
 	@GetMapping("/list")
 	public ResponseEntity<?> getWorkspaceList(@AuthenticationPrincipal CustomUserDetails userDetails) {
-		// 워크스페이스 리스트 조회 서비스 코드
 		return ResponseEntity.ok(ApiUtils.success(workspaceReadService.getWorkspaceList(userDetails.getUser())));
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<?> createWorkspace(@RequestBody @Valid WorkspaceCreateRequestDto requestDto,
-											 @AuthenticationPrincipal CustomUserDetails userDetails) {
-		// 워크스페이스 생성 서비스 코드
+	public ResponseEntity<?> createWorkspace(
+		@RequestBody @Valid WorkspaceCreateRequestDto requestDto,
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
 		workspaceSaveService.createWorkspace(requestDto.workspaceName(), userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
-	
-	@PostMapping("/update/{workspace_id}")
-	public ResponseEntity<?> updateWorkspace(@PathVariable("workspace_id") Long workspaceId,
-											 @RequestBody @Valid WorkspaceUpdateRequestDto requestDto,
-											 @AuthenticationPrincipal CustomUserDetails userDetails) {
-		// 워크스페이스 수정 서비스 코드
-		workspaceUpdateService.updateWorkspace(workspaceId, requestDto, userDetails.getUser());
+
+	@PostMapping("/update/{workspaceId}")
+	public ResponseEntity<?> updateWorkspace(
+		@PathVariable("workspaceId") Long workspaceId,
+		@RequestBody @Valid WorkspaceUpdateRequestDto requestDto,
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		workspaceUpdateService.updateWorkspaceName(workspaceId, requestDto, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
-	@PostMapping("/delete/{workspace_id}")
-	public ResponseEntity<?> deleteWorkspace(@PathVariable("workspace_id") Long workspaceId,
-											 @AuthenticationPrincipal CustomUserDetails userDetails) {
-		// 워크스페이스 삭제 서비스 코드
+	@PostMapping("/delete/{workspaceId}")
+	public ResponseEntity<?> deleteWorkspace(
+		@PathVariable("workspaceId") Long workspaceId,
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
 		workspaceDeleteService.deleteWorkspace(workspaceId, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}

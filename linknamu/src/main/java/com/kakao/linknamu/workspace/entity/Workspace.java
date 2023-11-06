@@ -1,36 +1,18 @@
 package com.kakao.linknamu.workspace.entity;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,13 +22,11 @@ import lombok.ToString;
 @Table(
 	name = "workspace_tb",
 	uniqueConstraints = {
-		@UniqueConstraint(
-			name = "user_workspaceName unique constraint",
-			columnNames = {
-				"user_id",
-				"workspace_name"
-			}
-		)
+		@UniqueConstraint
+			(
+				name = "user_workspaceName unique_constraint",
+				columnNames = {"user_id", "workspace_name"}
+			),
 	}
 )
 public class Workspace extends AuditingEntity {
@@ -87,12 +67,14 @@ public class Workspace extends AuditingEntity {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
-		Workspace workspace = (Workspace)o;
+		}
+		Workspace workspace = (Workspace) obj;
 		return Objects.equals(getId(), workspace.getId());
 	}
 

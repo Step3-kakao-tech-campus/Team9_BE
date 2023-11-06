@@ -53,7 +53,7 @@ public class BookmarkCreateService {
 
 		bookmarkJpaRepository.save(bookmark);
 
-		/* 새로운 Tag일 경우 Tag 테이블에 등록해야 한다. */
+		//새로운 Tag일 경우 Tag 테이블에 등록해야 한다.
 		List<Tag> tagEntities = new ArrayList<>();
 
 		for (String tagName : bookmarkAddDto.getTags()) {
@@ -71,7 +71,7 @@ public class BookmarkCreateService {
 			tagEntities.add(tag);
 		}
 
-		/* BookmarkTag 테이블에 등록 */
+		// BookmarkTag 테이블에 등록
 		List<BookmarkTag> bookmarkTagList = tagEntities.stream()
 			.map(tag -> BookmarkTag.builder()
 				.bookmark(bookmark)
