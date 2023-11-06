@@ -34,7 +34,7 @@ public class BookmarkSearchService {
 		} else {
 			bookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
 		}
-		return BookmarkSearchResponseDto.of(PageInfoDto.of(bookmarks), getBookmarkContentDtos(bookmarks));
+		return BookmarkSearchResponseDto.of(new PageInfoDto(bookmarks), getBookmarkContentDtos(bookmarks));
 	}
 
 	private List<BookmarkSearchResponseDto.BookmarkContentDto> getBookmarkContentDtos(Page<Bookmark> bookmarks) {

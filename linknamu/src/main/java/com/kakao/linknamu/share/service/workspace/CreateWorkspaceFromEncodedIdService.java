@@ -6,7 +6,7 @@ import com.kakao.linknamu.bookmark.service.BookmarkReadService;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
-import com.kakao.linknamu.core.encryption.AESEncryption;
+import com.kakao.linknamu.core.encryption.AesEncryption;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class CreateWorkspaceFromEncodedIdService {
 	private final WorkspaceService workspaceService;
 
-	private final AESEncryption aesEncryption;
+	private final AesEncryption aesEncryption;
 	private final WorkspaceSaveService workspaceSaveService;
 	private final CategoryService categoryService;
 	private final BookmarkReadService bookmarkReadService;
@@ -52,10 +52,9 @@ public class CreateWorkspaceFromEncodedIdService {
 			Category newCategory = categoryService.save(category.getCategoryName(), newWorkspace);
 			List<Bookmark> bookmarkList = bookmarkReadService.getBookmarkListByCategoryId(category.getCategoryId());
 			for (Bookmark bookmark : bookmarkList) {
-				//요기서
 				List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
 				bookmarkCreateService.addBookmark(bookmark, newCategory, tagList, user);
-				//여기 사이에서 오류가 나는거 같음 북마크 태그만들때 마지막 북마크에 태그리스트가 만들어지지 않음
+
 			}
 		}
 

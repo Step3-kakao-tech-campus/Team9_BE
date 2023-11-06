@@ -1,4 +1,4 @@
-package com.kakao.linknamu.thirdparty.googleDocs.util;
+package com.kakao.linknamu.thirdparty.googledocs.util;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -8,7 +8,7 @@ import com.google.api.services.docs.v1.model.Document;
 import com.kakao.linknamu.core.config.GoogleDocsConfig;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception500;
-import com.kakao.linknamu.thirdparty.googleDocs.GoogleDocsExceptionStatus;
+import com.kakao.linknamu.thirdparty.googledocs.GoogleDocsExceptionStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,8 +25,9 @@ public class GoogleDocsProvider {
 
 	public String getGoogleDocsTitle(String documentId) {
 		try {
-			final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-			Docs service = new Docs.Builder(HTTP_TRANSPORT, GoogleDocsConfig.getJSON_FACTORY(), getCredentials(HTTP_TRANSPORT))
+			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+			Docs service = new Docs.Builder(httpTransport,
+				GoogleDocsConfig.getJSON_FACTORY(), getCredentials(httpTransport))
 				.setApplicationName(GoogleDocsConfig.getAPPLICATION_NAME())
 				.build();
 

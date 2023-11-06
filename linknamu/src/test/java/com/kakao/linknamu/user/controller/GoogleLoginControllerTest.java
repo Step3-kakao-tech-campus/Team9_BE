@@ -7,7 +7,7 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJpaRepository;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class GoogleLoginControllerTest extends RestDocs {
 	@Autowired
 	private UserJpaRepository userJPARepository;
 	@Autowired
-	private WorkspaceJPARepository workspaceJPARepository;
+	private WorkspaceJpaRepository workspaceJPARepository;
 	@MockBean
 	private RestTemplate restTemplate;
 

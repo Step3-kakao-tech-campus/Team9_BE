@@ -1,5 +1,15 @@
 package com.kakao.linknamu.kakao.service;
 
+import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception500;
+import com.kakao.linknamu.kakao.KakaoExceptionStatus;
+import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
+import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -7,35 +17,29 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.kakao.linknamu.category.KakaoExceptionStatus;
-import com.kakao.linknamu.core.exception.Exception400;
-import com.kakao.linknamu.core.exception.Exception500;
-import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
-
-import lombok.RequiredArgsConstructor;
-
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class KaKaoSendMeExtractService {
 
+	private final JsoupUtils jsoupUtils;
+	private static final String DEFAULT_TITLE = "추출된 링크";
+
 	public List<KakaoSendMeResponseDto> extractLink(MultipartFile multipartFile) {
 
 		List<KakaoSendMeResponseDto> responseDtos = new ArrayList<>();
 
-		if (multipartFile.isEmpty())
+		if (multipartFile.isEmpty()) {
 			throw new Exception400(KakaoExceptionStatus.FILE_NOTFOUND);
+		}
 
 		String contentType = multipartFile.getContentType();
 
 		boolean isSupportedFormat = (contentType.equals("text/plain")) || (contentType.equals("text/csv"));
 
-		if (isSupportedFormat == false)
+		if (isSupportedFormat == false) {
 			throw new Exception400(KakaoExceptionStatus.FILE_INVALID_FORMAT);
+		}
 
 		try {
 			byte[] fileBytes = multipartFile.getBytes();
@@ -47,10 +51,32 @@ public class KaKaoSendMeExtractService {
 			//        \bhttps?://\S+   => 모든 http, https 도메인 검출
 			Pattern pattern = Pattern.compile(regex);
 			Matcher matcher = pattern.matcher(fileContent);
-			while (matcher.find()) {
-				String httpsLink = matcher.group();
-				responseDtos.add(new KakaoSendMeResponseDto(httpsLink));
-			}
+
+			// 병렬 쓰레드로 실행
+			matcher.results().parallel()
+				.forEach(matchResult -> {
+					String httpsLink = matchResult.group();
+					if (httpsLink.endsWith("\"")) {
+						httpsLink = httpsLink.substring(0, httpsLink.length() - 1);
+					}
+					String title = jsoupUtils.getTitle(httpsLink);
+					responseDtos.add(new KakaoSendMeResponseDto(
+						title.equals(httpsLink) ? DEFAULT_TITLE : title,
+						httpsLink)
+					);
+				});
+
+//			while (matcher.find()) {
+//				String httpsLink = matcher.group();
+//				if(httpsLink.endsWith("\""))
+//					httpsLink = httpsLink.substring(0, httpsLink.length()-1);
+//
+//				String title = jsoupUtils.getTitle(httpsLink);
+//				responseDtos.add(new KakaoSendMeResponseDto(
+//					title.equals(httpsLink) ? DEFAULT_TITLE : title,
+//					httpsLink)
+//				);
+//			}
 			return responseDtos;
 		} catch (IOException e) {
 			throw new Exception500(KakaoExceptionStatus.FILE_READ_FAILED);

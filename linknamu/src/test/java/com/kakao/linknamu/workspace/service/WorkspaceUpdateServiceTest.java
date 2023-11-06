@@ -1,18 +1,5 @@
 package com.kakao.linknamu.workspace.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
-
-import java.util.Optional;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.user.entity.User;
@@ -21,7 +8,20 @@ import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
 import com.kakao.linknamu.workspace.dto.WorkspaceUpdateRequestDto;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class WorkspaceUpdateServiceTest {
@@ -29,7 +29,7 @@ public class WorkspaceUpdateServiceTest {
 	private WorkspaceUpdateService workspaceUpdateService;
 
 	@Mock
-	private WorkspaceJPARepository workspaceJPARepository;
+	private WorkspaceJpaRepository workspaceJPARepository;
 
 	@DisplayName("워크스페이스 수정 테스트")
 	@Nested
@@ -52,7 +52,7 @@ public class WorkspaceUpdateServiceTest {
 			given(workspaceJPARepository.findById(workspace.getId())).willReturn(Optional.of(workspace));
 
 			// when
-			workspaceUpdateService.updateWorkspace(1L, requestDto, user);
+			workspaceUpdateService.updateWorkspaceName(1L, requestDto, user);
 
 			// then
 			assertEquals(rename, workspace.getWorkspaceName());
@@ -77,7 +77,7 @@ public class WorkspaceUpdateServiceTest {
 
 			// when
 			Throwable exception = assertThrows(Exception404.class,
-				() -> workspaceUpdateService.updateWorkspace(1L, requestDto, user));
+				() -> workspaceUpdateService.updateWorkspaceName(1L, requestDto, user));
 
 			// then
 			assertEquals(WorkspaceExceptionStatus.WORKSPACE_NOT_FOUND.getMessage(), exception.getMessage());
@@ -103,7 +103,7 @@ public class WorkspaceUpdateServiceTest {
 
 			// when
 			Throwable exception = assertThrows(Exception403.class,
-				() -> workspaceUpdateService.updateWorkspace(1L, requestDto, anotherUser));
+				() -> workspaceUpdateService.updateWorkspaceName(1L, requestDto, anotherUser));
 
 			// then
 			assertEquals(WorkspaceExceptionStatus.WORKSPACE_FORBIDDEN.getMessage(), exception.getMessage());

@@ -15,45 +15,52 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @RedisHash(value = "refreshToken")
 public class RefreshToken {
-    // Jakarta(하이버네이트) Id가 아닌 Springframework Id를 사용해야 합니다.
-    @Id
-    private String refreshToken;
-    private Long userId;
-    private String email;
+	// Jakarta(하이버네이트) Id가 아닌 Springframework Id를 사용해야 합니다.
+	@Id
+	private String refreshToken;
 
-    @Indexed
-    private String accessToken;
+	private Long userId;
 
-    @TimeToLive(unit = TimeUnit.MILLISECONDS)
-    private Long expiraition = JwtProvider.REFRESH_EXP;
 
-    @Builder
-    public RefreshToken(String refreshToken, Long userId, String email, String accessToken) {
-        this.refreshToken = refreshToken;
-        this.userId = userId;
-        this.email = email;
-        this.accessToken = accessToken;
-    }
+	private String email;
 
-    public static RefreshToken of(String refreshToken, String accessToken, User user) {
-        return RefreshToken.builder()
-                .refreshToken(refreshToken)
-                .accessToken(accessToken)
-                .userId(user.getUserId())
-                .email(user.getEmail())
-                .build();
-    }
+	@Indexed
+	private String accessToken;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RefreshToken that = (RefreshToken) o;
-        return Objects.equals(getRefreshToken(), that.getRefreshToken());
-    }
+	@TimeToLive(unit = TimeUnit.MILLISECONDS)
+	private Long expiraition = JwtProvider.REFRESH_EXP;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getRefreshToken());
-    }
+	@Builder
+	public RefreshToken(String refreshToken, Long userId, String email, String accessToken) {
+		this.refreshToken = refreshToken;
+		this.userId = userId;
+		this.email = email;
+		this.accessToken = accessToken;
+	}
+
+	public static RefreshToken of(String refreshToken, String accessToken, User user) {
+		return RefreshToken.builder()
+			.refreshToken(refreshToken)
+			.accessToken(accessToken)
+			.userId(user.getUserId())
+			.email(user.getEmail())
+			.build();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		RefreshToken that = (RefreshToken) obj;
+		return Objects.equals(getRefreshToken(), that.getRefreshToken());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getRefreshToken());
+	}
 }

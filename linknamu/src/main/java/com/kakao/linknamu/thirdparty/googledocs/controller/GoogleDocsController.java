@@ -1,10 +1,10 @@
-package com.kakao.linknamu.thirdparty.googleDocs.controller;
+package com.kakao.linknamu.thirdparty.googledocs.controller;
 
-import com.kakao.linknamu.core.util.ApiUtils;
 import com.kakao.linknamu.core.security.CustomUserDetails;
-import com.kakao.linknamu.thirdparty.googleDocs.dto.GoogleDocsApiRegistrationRequestDto;
-import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiCreateService;
-import com.kakao.linknamu.thirdparty.googleDocs.service.GoogleDocsApiDeleteService;
+import com.kakao.linknamu.core.util.ApiUtils;
+import com.kakao.linknamu.thirdparty.googledocs.dto.RegisterGoogleDocsRequestDto;
+import com.kakao.linknamu.thirdparty.googledocs.service.GoogleDocsApiCreateService;
+import com.kakao.linknamu.thirdparty.googledocs.service.GoogleDocsApiDeleteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +20,16 @@ public class GoogleDocsController {
 	private final GoogleDocsApiDeleteService googleDocsApiDeleteService;
 
 	@PostMapping("/registration")
-	public ResponseEntity<?> apiRegistration(@RequestBody @Valid GoogleDocsApiRegistrationRequestDto dto,
-											 @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public ResponseEntity<?> registerDocs(
+		@RequestBody @Valid RegisterGoogleDocsRequestDto dto,
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
 		googleDocsApiCreateService.createDocsApi(dto, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
 	@PostMapping("/delete/{docsPageId}")
-	public ResponseEntity<?> apiDelete(@PathVariable(name = "docsPageId") Long docsPageId,
+	public ResponseEntity<?> deleteDocs(
+		@PathVariable(name = "docsPageId") Long docsPageId,
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		googleDocsApiDeleteService.deleteDocsPage(customUserDetails.getUser(), docsPageId);
 		return ResponseEntity.ok(ApiUtils.success(null));

@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface BlackListTokenRepository extends CrudRepository<BlackListToken, String> {
-    Optional<BlackListToken> findById(String accessToken);
+	Optional<BlackListToken> findById(String accessToken);
 }

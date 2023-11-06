@@ -12,7 +12,7 @@ import com.kakao.linknamu.workspace.dto.WorkspaceCreateRequestDto;
 import com.kakao.linknamu.workspace.dto.WorkspaceUpdateRequestDto;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.repository.WorkspaceJPARepository;
+import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
 import com.kakao.linknamu.workspace.service.WorkspaceDeleteService;
 import com.kakao.linknamu.workspace.service.WorkspaceReadService;
 import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
@@ -48,7 +48,7 @@ public class WorkspaceControllerTest extends RestDocs {
 	@Autowired
 	private WorkspaceUpdateService workspaceUpdateService;
 	@Autowired
-	private WorkspaceJPARepository workspaceJPARepository;
+	private WorkspaceJpaRepository workspaceJPARepository;
 	@Autowired
 	private UserJpaRepository userJPARepository;
 	@Autowired

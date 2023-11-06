@@ -11,25 +11,27 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
-    private final RefreshTokenRepository refreshTokenRepository;
 
-    public void save(String refreshToken, String accessToken, User user) {
-        RefreshToken token = RefreshToken.of(refreshToken, accessToken, user);
-        refreshTokenRepository.save(token);
-    }
 
-    public void deleteById(String refreshToken) {
-        refreshTokenRepository.deleteById(refreshToken);
-    }
+	private final RefreshTokenRepository refreshTokenRepository;
 
-    public void deleteByAccessToken(String accessToken) {
-        RefreshToken token = refreshTokenRepository.findByAccessToken(accessToken).orElseThrow(
-                () -> new Exception404(RedisExceptionStatus.REFRESH_TOKEN_NOT_FOUND));
+	public void save(String refreshToken, String accessToken, User user) {
+		RefreshToken token = RefreshToken.of(refreshToken, accessToken, user);
+		refreshTokenRepository.save(token);
+	}
 
-        refreshTokenRepository.deleteById(token.getRefreshToken());
-    }
+	public void deleteById(String refreshToken) {
+		refreshTokenRepository.deleteById(refreshToken);
+	}
 
-    public boolean existsById(String refreshToken) {
-        return refreshTokenRepository.existsById(refreshToken);
-    }
+	public void deleteByAccessToken(String accessToken) {
+		RefreshToken token = refreshTokenRepository.findByAccessToken(accessToken).orElseThrow(
+			() -> new Exception404(RedisExceptionStatus.REFRESH_TOKEN_NOT_FOUND));
+
+		refreshTokenRepository.deleteById(token.getRefreshToken());
+	}
+
+	public boolean existsById(String refreshToken) {
+		return refreshTokenRepository.existsById(refreshToken);
+	}
 }

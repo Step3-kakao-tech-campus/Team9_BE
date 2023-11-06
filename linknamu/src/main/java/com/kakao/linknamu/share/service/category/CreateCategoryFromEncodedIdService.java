@@ -6,13 +6,11 @@ import com.kakao.linknamu.bookmark.service.BookmarkReadService;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
-import com.kakao.linknamu.core.encryption.AESEncryption;
+import com.kakao.linknamu.core.encryption.AesEncryption;
 import com.kakao.linknamu.share.dto.category.CreateCategoryFromEncodedIdRequestDto;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
-import com.kakao.linknamu.workspace.service.WorkspaceReadService;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,13 +24,10 @@ import java.util.List;
 public class CreateCategoryFromEncodedIdService {
 
 	private final WorkspaceService workspaceService;
-
-	private final AESEncryption aesEncryption;
-	private final WorkspaceSaveService workspaceSaveService;
+	private final AesEncryption aesEncryption;
 	private final CategoryService categoryService;
 	private final BookmarkReadService bookmarkReadService;
 	private final BookmarkCreateService bookmarkCreateService;
-	private final WorkspaceReadService workspaceReadService;
 	private final BookmarkTagReadService bookmarkTagReadService;
 
 	public void createCategory(String encodedCategoryId, CreateCategoryFromEncodedIdRequestDto requestDto, User user) {
