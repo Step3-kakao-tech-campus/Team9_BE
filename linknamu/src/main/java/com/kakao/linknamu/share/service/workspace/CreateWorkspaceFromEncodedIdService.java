@@ -6,7 +6,7 @@ import com.kakao.linknamu.bookmark.service.BookmarkReadService;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
-import com.kakao.linknamu.core.encryption.AESEncryption;
+import com.kakao.linknamu.core.encryption.AesEncryption;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class CreateWorkspaceFromEncodedIdService {
 	private final WorkspaceService workspaceService;
 
-	private final AESEncryption aesEncryption;
+	private final AesEncryption aesEncryption;
 	private final WorkspaceSaveService workspaceSaveService;
 	private final CategoryService categoryService;
 	private final BookmarkReadService bookmarkReadService;

@@ -12,13 +12,13 @@ import java.time.Duration;
 @Configuration
 public class HttpConnectionConfig {
 
-    // Rest API 요청을 위한 Bean
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder){
-        return restTemplateBuilder
-                .setConnectTimeout(Duration.ofMillis(5000))
-                .setReadTimeout(Duration.ofMillis(5000))
-                .build();
-    }
+	// Rest API 요청을 위한 Bean
+	@Bean
+	public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+		return restTemplateBuilder
+			.setConnectTimeout(Duration.ofMillis(5000))
+			.setReadTimeout(Duration.ofMillis(5000))
+			.build();
+	}
 
 }

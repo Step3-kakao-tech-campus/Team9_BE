@@ -5,8 +5,8 @@ import com.kakao.linknamu.bookmark.service.BookmarkReadService;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
-import com.kakao.linknamu.core.encryption.AESEncryption;
-import com.kakao.linknamu.share.dto.PageInfoDto;
+import com.kakao.linknamu.core.encryption.AesEncryption;
+import com.kakao.linknamu.share.dto.PageInfoDto2;
 import com.kakao.linknamu.share.dto.category.GetCategoryFromLinkResponseDto;
 import com.kakao.linknamu.tag.entity.Tag;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class GetCategoryFromEncodedIdService {
 	private final CategoryService categoryService;
 	private final BookmarkReadService bookmarkReadService;
 	private final BookmarkTagReadService bookmarkTagReadService;
-	private final AESEncryption aesEncryption;
+	private final AesEncryption aesEncryption;
 
 	public GetCategoryFromLinkResponseDto getCategory(String encodedCategoryId, Pageable pageable) {
 
@@ -44,7 +44,7 @@ public class GetCategoryFromEncodedIdService {
 		}
 
 		GetCategoryFromLinkResponseDto responseDto =
-			new GetCategoryFromLinkResponseDto(new PageInfoDto(bookmarkPage), category, bookmarkPage.getContent(),
+			new GetCategoryFromLinkResponseDto(new PageInfoDto2(bookmarkPage), category, bookmarkPage.getContent(),
 				tagListList);
 
 		return responseDto;
