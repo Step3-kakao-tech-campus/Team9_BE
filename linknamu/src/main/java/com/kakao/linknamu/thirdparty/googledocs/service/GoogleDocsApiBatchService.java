@@ -1,4 +1,4 @@
-package com.kakao.linknamu.thirdparty.googleDocs.service;
+package com.kakao.linknamu.thirdparty.googledocs.service;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -10,9 +10,9 @@ import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
 import com.kakao.linknamu.bookmark.service.BookmarkReadService;
 import com.kakao.linknamu.core.config.GoogleDocsConfig;
-import com.kakao.linknamu.thirdparty.googleDocs.entity.GooglePage;
-import com.kakao.linknamu.thirdparty.googleDocs.repository.GooglePageJPARepository;
-import com.kakao.linknamu.thirdparty.googleDocs.util.InvalidGoogleDocsApiException;
+import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
+import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaRepository;
+import com.kakao.linknamu.thirdparty.googledocs.util.InvalidGoogleDocsApiException;
 import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +31,7 @@ import static com.kakao.linknamu.core.config.GoogleDocsConfig.getCredentials;
 @RequiredArgsConstructor
 @Service
 public class GoogleDocsApiBatchService {
-	private final GooglePageJPARepository googlePageJPARepository;
-
+	private final GooglePageJpaRepository googlePageJpaRepository;
 	private final GoogleDocsApiGetService googleDocsApiGetService;
 	private final BookmarkCreateService bookmarkCreateService;
 	private final BookmarkReadService bookmarkReadService;
@@ -50,7 +49,7 @@ public class GoogleDocsApiBatchService {
 				bookmarkCreateService.batchInsertBookmark(resultBookmarks);
 			} catch (InvalidGoogleDocsApiException e) {
 				gp.deactivate();
-				googlePageJPARepository.save(gp);
+				googlePageJpaRepository.save(gp);
 			}
 		});
 	}
@@ -59,8 +58,11 @@ public class GoogleDocsApiBatchService {
 		Set<Bookmark> resultBookmarks = new HashSet<>();
 		try {
 			// 서비스 생성
-			final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-			Docs service = new Docs.Builder(HTTP_TRANSPORT, GoogleDocsConfig.getJSON_FACTORY(), getCredentials(HTTP_TRANSPORT))
+			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+			Docs service = new Docs.Builder(
+				httpTransport,
+				GoogleDocsConfig.getJSON_FACTORY(),
+				getCredentials(httpTransport))
 				.setApplicationName(GoogleDocsConfig.getAPPLICATION_NAME())
 				.build();
 
@@ -76,8 +78,10 @@ public class GoogleDocsApiBatchService {
 							String link = pe.getTextRun().getTextStyle().getLink().getUrl();
 							if (link != null) {
 								// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
-								if (bookmarkReadService.existByBookmarkLinkAndCategoryId(link, googlePage.getCategory().getCategoryId()))
+								if (bookmarkReadService.existByBookmarkLinkAndCategoryId(link,
+									googlePage.getCategory().getCategoryId())) {
 									continue;
+								}
 
 								// 링크 항목이 있을 경우 해당 링크의 사이트 제목을 Jsoup 라이브러리를 사용해 받아온다.
 								// 이를 생성할 북마크의 이름으로 사용한다.
@@ -86,7 +90,8 @@ public class GoogleDocsApiBatchService {
 								bookmarkName = jsoupUtils.getTitle(link);
 								resultBookmarks.add(Bookmark.builder()
 									.bookmarkLink(link)
-									.bookmarkName(bookmarkName.length() > 30 ? bookmarkName.substring(0, 30) : bookmarkName)
+									.bookmarkName(bookmarkName.length() > 30
+										? bookmarkName.substring(0, 30) : bookmarkName)
 									.category(googlePage.getCategory())
 									.build());
 							}

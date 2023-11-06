@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Import(TestConfig.class)
 public class WorkspaceJpaRepositoryTest {
 	@Autowired
-	private WorkspaceJPARepository workspaceJPARepository;
+	private WorkspaceJpaRepository workspaceJPARepository;
 	@Autowired
 	private UserJpaRepository userJPARepository;
 	@Autowired
