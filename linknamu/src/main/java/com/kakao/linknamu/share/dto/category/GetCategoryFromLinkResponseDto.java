@@ -14,8 +14,9 @@ public record GetCategoryFromLinkResponseDto(
 	List<BookmarkContentDto> bookmarkContents
 
 ) {
-	public GetCategoryFromLinkResponseDto(PageInfoDto pageInfoDto, Category category, List<Bookmark> bookmarkList,
-										  List<List<Tag>> tagListList) {
+	public GetCategoryFromLinkResponseDto(
+		PageInfoDto pageInfoDto, Category category, List<Bookmark> bookmarkList,
+		List<List<Tag>> tagListList) {
 
 		this(pageInfoDto, category.getCategoryName(), bookmarkList.stream()
 			.map(bookmark -> new BookmarkContentDto(bookmark, tagListList.get(bookmarkList.indexOf(bookmark))))

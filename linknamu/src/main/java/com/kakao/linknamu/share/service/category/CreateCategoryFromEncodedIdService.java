@@ -24,7 +24,6 @@ import java.util.List;
 public class CreateCategoryFromEncodedIdService {
 
 	private final WorkspaceService workspaceService;
-
 	private final AesEncryption aesEncryption;
 	private final CategoryService categoryService;
 	private final BookmarkReadService bookmarkReadService;
