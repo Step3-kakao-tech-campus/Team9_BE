@@ -49,21 +49,13 @@ public class GoogleLoginControllerTest extends RestDocs {
 			GoogleUserInfo googleUserInfo = new GoogleUserInfo("123", "rjsdnxogh55@gmail.com",
 				true, null);
 			String googleToken = "googleAccessToken";
-			GoogleTokenResponseDto googleTokenResponseDto = new GoogleTokenResponseDto(
-				googleToken,
-				123,
-				"token",
-				"scope",
-				"refreshToken");
 
 
 			// mock
 			given(
 				restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(GoogleUserInfo.class)))
 				.willReturn(ResponseEntity.ok((googleUserInfo)));
-			given(
-				restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), eq(GoogleTokenResponseDto.class)))
-				.willReturn(ResponseEntity.ok((googleTokenResponseDto)));
+
 
 			// when
 			ResultActions resultActions = mvc.perform(
@@ -94,21 +86,13 @@ public class GoogleLoginControllerTest extends RestDocs {
 			GoogleUserInfo googleUserInfo = new GoogleUserInfo("123", "rjsdnxogh55@gmail.com",
 				true, null);
 			String googleToken = "googleAccessToken";
-			GoogleTokenResponseDto googleTokenResponseDto = new GoogleTokenResponseDto(
-				googleToken,
-				123,
-				"token",
-				"scope",
-				"refreshToken");
 
 
 			// mock
 			given(
 				restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(GoogleUserInfo.class)))
 				.willReturn(ResponseEntity.ok((googleUserInfo)));
-			given(
-				restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), eq(GoogleTokenResponseDto.class)))
-				.willReturn(ResponseEntity.ok((googleTokenResponseDto)));
+
 
 			// when
 			ResultActions resultActions = mvc.perform(
