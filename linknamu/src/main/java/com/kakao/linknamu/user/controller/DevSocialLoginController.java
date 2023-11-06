@@ -68,25 +68,24 @@ public class DevSocialLoginController {
 		if (error.isPresent()) {
 			return error.get();
 		}
-		return code;
-//		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-//		parameters.add("grant_type", "authorization_code");
-//		parameters.add("client_id", clientId);
-//		parameters.add("redirect_uri", redirectUri);
-//		parameters.add("code", code);
-//		parameters.add("client_secret", clientSecret);
-//
-//		try {
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//			HttpEntity<?> httpRequestEntity = new HttpEntity<>(parameters, headers);
-//			ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, httpRequestEntity, String.class);
-//			GoogleTokenResponseDto responseDto = om.readValue(response.getBody(), GoogleTokenResponseDto.class);
-//			return responseDto.accessToken();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-//		return "failed";
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+		parameters.add("grant_type", "authorization_code");
+		parameters.add("client_id", clientId);
+		parameters.add("redirect_uri", redirectUri);
+		parameters.add("code", code);
+		parameters.add("client_secret", clientSecret);
+
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			HttpEntity<?> httpRequestEntity = new HttpEntity<>(parameters, headers);
+			ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, httpRequestEntity, String.class);
+			GoogleTokenResponseDto responseDto = om.readValue(response.getBody(), GoogleTokenResponseDto.class);
+			return responseDto.accessToken();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "failed";
 	}
 
 	private record GoogleTokenResponseDto(
