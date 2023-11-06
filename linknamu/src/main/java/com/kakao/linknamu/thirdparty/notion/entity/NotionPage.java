@@ -1,27 +1,16 @@
 package com.kakao.linknamu.thirdparty.notion.entity;
 
-import java.util.Objects;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.util.AuditingEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,6 +21,7 @@ import lombok.NoArgsConstructor;
 }
 )
 public class NotionPage extends AuditingEntity {
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,12 +58,14 @@ public class NotionPage extends AuditingEntity {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
-		NotionPage that = (NotionPage)o;
+		}
+		NotionPage that = (NotionPage) obj;
 		return Objects.equals(getId(), that.getId()) && Objects.equals(getPageId(), that.getPageId());
 	}
 

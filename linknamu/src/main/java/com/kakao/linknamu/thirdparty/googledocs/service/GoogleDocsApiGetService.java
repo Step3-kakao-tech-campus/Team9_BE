@@ -1,7 +1,7 @@
-package com.kakao.linknamu.thirdparty.googleDocs.service;
+package com.kakao.linknamu.thirdparty.googledocs.service;
 
-import com.kakao.linknamu.thirdparty.googleDocs.entity.GooglePage;
-import com.kakao.linknamu.thirdparty.googleDocs.repository.GooglePageJPARepository;
+import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
+import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class GoogleDocsApiGetService {
-    private final GooglePageJPARepository googlePageJPARepository;
+	private final GooglePageJpaRepository googlePageJpaRepository;
 
-    public List<GooglePage> getActiveGoogleDocsPage() {
-        return googlePageJPARepository.findByActivePage();
-    }
+	public List<GooglePage> getActiveGoogleDocsPage() {
+		return googlePageJpaRepository.findByActivePage();
+	}
 }

@@ -1,24 +1,23 @@
 package com.kakao.linknamu.thirdparty.notion.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kakao.linknamu.thirdparty.notion.controller.DevNotionController;
 
 public record NotionTokenDto(
-        @JsonProperty("access_token") String accessToken,
-        @JsonProperty("token_type") String tokenType,
-        @JsonProperty("bot_id") String botId,
-        @JsonProperty("workspace_name") String workspaceName,
-        @JsonProperty("workspace_icon") String workspaceIcon,
-        @JsonProperty("workspace_id") String workspaceId,
-        @JsonProperty("owner") Owner owner,
-        @JsonProperty("duplicated_template_id") String duplicatedTemplateId
+	@JsonProperty("access_token") String accessToken,
+	@JsonProperty("token_type") String tokenType,
+	@JsonProperty("bot_id") String botId,
+	@JsonProperty("workspace_name") String workspaceName,
+	@JsonProperty("workspace_icon") String workspaceIcon,
+	@JsonProperty("workspace_id") String workspaceId,
+	@JsonProperty("owner") Owner owner,
+	@JsonProperty("duplicated_template_id") String duplicatedTemplateId
 ) {
-    record Owner(
-            String type,
-            User user) {
-        record User(
-                String object,
-                String id) {
-        }
-    }
+	record Owner(
+		String type,
+		User user) {
+		record User(
+			String object,
+			String id) {
+		}
+	}
 }
