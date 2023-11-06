@@ -2,6 +2,7 @@ package com.kakao.linknamu.user.controller;
 
 import com.kakao.linknamu.core.RedisContainerExtension;
 import com.kakao.linknamu.core.RestDocs;
+import com.kakao.linknamu.user.dto.oauth.GoogleTokenResponseDto;
 import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
@@ -47,13 +48,22 @@ public class GoogleLoginControllerTest extends RestDocs {
 			// given
 			GoogleUserInfo googleUserInfo = new GoogleUserInfo("123", "rjsdnxogh55@gmail.com",
 				true, null);
-
 			String googleToken = "googleAccessToken";
+			GoogleTokenResponseDto googleTokenResponseDto = new GoogleTokenResponseDto(
+				googleToken,
+				123,
+				"token",
+				"scope",
+				"refreshToken");
+
 
 			// mock
 			given(
 				restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(GoogleUserInfo.class)))
 				.willReturn(ResponseEntity.ok((googleUserInfo)));
+			given(
+				restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), eq(GoogleTokenResponseDto.class)))
+				.willReturn(ResponseEntity.ok((googleTokenResponseDto)));
 
 			// when
 			ResultActions resultActions = mvc.perform(
@@ -83,14 +93,22 @@ public class GoogleLoginControllerTest extends RestDocs {
 				.build();
 			GoogleUserInfo googleUserInfo = new GoogleUserInfo("123", "rjsdnxogh55@gmail.com",
 				true, null);
-
 			String googleToken = "googleAccessToken";
-			userJPARepository.save(user);
+			GoogleTokenResponseDto googleTokenResponseDto = new GoogleTokenResponseDto(
+				googleToken,
+				123,
+				"token",
+				"scope",
+				"refreshToken");
+
 
 			// mock
 			given(
 				restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(GoogleUserInfo.class)))
 				.willReturn(ResponseEntity.ok((googleUserInfo)));
+			given(
+				restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), eq(GoogleTokenResponseDto.class)))
+				.willReturn(ResponseEntity.ok((googleTokenResponseDto)));
 
 			// when
 			ResultActions resultActions = mvc.perform(

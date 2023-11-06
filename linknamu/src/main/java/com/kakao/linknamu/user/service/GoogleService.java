@@ -71,9 +71,14 @@ public class GoogleService {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 			HttpEntity<?> httpRequestEntity = new HttpEntity<>(parameters, headers);
-			ResponseEntity<String> response = restTemplate.postForEntity(tokenUri, httpRequestEntity, String.class);
-			GoogleTokenResponseDto responseDto = om.readValue(response.getBody(), GoogleTokenResponseDto.class);
-			return responseDto.accessToken();
+			ResponseEntity<GoogleTokenResponseDto> response = restTemplate.exchange(
+				tokenUri,
+				HttpMethod.POST,
+				httpRequestEntity,
+				GoogleTokenResponseDto.class
+			);
+
+			return response.getBody().accessToken();
 		}catch (HttpClientErrorException e) {
 			if (e.getStatusCode().value() == 400) {
 				throw new Exception400(UserExceptionStatus.GOOGLE_CODE_INVALID);
