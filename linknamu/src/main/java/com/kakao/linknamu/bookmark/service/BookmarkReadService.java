@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
 public class BookmarkReadService {
 
 	private final BookmarkJpaRepository bookmarkJpaRepository;

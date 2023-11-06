@@ -37,7 +37,6 @@ public class BookmarkController {
 	public ResponseEntity<?> createBookmark(
 		@RequestBody @Valid
 		BookmarkRequestDto.BookmarkAddDto dto,
-		Errors errors,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
 		bookmarkCreateService.addBookmark(dto, user.getUser());

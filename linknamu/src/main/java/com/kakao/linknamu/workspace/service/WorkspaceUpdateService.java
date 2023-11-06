@@ -23,7 +23,7 @@ public class WorkspaceUpdateService {
 
 		validationCheck(workspace.getUser().getUserId(), user.getUserId());
 
-		// 만약 수정하고자하는 이름이 같다면 DB에 Update할 이유가 없다.
+		// 만약 수정하고자하는 이름이 같다면 DB에 update할 이유가 없다.
 		if (requestDto.workspaceName().equals(workspace.getWorkspaceName())) {
 			return;
 		}

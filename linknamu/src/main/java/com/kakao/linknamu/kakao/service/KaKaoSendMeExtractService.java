@@ -43,12 +43,14 @@ public class KaKaoSendMeExtractService {
 
 		try {
 			byte[] fileBytes = multipartFile.getBytes();
-			String fileContent = new String(fileBytes, StandardCharsets.UTF_8); // byte 배열을 문자열로 변환
 
-			//          https 링크를 추출하기 위한 정규 표현식
+			// byte 배열을 문자열로 변환
+			String fileContent = new String(fileBytes, StandardCharsets.UTF_8);
+
+			// https 링크를 추출하기 위한 정규 표현식
 			String regex = "https?://[a-zA-Z0-9\\-\\.]+(\\:[0-9]+)?\\.[a-zA-Z]{2,3}(\\S*)?";
 
-			//        \bhttps?://\S+   => 모든 http, https 도메인 검출
+			// https?://\S+   => 모든 http, https 도메인 검출
 			Pattern pattern = Pattern.compile(regex);
 			Matcher matcher = pattern.matcher(fileContent);
 
@@ -66,17 +68,7 @@ public class KaKaoSendMeExtractService {
 					);
 				});
 
-//			while (matcher.find()) {
-//				String httpsLink = matcher.group();
-//				if(httpsLink.endsWith("\""))
-//					httpsLink = httpsLink.substring(0, httpsLink.length()-1);
-//
-//				String title = jsoupUtils.getTitle(httpsLink);
-//				responseDtos.add(new KakaoSendMeResponseDto(
-//					title.equals(httpsLink) ? DEFAULT_TITLE : title,
-//					httpsLink)
-//				);
-//			}
+
 			return responseDtos;
 		} catch (IOException e) {
 			throw new Exception500(KakaoExceptionStatus.FILE_READ_FAILED);
