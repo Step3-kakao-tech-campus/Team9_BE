@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class KaKaoSendMeExtractService {
+
+	private final JsoupUtils jsoupUtils;
+	private static final String DEFAULT_TITLE = "추출된 링크";
 
 	public List<KakaoSendMeResponseDto> extractLink(MultipartFile multipartFile) {
 
@@ -47,10 +51,31 @@ public class KaKaoSendMeExtractService {
 			//        \bhttps?://\S+   => 모든 http, https 도메인 검출
 			Pattern pattern = Pattern.compile(regex);
 			Matcher matcher = pattern.matcher(fileContent);
-			while (matcher.find()) {
-				String httpsLink = matcher.group();
-				responseDtos.add(new KakaoSendMeResponseDto(httpsLink));
-			}
+
+			// 병렬 쓰레드로 실행
+			matcher.results().parallel()
+				.forEach(matchResult -> {
+					String httpsLink = matchResult.group();
+					if(httpsLink.endsWith("\""))
+						httpsLink = httpsLink.substring(0, httpsLink.length()-1);
+					String title = jsoupUtils.getTitle(httpsLink);
+					responseDtos.add(new KakaoSendMeResponseDto(
+						title.equals(httpsLink) ? DEFAULT_TITLE : title,
+						httpsLink)
+					);
+				});
+
+//			while (matcher.find()) {
+//				String httpsLink = matcher.group();
+//				if(httpsLink.endsWith("\""))
+//					httpsLink = httpsLink.substring(0, httpsLink.length()-1);
+//
+//				String title = jsoupUtils.getTitle(httpsLink);
+//				responseDtos.add(new KakaoSendMeResponseDto(
+//					title.equals(httpsLink) ? DEFAULT_TITLE : title,
+//					httpsLink)
+//				);
+//			}
 			return responseDtos;
 		} catch (IOException e) {
 			throw new Exception500(KakaoExceptionStatus.FILE_READ_FAILED);
