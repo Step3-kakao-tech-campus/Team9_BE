@@ -1,5 +1,14 @@
 package com.kakao.linknamu.kakao.service;
 
+import com.kakao.linknamu.category.KakaoExceptionStatus;
+import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception500;
+import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -7,35 +16,27 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.kakao.linknamu.category.KakaoExceptionStatus;
-import com.kakao.linknamu.core.exception.Exception400;
-import com.kakao.linknamu.core.exception.Exception500;
-import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
-
-import lombok.RequiredArgsConstructor;
-
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class KaKaoSendMeExtractService {
 
+
 	public List<KakaoSendMeResponseDto> extractLink(MultipartFile multipartFile) {
 
 		List<KakaoSendMeResponseDto> responseDtos = new ArrayList<>();
 
-		if (multipartFile.isEmpty())
+		if (multipartFile.isEmpty()) {
 			throw new Exception400(KakaoExceptionStatus.FILE_NOTFOUND);
+		}
 
 		String contentType = multipartFile.getContentType();
 
 		boolean isSupportedFormat = (contentType.equals("text/plain")) || (contentType.equals("text/csv"));
 
-		if (isSupportedFormat == false)
+		if (isSupportedFormat == false) {
 			throw new Exception400(KakaoExceptionStatus.FILE_INVALID_FORMAT);
+		}
 
 		try {
 			byte[] fileBytes = multipartFile.getBytes();
