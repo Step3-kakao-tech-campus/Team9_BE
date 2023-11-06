@@ -1,6 +1,6 @@
 package com.kakao.linknamu.user.controller;
 
-import com.kakao.linknamu.core.exception.Exception401;
+import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.util.ApiUtils;
 import com.kakao.linknamu.user.UserExceptionStatus;
 import com.kakao.linknamu.user.dto.LoginResponseDto;
@@ -27,7 +27,7 @@ public class GoogleLoginController {
 	@PostMapping("/login")
 	public ResponseEntity<?> loginGoogle(HttpServletRequest request) {
 		String token = Optional.ofNullable(request.getHeader("Google")).orElseThrow(
-			() -> new Exception401(UserExceptionStatus.GOOGLE_TOKEN_MISSING));
+			() -> new Exception400(UserExceptionStatus.GOOGLE_TOKEN_MISSING));
 
 		GoogleUserInfo userInfo = googleService.getGoogleUserInfo(token);
 		LoginResponseDto resultDto = userService.socialLogin(userInfo);

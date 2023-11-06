@@ -34,7 +34,6 @@ public class CategoryController {
 	@PostMapping("/create")
 	public ResponseEntity<?> createCategory(
 		@RequestBody @Valid CategorySaveRequestDto requestDto,
-		Errors errors,
 		@AuthenticationPrincipal CustomUserDetails user) {
 
 		categorySaveService.save(requestDto, user.getUser());
@@ -56,7 +55,6 @@ public class CategoryController {
 	public ResponseEntity<?> updateCategory(
 		@PathVariable Long categoryId,
 		@RequestBody @Valid CategoryUpdateRequestDto requestDto,
-		Errors errors,
 		@AuthenticationPrincipal CustomUserDetails user) {
 
 		categoryUpdateService.update(requestDto, categoryId, user.getUser());
