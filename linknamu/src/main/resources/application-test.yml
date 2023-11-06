@@ -57,6 +57,13 @@ security:
     # 기본 보안 설정을 비활성화합니다. => 즉 2단계 처럼 사용자정의보안코드를 작성하라는 말이겠죠?
     enabled: false
 
+oauth2:
+  google:
+    client_id : test_client_id
+    auth_uri : test_auth_uri
+    token_uri : test_token_uri
+    client_secret : test_client_secret
+    redirect_uri : test_redirect_uri
 
 ##access랑 refresh token은 이경님이 맘대로 설정해주세요...ㅎ
 access-jwt-secret-key: KakaoTechCampusLinkNamu
