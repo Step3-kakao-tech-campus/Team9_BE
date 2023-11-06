@@ -24,10 +24,7 @@ public class LoggingFilter implements Filter {
 
 		chain.doFilter(requestWrapper, response);
 
-
-		log.info("\n"
-				+ "[REQUEST] {} - {} {}\n"
-				+ "Body : {}",
+		log.info("\n[REQUEST] {} - {} {}\nBody : {}",
 			httpRequest.getMethod(),
 			httpRequest.getRequestURI(),
 			httpResponse.getStatus(),

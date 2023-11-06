@@ -23,10 +23,10 @@ public class BookmarkCustomRepositoryImpl implements BookmarkCustomRepository {
 
 	@Override
 	public void batchInsertBookmark(List<Bookmark> bookmarkList) {
-		// 중복되는 값이 있다면 무시한다.
 		String insertQuery = String.format("INSERT INTO %s ( category_id, bookmark_name, bookmark_link, "
 			+ "bookmark_description, bookmark_thumbnail, created_at, last_modified_at) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?)", TABLE);
+		LocalDateTime now = LocalDateTime.now();
 
 		BatchPreparedStatementSetter batchSetter = new BatchPreparedStatementSetter() {
 			@Override
@@ -37,8 +37,8 @@ public class BookmarkCustomRepositoryImpl implements BookmarkCustomRepository {
 				preparedStatement.setString(3, bookmark.getBookmarkLink());
 				preparedStatement.setString(4, bookmark.getBookmarkDescription());
 				preparedStatement.setString(5, bookmark.getBookmarkThumbnail());
-				preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatement.setTimestamp(6, Timestamp.valueOf(now));
+				preparedStatement.setTimestamp(7, Timestamp.valueOf(now));
 			}
 
 			@Override

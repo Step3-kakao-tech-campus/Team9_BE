@@ -68,12 +68,9 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler({Exception.class})
-	public ResponseEntity<?> unknownServerError(Exception exception) {
-
+	public ResponseEntity<?> unknownServerError(Exception e) {
 		return new ResponseEntity<>(
-			ApiUtils.error("서버에서 알 수 없는 에러가 발생했습니다."
-					+ exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
-				"05000"),
+			ApiUtils.error("internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value(), "05000"),
 			HttpStatus.INTERNAL_SERVER_ERROR
 		);
 	}

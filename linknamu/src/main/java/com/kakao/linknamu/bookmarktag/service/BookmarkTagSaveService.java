@@ -25,7 +25,7 @@ public class BookmarkTagSaveService {
 	private final TagSearchService tagSearchService;
 	private final TagSaveService tagSaveService;
 
-	public void createPairs(List<BookmarkTag> bookmarkTagList) {
+	public void create(List<BookmarkTag> bookmarkTagList) {
 		bookmarkTagJPARepository.saveAll(bookmarkTagList);
 	}
 
