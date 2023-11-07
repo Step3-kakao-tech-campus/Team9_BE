@@ -13,12 +13,12 @@ public class CreateLinkFromWorkspaceService {
 
 	private final AesEncryption aesEncryption;
 	private final WorkspaceService workspaceService;
-	private static final String DOMAIN = "https://www.linknamu.com/share-link/workspace/share?workspace=";
+	private static final String URL = "/share-link/workspace/share?workspace=";
 
 	public String createLink(Long workSpaceId) {
 		workspaceService.getWorkspaceById(workSpaceId);
 		String encodedString = aesEncryption.encode(workSpaceId.toString());
-		String link = DOMAIN + encodedString;
+		String link = URL + encodedString;
 		return link;
 	}
 }
