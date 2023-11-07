@@ -13,12 +13,12 @@ public class CreateLinkFromCategoryService {
 
 	private final AesEncryption aesEncryption;
 	private final CategoryService categoryService;
-	private static final String DOMAIN = "https://www.linknamu.com/share-link/category/share?category=";
+	private static final String URL = "/share-link/category/share?category=";
 
 	public String createLink(Long categoryId) {
 		categoryService.findById(categoryId);
 		String encodedString = aesEncryption.encode(categoryId.toString());
-		String link = DOMAIN + encodedString;
+		String link = URL + encodedString;
 		return link;
 	}
 }
