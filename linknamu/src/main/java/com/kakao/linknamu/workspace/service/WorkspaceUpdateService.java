@@ -1,5 +1,6 @@
 package com.kakao.linknamu.workspace.service;
 
+import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.user.entity.User;
@@ -22,6 +23,12 @@ public class WorkspaceUpdateService {
 			() -> new Exception404(WorkspaceExceptionStatus.WORKSPACE_NOT_FOUND));
 
 		validationCheck(workspace.getUser().getUserId(), user.getUserId());
+
+		// 바꾸고자 하는 워크스페이스 이름이 중복 시 예외를 발생시킨다.
+		workspaceJpaRepository.findByUserIdAndWorkspaceName(user.getUserId(), requestDto.workspaceName())
+			.ifPresent((w) -> {
+				throw new Exception400(WorkspaceExceptionStatus.WORKSPACE_DUPLICATED);
+			});
 
 		// 만약 수정하고자하는 이름이 같다면 DB에 update할 이유가 없다.
 		if (requestDto.workspaceName().equals(workspace.getWorkspaceName())) {
