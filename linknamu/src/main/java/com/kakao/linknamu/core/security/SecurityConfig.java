@@ -7,6 +7,7 @@ import com.kakao.linknamu.core.util.FilterResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.*;
@@ -88,7 +89,10 @@ public class SecurityConfig {
 		// 인증, 권한 필터 설정
 		http.authorizeHttpRequests(authorize ->
 			authorize.requestMatchers(new AntPathRequestMatcher("/api/auth/google/login"),
-					new AntPathRequestMatcher("/api/auth/reissue")).permitAll()
+					new AntPathRequestMatcher("/api/auth/reissue"),
+					new AntPathRequestMatcher("/api/share/workspace/link/**", HttpMethod.GET.name()),
+					new AntPathRequestMatcher("/api/share/category/link/**", HttpMethod.GET.name()))
+				.permitAll()
 				.requestMatchers(
 					new AntPathRequestMatcher("/api/bookmark/**"),
 					new AntPathRequestMatcher("/api/category/**"),
