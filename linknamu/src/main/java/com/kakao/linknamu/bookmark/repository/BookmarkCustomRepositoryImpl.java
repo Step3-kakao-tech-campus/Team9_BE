@@ -15,40 +15,40 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class BookmarkCustomRepositoryImpl implements BookmarkCustomRepository{
-    private static final String TABLE = "bookmark_tb";
+public class BookmarkCustomRepositoryImpl implements BookmarkCustomRepository {
+	private static final String TABLE = "bookmark_tb";
 
-    private final EntityManager em;
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+	private final EntityManager em;
+	private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Override
-    public void bookmarkBatchInsert(List<Bookmark> bookmarkList) {
-        // 중복되는 값이 있다면 무시한다.
-        String insertQuery = String.format("INSERT IGNORE INTO %s ( category_id, bookmark_name, bookmark_link, " +
-                "bookmark_description, bookmark_thumbnail, created_at, last_modified_at) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)", TABLE);
+	@Override
+	public void batchInsertBookmark(List<Bookmark> bookmarkList) {
+		String insertQuery = String.format("INSERT INTO %s ( category_id, bookmark_name, bookmark_link, "
+			+ "bookmark_description, bookmark_thumbnail, created_at, last_modified_at) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?)", TABLE);
+		LocalDateTime now = LocalDateTime.now();
 
-        BatchPreparedStatementSetter batchSetter = new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                Bookmark bookmark = bookmarkList.get(i);
-                ps.setLong(1, bookmark.getCategory().getCategoryId());
-                ps.setString(2, bookmark.getBookmarkName());
-                ps.setString(3, bookmark.getBookmarkLink());
-                ps.setString(4, bookmark.getBookmarkDescription());
-                ps.setString(5, bookmark.getBookmarkThumbnail());
-                ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-                ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-            }
+		BatchPreparedStatementSetter batchSetter = new BatchPreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement preparedStatement, int index) throws SQLException {
+				Bookmark bookmark = bookmarkList.get(index);
+				preparedStatement.setLong(1, bookmark.getCategory().getCategoryId());
+				preparedStatement.setString(2, bookmark.getBookmarkName());
+				preparedStatement.setString(3, bookmark.getBookmarkLink());
+				preparedStatement.setString(4, bookmark.getBookmarkDescription());
+				preparedStatement.setString(5, bookmark.getBookmarkThumbnail());
+				preparedStatement.setTimestamp(6, Timestamp.valueOf(now));
+				preparedStatement.setTimestamp(7, Timestamp.valueOf(now));
+			}
 
-            @Override
-            public int getBatchSize() {
-                return bookmarkList.size();
-            }
-        };
+			@Override
+			public int getBatchSize() {
+				return bookmarkList.size();
+			}
+		};
 
-        jdbcTemplate.getJdbcTemplate().batchUpdate(insertQuery, batchSetter);
-        em.flush();
-        em.clear();
-    }
+		jdbcTemplate.getJdbcTemplate().batchUpdate(insertQuery, batchSetter);
+		em.flush();
+		em.clear();
+	}
 }

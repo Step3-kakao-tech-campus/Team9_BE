@@ -6,33 +6,32 @@ import lombok.Builder;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public record WorkspaceGetResponseDto(
-        Long workspaceId,
-        String workspaceName,
-        List<CategoryResponseDto> categoryList
+	Long workspaceId,
+	String workspaceName,
+	List<CategoryResponseDto> categoryList
 ) {
-    record CategoryResponseDto(
-            Long categoryId,
-            String categoryName
-    ){}
+	record CategoryResponseDto(
+		Long categoryId,
+		String categoryName
+	) {
+	}
 
 
-    @Builder
-    public WorkspaceGetResponseDto {
-    }
+	@Builder
+	public WorkspaceGetResponseDto {
+	}
 
 
-    public static WorkspaceGetResponseDto of(Workspace workspace) {
-        return WorkspaceGetResponseDto.builder()
-                .workspaceId(workspace.getId())
-                .workspaceName(workspace.getWorkspaceName())
-                .categoryList(workspace.getCategorySet().stream()
-                        .sorted(Comparator.comparing(Category::getCategoryId))
-                        .map((c) -> new CategoryResponseDto(c.getCategoryId(), c.getCategoryName()))
-                        .toList())
-                .build();
-    }
+	public static WorkspaceGetResponseDto of(Workspace workspace) {
+		return WorkspaceGetResponseDto.builder()
+			.workspaceId(workspace.getId())
+			.workspaceName(workspace.getWorkspaceName())
+			.categoryList(workspace.getCategorySet().stream()
+				.sorted(Comparator.comparing(Category::getCategoryId))
+				.map((c) -> new CategoryResponseDto(c.getCategoryId(), c.getCategoryName()))
+				.toList())
+			.build();
+	}
 }

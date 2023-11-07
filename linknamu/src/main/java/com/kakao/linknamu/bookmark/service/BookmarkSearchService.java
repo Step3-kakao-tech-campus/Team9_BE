@@ -1,11 +1,11 @@
 package com.kakao.linknamu.bookmark.service;
 
-import com.kakao.linknamu._core.dto.PageInfoDto;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.repository.BookmarkJPARepository;
-import com.kakao.linknamu.bookmarkTag.service.BookmarkTagSearchService;
+import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagSearchService;
+import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -19,28 +19,30 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
-
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class BookmarkSearchService {
 
-    private final BookmarkJPARepository bookmarkJPARepository;
-    private final BookmarkTagSearchService bookmarkTagSearchService;
+	private final BookmarkJpaRepository bookmarkJpaRepository;
+	private final BookmarkTagSearchService bookmarkTagSearchService;
 
-    public BookmarkSearchResponseDto bookmarkSearch(BookmarkSearchCondition condition, User user, Pageable pageable) {
-        Page<Bookmark> bookmarks;
-        if (isNull(condition.tags())) bookmarks = bookmarkJPARepository.search(condition, user.getUserId(), pageable);
-        else bookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
-        return BookmarkSearchResponseDto.of(PageInfoDto.of(bookmarks), getBookmarkContentDtos(bookmarks));
-    }
+	public BookmarkSearchResponseDto searchBookmark(BookmarkSearchCondition condition, User user, Pageable pageable) {
+		Page<Bookmark> bookmarks;
+		if (isNull(condition.tags())) {
+			bookmarks = bookmarkJpaRepository.search(condition, user.getUserId(), pageable);
+		} else {
+			bookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
+		}
+		return BookmarkSearchResponseDto.of(new PageInfoDto(bookmarks), getBookmarkContentDtos(bookmarks));
+	}
 
-    private List<BookmarkSearchResponseDto.BookmarkContentDto> getBookmarkContentDtos(Page<Bookmark> bookmarks) {
-        List<BookmarkSearchResponseDto.BookmarkContentDto> responseDto = new ArrayList<>();
-        for (Bookmark bookmark : bookmarks) {
-            List<Tag> tags = bookmarkTagSearchService.findTagsByBookmarkId(bookmark.getBookmarkId());
-            responseDto.add(BookmarkSearchResponseDto.BookmarkContentDto.of(bookmark, tags));
-        }
-        return responseDto;
-    }
+	private List<BookmarkSearchResponseDto.BookmarkContentDto> getBookmarkContentDtos(Page<Bookmark> bookmarks) {
+		List<BookmarkSearchResponseDto.BookmarkContentDto> responseDto = new ArrayList<>();
+		for (Bookmark bookmark : bookmarks) {
+			List<Tag> tags = bookmarkTagSearchService.findTagsByBookmarkId(bookmark.getBookmarkId());
+			responseDto.add(BookmarkSearchResponseDto.BookmarkContentDto.of(bookmark, tags));
+		}
+		return responseDto;
+	}
 }
