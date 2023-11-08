@@ -1,7 +1,3 @@
-
-
-
-
 server:
   servlet:
     encoding:
@@ -68,7 +64,18 @@ oauth2:
     secret: ${NOTION_SECRET}
     redirect_uri: https://localhost:8000/dev/notion/redirect
 
-
+cloud:
+  aws:
+    s3:
+      bucket: linknamu-image
+    credentials:
+      access-key: ${S3_ACCEESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 
 AES_SECRET_KEY: ${aes-secret-key}
 
