@@ -28,7 +28,7 @@ public class BookmarkRequestDto {
 		@NotNull
 		private Long categoryId;
 
-		private String imageData;
+		private String imageUrl;
 
 		private List<String> tags;
 
