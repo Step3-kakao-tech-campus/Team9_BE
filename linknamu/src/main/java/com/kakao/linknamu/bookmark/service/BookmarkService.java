@@ -102,7 +102,7 @@ public class BookmarkService {
 		List<BookmarkTag> bookmarkTagList = new ArrayList<>();
 		for (String tagName : bookmarkAddDto.getTags()) {
 			// 해당 태그가 존재하지 않는다면 새롭게 생성한다.
-			Tag tag = tagService.searchByTagNameAndUserId(tagName, user);
+			Tag tag = tagService.findByTagNameAndUserId(tagName, user);
 			bookmarkTagList.add(BookmarkTag.builder()
 				.bookmark(bookmark)
 				.tag(tag)

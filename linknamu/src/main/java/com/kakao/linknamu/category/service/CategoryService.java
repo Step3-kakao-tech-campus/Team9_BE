@@ -66,11 +66,7 @@ public class CategoryService {
 	public void createCategory(CategorySaveRequestDto requestDto, User user) {
 		Workspace workspace = workspaceService.getWorkspaceById(requestDto.workspaceId());
 		validUser(workspace, user);
-		categoryJPARepository.findByWorkspaceIdAndCategoryName(requestDto.workspaceId(), requestDto.categoryName())
-			.ifPresent((c) -> {
-				throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
-			});
-
+		validDuplicatedCategoryName(workspace, requestDto.categoryName());
 		save(requestDto.categoryName(), workspace);
 	}
 
@@ -92,13 +88,7 @@ public class CategoryService {
 	public void update(CategoryUpdateRequestDto requestDto, Long categoryId, User user) {
 		Category category = findByIdFetchJoinWorkspace(categoryId);
 		validUser(category.getWorkspace(), user);
-
-		// 변경할 카테고리명이 부모 카테고리에 존재하는 경우 예외처리
-		findByWorkspaceIdAndCategoryName(category.getWorkspace().getId(), requestDto.categoryName())
-			.ifPresent((c) -> {
-				throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
-			});
-
+		validDuplicatedCategoryName(category.getWorkspace(), requestDto.categoryName());
 		category.updateCategoryName(requestDto.categoryName());
 	}
 
@@ -110,10 +100,17 @@ public class CategoryService {
 	}
 
 
-	public void validUser(Workspace workspace, User user) {
+	private void validUser(Workspace workspace, User user) {
 		if (!workspace.getUser().getUserId().equals(user.getUserId())) {
 			throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
 		}
+	}
+
+	private void validDuplicatedCategoryName(Workspace workspace, String categoryName) {
+		categoryJPARepository.findByWorkspaceIdAndCategoryName(workspace.getId(), categoryName)
+			.ifPresent((c) -> {
+				throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
+			});
 	}
 
 }

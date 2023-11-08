@@ -31,7 +31,7 @@ public class BookmarkTagService {
 	private final TagService tagService;
 
 	public void create(CreateBookmarkTagRequestDto requestDto, User user, Long bookmarkId) {
-		Tag tag = tagService.searchByTagNameAndUserId(requestDto.tagName(), user);
+		Tag tag = tagService.findByTagNameAndUserId(requestDto.tagName(), user);
 
 		Bookmark bookmark = bookmarkJpaRepository.findById(bookmarkId).orElseThrow(() ->
 			new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));

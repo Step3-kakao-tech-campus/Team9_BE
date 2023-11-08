@@ -14,7 +14,7 @@ public class TagService {
 
 	private final TagJpaRepository tagJpaRepository;
 
-	public Tag searchByTagNameAndUserId(String name, User user) {
+	public Tag findByTagNameAndUserId(String name, User user) {
 		return tagJpaRepository.findByUserIdAndName(user.getUserId(), name)
 			.orElseGet(() -> {
 				Tag newTag = Tag.builder()
