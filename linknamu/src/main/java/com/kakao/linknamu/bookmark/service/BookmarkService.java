@@ -94,7 +94,7 @@ public class BookmarkService {
 		// 북마크의 링크에 대한 중복 검사
 		validDuplicatedLink(category, bookmarkAddDto.getBookmarkLink());
 
-		String imageUrl = s3ImageClient.base64ImageToS3(bookmarkAddDto.getImageData(), bookmarkAddDto.getBookmarkLink());
+		String imageUrl = s3ImageClient.base64ImageToS3(bookmarkAddDto.getImageUrl(), bookmarkAddDto.getBookmarkLink());
 		Bookmark bookmark = bookmarkAddDto.toEntity(category, imageUrl);
 
 		bookmarkJpaRepository.save(bookmark);
