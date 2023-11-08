@@ -37,6 +37,8 @@ public class NotionApiBatchService {
 	private final BookmarkReadService bookmarkReadService;
 	private final JsoupUtils jsoupUtils;
 
+	// 멘션 타입의 노션 페이지 링크일 시, Untitled로 나와 이를 기본 설정으로 변경해서 저장한다.
+	private static final String DEFAULT_NOTION_BOOKMARK_NAME = "노션 페이지";
 	private static final String NOTION_VERSION = "2022-06-28";
 
 	// 한 시간마다 notion API를 통해서 연동한 페이지의 링크를 가져오는 기능 수행
@@ -86,7 +88,7 @@ public class NotionApiBatchService {
 					if (type.equals("bookmark") | type.equals("embed")) {
 						saveBookmarkOrEmbedLink(subObjectChild, resultBookmarks, notionPage);
 					} else {
-						saveOtherLink(subObjectChild, resultBookmarks, notionPage);
+						saveOtherLink(subObjectChild, resultBookmarks, type, notionPage);
 					}
 				}
 
@@ -144,7 +146,7 @@ public class NotionApiBatchService {
 	}
 
 	// 북마크, 임베드 이외의 링크 데이터를 저장한다.
-	private void saveOtherLink(JSONObject otherTypeObject, Set<Bookmark> resultBookmarks, NotionPage notionPage) {
+	private void saveOtherLink(JSONObject otherTypeObject, Set<Bookmark> resultBookmarks, String type, NotionPage notionPage) {
 		JSONArray richTexts = (JSONArray) otherTypeObject.get("rich_text");
 		if (Objects.isNull(richTexts)) {
 			return;
@@ -162,6 +164,8 @@ public class NotionApiBatchService {
 
 				if (href.equals(plainText)) {
 					plainText = jsoupUtils.getTitle(href);
+				} else if(type.equals("mention") || plainText.equals("Untitled")) {
+					plainText = DEFAULT_NOTION_BOOKMARK_NAME;
 				}
 
 				resultBookmarks.add(Bookmark.builder()
