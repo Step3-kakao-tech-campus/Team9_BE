@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class BookmarkTagService {
@@ -30,8 +30,12 @@ public class BookmarkTagService {
 	private final BookmarkJpaRepository bookmarkJpaRepository;
 	private final TagService tagService;
 
+	@Transactional
 	public void create(CreateBookmarkTagRequestDto requestDto, User user, Long bookmarkId) {
-		Tag tag = tagService.findByTagNameAndUserId(requestDto.tagName(), user);
+		Tag tag = tagService.findByTagNameAndUserId(requestDto.tagName(), user)
+			.orElseGet(
+				() -> tagService.create(requestDto.tagName(), user)
+			);
 
 		Bookmark bookmark = bookmarkJpaRepository.findById(bookmarkId).orElseThrow(() ->
 			new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
@@ -50,6 +54,7 @@ public class BookmarkTagService {
 		return bookmarkTagJPARepository.findTagByBookmarkId(bookmarkId);
 	}
 
+	@Transactional
 	public void deleteByTagIdAndBookmarkId(DeleteBookmarkTagRequestDto requestDto, User user) {
 		BookmarkTagId bookmarkTagId = BookmarkTagId.builder()
 			.bookmarkId(requestDto.bookmarkId())
