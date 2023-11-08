@@ -3,6 +3,8 @@ package com.kakao.linknamu.thirdparty.googledocs.service;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception403;
+import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.thirdparty.googledocs.GoogleDocsExceptionStatus;
 import com.kakao.linknamu.thirdparty.googledocs.dto.RegisterGoogleDocsRequestDto;
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
@@ -19,16 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class GoogleDocsApiCreateService {
+public class GoogleDocsApiService {
 	private final GooglePageJpaRepository googlePageJpaRepository;
 	private final CategoryService categoryService;
 	private final GoogleDocsProvider googleDocsProvider;
 	private final WorkspaceService workspaceService;
-
 	private static final String DEFAULT_WORKSPACE_NAME = "Google Docs";
 
 	public void createDocsApi(RegisterGoogleDocsRequestDto dto, User user) {
-
 		String pageName = googleDocsProvider.getGoogleDocsTitle(dto.documentId());
 
 		// 구글 링크 연동 페이지 존재 유무 검사
@@ -51,5 +51,18 @@ public class GoogleDocsApiCreateService {
 			.pageName(pageName)
 			.build();
 		googlePageJpaRepository.save(googlePage);
+	}
+
+	public void deleteDocsPage(User user, Long docsPageId) {
+		GooglePage googlePage = googlePageJpaRepository.findById(docsPageId)
+			.orElseThrow(() -> new Exception404(GoogleDocsExceptionStatus.DOCS_NOT_FOUND));
+		validUser(googlePage, user);
+		googlePageJpaRepository.delete(googlePage);
+	}
+
+	private void validUser(GooglePage googlePage, User user) {
+		if (!googlePage.getUser().getUserId().equals(user.getUserId())) {
+			throw new Exception403(GoogleDocsExceptionStatus.DOCS_FORBIDDEN);
+		}
 	}
 }

@@ -31,7 +31,6 @@ public class NotionApiBatchService {
 	private final RestTemplate restTemplate;
 	private final ObjectProvider<JSONParser> jsonParserProvider;
 	private final NotionApiUriBuilder notionApiUriBuilder;
-	private final NotionApiGetService notionApiGetService;
 	private final JsoupUtils jsoupUtils;
 	private final BookmarkService bookmarkService;
 
@@ -42,7 +41,7 @@ public class NotionApiBatchService {
 	public void notionApiCronJob() {
 		// 1. isActive==true인 NotionPage를 가져온다.
 		log.info("clone start");
-		List<NotionPage> activeNotionPages = notionApiGetService.getActiveNotionPage();
+		List<NotionPage> activeNotionPages = notionPageJpaRepository.findByActivePageFetchJoin();
 
 		// 2. NotionPage 정보 호출
 		activeNotionPages.forEach((NotionPage n) -> {

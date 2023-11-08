@@ -3,6 +3,8 @@ package com.kakao.linknamu.thirdparty.notion.service;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception403;
+import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.thirdparty.notion.NotionExceptionStatus;
 import com.kakao.linknamu.thirdparty.notion.dto.RegisterNotionRequestDto;
 import com.kakao.linknamu.thirdparty.notion.entity.NotionAccount;
@@ -21,13 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class NotionApiCreateService {
+public class NotionApiService {
 	private final NotionAccountJpaRepository notionAccountJpaRepository;
 	private final NotionPageJpaRepository notionPageJpaRepository;
 	private final CategoryService categoryService;
-	private final NotionProvider notionProvider;
 	private final WorkspaceService workspaceService;
-
+	private final NotionProvider notionProvider;
 	private static final String DEFAULT_WORKSPACE_NAME = "Notion 연동";
 
 	/*
@@ -75,5 +76,18 @@ public class NotionApiCreateService {
 			.isActive(true) // 이후 검증 로직을 통해서 활성화 여부를 체크
 			.build();
 		notionPageJpaRepository.save(notionPage);
+	}
+
+	public void deleteNotionAccount(User user, Long notionAccountId) {
+		NotionAccount notionAccount = notionAccountJpaRepository.findById(notionAccountId)
+			.orElseThrow(() -> new Exception404(NotionExceptionStatus.NOTION_ACCOUNT_NOT_FOUND));
+		validUser(notionAccount, user);
+		notionAccountJpaRepository.delete(notionAccount);
+	}
+
+	private void validUser(NotionAccount notionAccount, User user) {
+		if (!notionAccount.getUser().getUserId().equals(user.getUserId())) {
+			throw new Exception403(NotionExceptionStatus.NOTION_FORBIDDEN);
+		}
 	}
 }

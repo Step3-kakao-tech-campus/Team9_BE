@@ -31,14 +31,13 @@ import static com.kakao.linknamu.core.config.GoogleDocsConfig.getCredentials;
 @Service
 public class GoogleDocsApiBatchService {
 	private final GooglePageJpaRepository googlePageJpaRepository;
-	private final GoogleDocsApiGetService googleDocsApiGetService;
 	private final JsoupUtils jsoupUtils;
 	private final BookmarkService bookmarkService;
 
 	@Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
 	public void googleDocsApiCronJob() {
 		// 활성화된 페이지들을 리스트에 저장
-		List<GooglePage> activeGoogleDocsPages = googleDocsApiGetService.getActiveGoogleDocsPage();
+		List<GooglePage> activeGoogleDocsPages = googlePageJpaRepository.findByActivePage();
 
 		// 활성화된 구글 독스 페이지들에 대해 배치를 실행한다.
 		activeGoogleDocsPages.forEach((GooglePage gp) -> {
