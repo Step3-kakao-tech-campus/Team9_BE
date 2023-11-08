@@ -39,7 +39,7 @@ public class NotionApiBatchService {
 	private final JsoupUtils jsoupUtils;
 
 	// 멘션 타입의 노션 페이지 링크일 시, Untitled로 나와 이를 기본 설정으로 변경해서 저장한다.
-	private static final String DEFAULT_NOTION_PAGE_NAME = "노션 페이지";
+	private static final String DEFAULT_NOTION_PAGE_NAME = "Notion Page";
 	private static final String DEFAULT_NOTION_IMAGE = "https://www.notion.so/images/meta/default.png";
 	private static final String NOTION_VERSION = "2022-06-28";
 
