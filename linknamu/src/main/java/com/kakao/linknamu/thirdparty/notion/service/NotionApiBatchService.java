@@ -1,8 +1,7 @@
 package com.kakao.linknamu.thirdparty.notion.service;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
-import com.kakao.linknamu.bookmark.service.BookmarkReadService;
+import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.thirdparty.notion.entity.NotionPage;
 import com.kakao.linknamu.thirdparty.notion.repository.NotionPageJpaRepository;
 import com.kakao.linknamu.thirdparty.notion.util.InvalidNotionApiException;
@@ -33,10 +32,8 @@ public class NotionApiBatchService {
 	private final RestTemplate restTemplate;
 	private final ObjectProvider<JSONParser> jsonParserProvider;
 	private final NotionApiUriBuilder notionApiUriBuilder;
-	private final NotionApiGetService notionApiGetService;
-	private final BookmarkCreateService bookmarkCreateService;
-	private final BookmarkReadService bookmarkReadService;
 	private final JsoupUtils jsoupUtils;
+	private final BookmarkService bookmarkService;
 
 	// 멘션 타입의 노션 페이지 링크일 시, Untitled로 나와 이를 기본 설정으로 변경해서 저장한다.
 	private static final String DEFAULT_NOTION_PAGE_NAME = "Notion Page";
@@ -48,14 +45,14 @@ public class NotionApiBatchService {
 	public void notionApiCronJob() {
 		// 1. isActive==true인 NotionPage를 가져온다.
 		log.info("clone start");
-		List<NotionPage> activeNotionPages = notionApiGetService.getActiveNotionPage();
+		List<NotionPage> activeNotionPages = notionPageJpaRepository.findByActivePageFetchJoin();
 
 		// 2. NotionPage 정보 호출
 		activeNotionPages.forEach((NotionPage n) -> {
 			try {
 				List<Bookmark> resultBookmarks = getPageLinks(n.getPageId(), n.getNotionAccount().getToken(), n);
 				// 2-2 배치 insert 추가
-				bookmarkCreateService.batchInsertBookmark(resultBookmarks);
+				bookmarkService.batchInsertBookmark(resultBookmarks);
 			} catch (InvalidNotionApiException e) {
 				// 2-2 NotionPage 접근 권한, 없는 페이지라면 isActive를 false로 만들고 종료
 				n.deactivate();
@@ -123,7 +120,7 @@ public class NotionApiBatchService {
 		JSONArray caption = (JSONArray) bookmarkTypeObject.get("caption");
 		String url = (String) bookmarkTypeObject.get("url");
 		// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
-		if (bookmarkReadService.existByBookmarkLinkAndCategoryId(url, notionPage.getCategory().getCategoryId())) {
+		if (bookmarkService.existByBookmarkLinkAndCategoryId(url, notionPage.getCategory().getCategoryId())) {
 			return;
 		}
 
@@ -161,7 +158,7 @@ public class NotionApiBatchService {
 
 			if (Objects.nonNull(href)) {
 				// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
-				if (bookmarkReadService.existByBookmarkLinkAndCategoryId(href, notionPage.getCategory().getCategoryId())) {
+				if (bookmarkService.existByBookmarkLinkAndCategoryId(href, notionPage.getCategory().getCategoryId())) {
 					continue;
 				}
 

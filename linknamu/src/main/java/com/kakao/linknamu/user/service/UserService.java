@@ -17,7 +17,7 @@ import com.kakao.linknamu.user.dto.oauth.OauthUserInfo;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJpaRepository;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
+import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +35,7 @@ public class UserService {
 	private final UserJpaRepository userJpaRepository;
 	private final RefreshTokenService refreshTokenService;
 	private final BlackListTokenService blackListTokenService;
-	private final WorkspaceSaveService workspaceSaveService;
+	private final WorkspaceService workspaceService;
 
 	public LoginResponseDto socialLogin(OauthUserInfo userInfo) {
 		User user = userJpaRepository.findByEmail(userInfo.email()).orElseGet(
@@ -48,7 +48,7 @@ public class UserService {
 					.build());
 
 				String workspaceName = "나의 워크스페이스";
-				workspaceSaveService.createWorkspace(workspaceName, signUpUser);
+				workspaceService.createWorkspace(workspaceName, signUpUser);
 				return signUpUser;
 			});
 
