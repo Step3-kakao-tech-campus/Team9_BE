@@ -6,13 +6,13 @@ import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
 import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
 import com.kakao.linknamu.bookmarktag.repository.BookmarkTagJpaRepository;
-import com.kakao.linknamu.bookmarktag.service.BookmarkTagService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
+import com.kakao.linknamu.core.util.S3ImageClient;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.tag.service.TagService;
 import com.kakao.linknamu.user.entity.User;
@@ -40,6 +40,7 @@ public class BookmarkService {
 	private final BookmarkTagJpaRepository bookmarkTagJpaRepository;
 	private final CategoryService categoryService;
 	private final TagService tagService;
+	private final S3ImageClient s3ImageClient;
 
 	public Page<Bookmark> findByCategoryId(Long categoryId, Pageable pageable) {
 		return bookmarkJpaRepository.findByCategoryId(categoryId, pageable);
@@ -93,7 +94,8 @@ public class BookmarkService {
 		// 북마크의 링크에 대한 중복 검사
 		validDuplicatedLink(category, bookmarkAddDto.getBookmarkLink());
 
-		Bookmark bookmark = bookmarkAddDto.toEntity(category);
+		String imageUrl = s3ImageClient.base64ImageToS3(bookmarkAddDto.getImageData(), bookmarkAddDto.getBookmarkLink());
+		Bookmark bookmark = bookmarkAddDto.toEntity(category, imageUrl);
 
 		bookmarkJpaRepository.save(bookmark);
 
