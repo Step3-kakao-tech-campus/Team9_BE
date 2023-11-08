@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class WorkspaceService {
 	private final WorkspaceJpaRepository workspaceJpaRepository;
@@ -29,6 +29,7 @@ public class WorkspaceService {
 		);
 	}
 
+	@Transactional
 	public Workspace createWorkspace(String workspaceName, User user) {
 		validDuplicatedWorkspaceName(workspaceName, user);
 
@@ -53,18 +54,13 @@ public class WorkspaceService {
 			.toList();
 	}
 
-	public Workspace findWorkspaceByUserAndName(String workspaceName, User user) {
-		return workspaceJpaRepository.findByUserIdAndWorkspaceName(user.getUserId(), workspaceName).orElseThrow(
-				() -> new Exception404(WorkspaceExceptionStatus.WORKSPACE_NOT_FOUND)
-			);
-	}
-
 	public Workspace findWorkspaceByUserAndProvider(String workspaceName, User user, LinkProvider linkProvider) {
 		return workspaceJpaRepository.findByUserIdAndProvider(user.getUserId(), linkProvider).orElseGet(
 			() -> createWorkspaceWithLinkProvider(workspaceName, user, linkProvider)
 		);
 	}
 
+	@Transactional
 	public void updateWorkspaceName(Long workspaceId, WorkspaceUpdateRequestDto requestDto, User user) {
 		Workspace workspace = getWorkspaceById(workspaceId);
 
@@ -81,12 +77,12 @@ public class WorkspaceService {
 		workspace.renameWorkspace(requestDto.workspaceName());
 	}
 
+	@Transactional
 	public void deleteWorkspace(Long workspaceId, User user) {
 		Workspace workspace = getWorkspaceById(workspaceId);
 		validUser(workspace, user);
 		workspaceJpaRepository.delete(workspace);
 	}
-
 
 
 	// 노션 / 구글독스 연동 전용 워크스페이스 생성.
