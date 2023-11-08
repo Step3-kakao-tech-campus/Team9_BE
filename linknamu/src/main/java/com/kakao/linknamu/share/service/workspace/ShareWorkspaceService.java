@@ -47,6 +47,7 @@ public class ShareWorkspaceService {
 		return new GetWorkSpaceFromLinkResponseDto(workspace, links);
 	}
 
+	@Transactional
 	public void createWorkSpace(String encodedWorkspaceId, User user) {
 		Workspace workspace = getWorkspaceByEncodedWorkspaceId(encodedWorkspaceId);
 		Workspace newWorkspace = workspaceService.createWorkspace(workspace.getWorkspaceName(), user);

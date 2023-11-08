@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CategoryService {
 
@@ -39,6 +39,7 @@ public class CategoryService {
 	private final BookmarkTagJpaRepository bookmarkTagJpaRepository;
 	private final WorkspaceService workspaceService;
 
+	@Transactional
 	public Category save(String categoryName, Workspace workspace) {
 		Category category = Category.builder()
 			.categoryName(categoryName)
@@ -63,6 +64,7 @@ public class CategoryService {
 		return categoryJPARepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName);
 	}
 
+	@Transactional
 	public void createCategory(CategorySaveRequestDto requestDto, User user) {
 		Workspace workspace = workspaceService.getWorkspaceById(requestDto.workspaceId());
 		validUser(workspace, user);

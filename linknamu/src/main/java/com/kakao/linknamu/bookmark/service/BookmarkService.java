@@ -31,7 +31,7 @@ import java.util.Set;
 import static java.util.Objects.isNull;
 
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class BookmarkService {
@@ -54,6 +54,7 @@ public class BookmarkService {
 		return bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();
 	}
 
+	@Transactional
 	public void addBookmark(Bookmark bookmark, Category newCategory, List<Tag> tagList, User user) {
 		// category는 새로만든 카테고리, 북마크는 과거 북마크 user는 새로운 유저
 		Bookmark newBookmark = Bookmark.builder()
@@ -85,6 +86,7 @@ public class BookmarkService {
 		bookmarkTagJpaRepository.saveAll(bookmarkTagList);
 	}
 
+	@Transactional
 	public void addBookmark(BookmarkRequestDto.BookmarkAddDto bookmarkAddDto, User user) {
 		// Bookmark 테이블에 bookmark 항목 추가
 		Category category = categoryService.findByIdFetchJoinWorkspace(bookmarkAddDto.getCategoryId());
@@ -102,7 +104,11 @@ public class BookmarkService {
 		List<BookmarkTag> bookmarkTagList = new ArrayList<>();
 		for (String tagName : bookmarkAddDto.getTags()) {
 			// 해당 태그가 존재하지 않는다면 새롭게 생성한다.
-			Tag tag = tagService.findByTagNameAndUserId(tagName, user);
+			Tag tag = tagService.findByTagNameAndUserId(tagName, user)
+				.orElseGet(
+					() -> tagService.create(tagName, user)
+				);
+
 			bookmarkTagList.add(BookmarkTag.builder()
 				.bookmark(bookmark)
 				.tag(tag)
@@ -112,6 +118,7 @@ public class BookmarkService {
 		bookmarkTagJpaRepository.saveAll(bookmarkTagList);
 	}
 
+	@Transactional
 	public void batchInsertBookmark(List<Bookmark> bookmarkList) {
 		bookmarkJpaRepository.batchInsertBookmark(bookmarkList);
 	}
@@ -129,6 +136,7 @@ public class BookmarkService {
 		return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
 	}
 
+	@Transactional
 	public BookmarkResponseDto.BookmarkUpdateResponseDto updateBookmark(
 		BookmarkRequestDto.BookmarkUpdateRequestDto dto,
 		Long bookmarkId,
@@ -136,8 +144,10 @@ public class BookmarkService {
 	) {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
-		bookmarkJpaRepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
+
 		validUser(bookmark.getCategory(), user);
+		bookmarkJpaRepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
+
 
 		List<String> tags = bookmarkTagJpaRepository.findTagNamesByBookmarkId(bookmarkId);
 
