@@ -4,6 +4,7 @@ import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception500;
 import com.kakao.linknamu.kakao.KakaoExceptionStatus;
 import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
+import com.kakao.linknamu.thirdparty.utils.JsoupResult;
 import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,6 @@ import java.util.regex.Pattern;
 public class KaKaoSendMeExtractService {
 
 	private final JsoupUtils jsoupUtils;
-	private static final String DEFAULT_TITLE = "추출된 링크";
 
 	public List<KakaoSendMeResponseDto> extractLink(MultipartFile multipartFile) {
 
@@ -61,10 +61,11 @@ public class KaKaoSendMeExtractService {
 					if (httpsLink.endsWith("\"")) {
 						httpsLink = httpsLink.substring(0, httpsLink.length() - 1);
 					}
-					String title = jsoupUtils.getTitle(httpsLink);
+					JsoupResult jsoupResult = jsoupUtils.getTitleAndImgUrl(httpsLink);
 					responseDtos.add(new KakaoSendMeResponseDto(
-						title.equals(httpsLink) ? DEFAULT_TITLE : title,
-						httpsLink)
+						jsoupResult.getTitle(),
+						httpsLink,
+						jsoupResult.getImageUrl())
 					);
 				});
 
