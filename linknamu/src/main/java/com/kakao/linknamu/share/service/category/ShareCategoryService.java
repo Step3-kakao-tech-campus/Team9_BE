@@ -53,6 +53,7 @@ public class ShareCategoryService {
 		return new GetCategoryFromLinkResponseDto(new PageInfoDto(bookmarkPage), category, bookmarkPage.getContent(), tagListList);
 	}
 
+	@Transactional
 	public void createCategory(String encodedCategoryId, CreateCategoryFromEncodedIdRequestDto requestDto, User user) {
 		Category category = getCategoryByEncodedCategoryId(encodedCategoryId);
 		Workspace workspace = workspaceService.getWorkspaceById(requestDto.workSpaceId());
