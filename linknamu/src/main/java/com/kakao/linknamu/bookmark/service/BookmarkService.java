@@ -36,10 +36,9 @@ import static java.util.Objects.isNull;
 @Service
 public class BookmarkService {
 
-	private final CategoryService categoryService;
 	private final BookmarkJpaRepository bookmarkJpaRepository;
-	private final BookmarkTagService bookmarkTagService;
 	private final BookmarkTagJpaRepository bookmarkTagJpaRepository;
+	private final CategoryService categoryService;
 	private final TagService tagService;
 
 	public Page<Bookmark> findByCategoryId(Long categoryId, Pageable pageable) {
@@ -67,16 +66,10 @@ public class BookmarkService {
 		// Bookmark 테이블에 bookmark 항목 추가
 		newCategory = categoryService.findByIdFetchJoinWorkspace(newCategory.getCategoryId());
 
-		if (!newCategory.getWorkspace().getUser().getUserId().equals(user.getUserId())) {
-			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
-		}
+		validUser(newCategory, user);
 
 		// 북마크의 링크에 대한 중복 검사
-		bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(newCategory.getCategoryId(),
-				newBookmark.getBookmarkLink())
-			.ifPresent((b) -> {
-				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
-			});
+		validDuplicatedLink(newCategory, newBookmark.getBookmarkLink());
 
 		bookmarkJpaRepository.save(newBookmark);
 
@@ -88,22 +81,17 @@ public class BookmarkService {
 				.build())
 			.toList();
 
-		bookmarkTagService.create(bookmarkTagList);
+		bookmarkTagJpaRepository.saveAll(bookmarkTagList);
 	}
 
 	public void addBookmark(BookmarkRequestDto.BookmarkAddDto bookmarkAddDto, User user) {
 		// Bookmark 테이블에 bookmark 항목 추가
 		Category category = categoryService.findByIdFetchJoinWorkspace(bookmarkAddDto.getCategoryId());
 
-		if (!category.getWorkspace().getUser().getUserId().equals(user.getUserId())) {
-			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
-		}
+		validUser(category, user);
+
 		// 북마크의 링크에 대한 중복 검사
-		bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(category.getCategoryId(),
-				bookmarkAddDto.getBookmarkLink())
-			.ifPresent((b) -> {
-				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
-			});
+		validDuplicatedLink(category, bookmarkAddDto.getBookmarkLink());
 
 		Bookmark bookmark = bookmarkAddDto.toEntity(category);
 
@@ -119,7 +107,7 @@ public class BookmarkService {
 				.build());
 		}
 
-		bookmarkTagService.create(bookmarkTagList);
+		bookmarkTagJpaRepository.saveAll(bookmarkTagList);
 	}
 
 	public void batchInsertBookmark(List<Bookmark> bookmarkList) {
@@ -134,7 +122,7 @@ public class BookmarkService {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
 		}
 
-		List<Tag> tagList = bookmarkTagService.findTagByBookmarkId(bookmark.getBookmarkId());
+		List<Tag> tagList = bookmarkTagJpaRepository.findTagByBookmarkId(bookmark.getBookmarkId());
 
 		return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
 	}
@@ -147,7 +135,7 @@ public class BookmarkService {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
 		bookmarkJpaRepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
-		validUser(bookmark, user);
+		validUser(bookmark.getCategory(), user);
 
 		List<String> tags = bookmarkTagJpaRepository.findTagNamesByBookmarkId(bookmarkId);
 
@@ -165,7 +153,7 @@ public class BookmarkService {
 	public void deleteBookmark(Long bookmarkId, User user) {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
-		validUser(bookmark, user);
+		validUser(bookmark.getCategory(), user);
 		bookmarkJpaRepository.delete(bookmark);
 	}
 
@@ -178,7 +166,7 @@ public class BookmarkService {
 		Set<Long> examineSet = new HashSet<>();
 
 		for (Bookmark b : requestedBookmarks) {
-			validUser(b, user);
+			validUser(b.getCategory(), user);
 			examineSet.add(b.getBookmarkId());
 		}
 
@@ -199,8 +187,8 @@ public class BookmarkService {
 		return BookmarkSearchResponseDto.of(new PageInfoDto(bookmarks), getBookmarkContentDtos(bookmarks));
 	}
 
-	private void validUser(Bookmark bookmark, User user) {
-		if (!bookmark.getCategory().getWorkspace().getUser().getUserId()
+	private void validUser(Category category, User user) {
+		if (!category.getWorkspace().getUser().getUserId()
 			.equals(user.getUserId())) {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
 		}
@@ -213,6 +201,13 @@ public class BookmarkService {
 			log.error(requestedSet.toString());
 			throw new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND);
 		}
+	}
+
+	private void validDuplicatedLink(Category category, String bookmarkLink) {
+		bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(category.getCategoryId(), bookmarkLink)
+			.ifPresent((b) -> {
+				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
+			});
 	}
 
 	private List<BookmarkSearchResponseDto.BookmarkContentDto> getBookmarkContentDtos(Page<Bookmark> bookmarks) {

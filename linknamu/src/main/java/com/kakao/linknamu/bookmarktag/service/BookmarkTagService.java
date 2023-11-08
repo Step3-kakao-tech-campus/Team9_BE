@@ -30,14 +30,6 @@ public class BookmarkTagService {
 	private final BookmarkJpaRepository bookmarkJpaRepository;
 	private final TagService tagService;
 
-	public void create(List<BookmarkTag> bookmarkTagList) {
-		bookmarkTagJPARepository.saveAll(bookmarkTagList);
-	}
-
-	public void create(BookmarkTag bookmarkTag) {
-		bookmarkTagJPARepository.save(bookmarkTag);
-	}
-
 	public void create(CreateBookmarkTagRequestDto requestDto, User user, Long bookmarkId) {
 		Tag tag = tagService.searchByTagNameAndUserId(requestDto.tagName(), user);
 

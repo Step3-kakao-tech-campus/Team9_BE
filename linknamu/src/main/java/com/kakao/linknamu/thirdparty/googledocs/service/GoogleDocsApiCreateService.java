@@ -11,8 +11,7 @@ import com.kakao.linknamu.thirdparty.googledocs.util.GoogleDocsProvider;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.service.WorkspaceReadService;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
+import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GoogleDocsApiCreateService {
 	private final GooglePageJpaRepository googlePageJpaRepository;
-	private final WorkspaceReadService workspaceReadService;
-	private final WorkspaceSaveService workspaceSaveService;
 	private final CategoryService categoryService;
 	private final GoogleDocsProvider googleDocsProvider;
+	private final WorkspaceService workspaceService;
 
 	private static final String DEFAULT_WORKSPACE_NAME = "Google Docs";
 
@@ -39,8 +37,7 @@ public class GoogleDocsApiCreateService {
 		}
 
 		// 워크스페이스 지정
-		Workspace docsWorkspace = workspaceReadService.findWorkspaceByUserAndProvider(user, LinkProvider.GOOGLE_DOCS)
-			.orElseGet(() -> workspaceSaveService.createDocsWorkspace(DEFAULT_WORKSPACE_NAME, user));
+		Workspace docsWorkspace = workspaceService.findWorkspaceByUserAndProvider(DEFAULT_WORKSPACE_NAME, user, LinkProvider.GOOGLE_DOCS);
 
 		// 카테고리 지정, 초기 카테고리의 이름은 pageName 으로 지정한다.
 		Category docsCategory = categoryService.findByWorkspaceIdAndCategoryName(docsWorkspace.getId(), pageName)
