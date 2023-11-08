@@ -1,9 +1,8 @@
 package com.kakao.linknamu.tag.service;
 
-import com.kakao.linknamu.core.exception.Exception404;
-import com.kakao.linknamu.tag.TagExceptionStatus;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.tag.repository.TagJpaRepository;
+import com.kakao.linknamu.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class TagDeleteService {
+public class TagService {
+
 	private final TagJpaRepository tagJpaRepository;
 
-	public void deleteTagByName(Long userId, String name) {
-		Tag tag = tagJpaRepository.findByUserIdAndName(userId, name).orElseThrow(
-			() -> new Exception404(TagExceptionStatus.TAG_NOT_FOUND)
-		);
-		tagJpaRepository.delete(tag);
+	public Tag searchByTagNameAndUserId(String name, User user) {
+		return tagJpaRepository.findByUserIdAndName(user.getUserId(), name)
+			.orElseGet(() -> {
+				Tag newTag = Tag.builder()
+					.tagName(name)
+					.user(user)
+					.build();
+				tagJpaRepository.save(newTag);
+				return newTag;
+			});
 	}
 }

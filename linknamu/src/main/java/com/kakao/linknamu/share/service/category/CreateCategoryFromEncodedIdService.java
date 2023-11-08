@@ -2,7 +2,7 @@ package com.kakao.linknamu.share.service.category;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkService;
-import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.encryption.AesEncryption;
@@ -25,8 +25,8 @@ public class CreateCategoryFromEncodedIdService {
 	private final WorkspaceService workspaceService;
 	private final AesEncryption aesEncryption;
 	private final CategoryService categoryService;
-	private final BookmarkTagReadService bookmarkTagReadService;
 	private final BookmarkService bookmarkService;
+	private final BookmarkTagService bookmarkTagService;
 
 	public void createCategory(String encodedCategoryId, CreateCategoryFromEncodedIdRequestDto requestDto, User user) {
 		String categoryId = aesEncryption.decode(encodedCategoryId);
@@ -36,7 +36,7 @@ public class CreateCategoryFromEncodedIdService {
 		Category newCategory = categoryService.save(category.getCategoryName(), workspace);
 		List<Bookmark> bookmarkList = bookmarkService.getBookmarkListByCategoryId(category.getCategoryId());
 		for (Bookmark bookmark : bookmarkList) {
-			List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
+			List<Tag> tagList = bookmarkTagService.findTagByBookmarkId(bookmark.getBookmarkId());
 			bookmarkService.addBookmark(bookmark, newCategory, tagList, user);
 		}
 

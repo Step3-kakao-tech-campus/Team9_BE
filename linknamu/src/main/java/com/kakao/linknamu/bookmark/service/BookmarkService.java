@@ -5,9 +5,8 @@ import com.kakao.linknamu.bookmark.dto.*;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
 import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
-import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
-import com.kakao.linknamu.bookmarktag.service.BookmarkTagSaveService;
-import com.kakao.linknamu.bookmarktag.service.BookmarkTagSearchService;
+import com.kakao.linknamu.bookmarktag.repository.BookmarkTagJpaRepository;
+import com.kakao.linknamu.bookmarktag.service.BookmarkTagService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.dto.PageInfoDto;
@@ -15,8 +14,7 @@ import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.tag.entity.Tag;
-import com.kakao.linknamu.tag.service.TagSaveService;
-import com.kakao.linknamu.tag.service.TagSearchService;
+import com.kakao.linknamu.tag.service.TagService;
 import com.kakao.linknamu.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,11 +38,9 @@ public class BookmarkService {
 
 	private final CategoryService categoryService;
 	private final BookmarkJpaRepository bookmarkJpaRepository;
-	private final TagSearchService tagSearchService;
-	private final TagSaveService tagSaveService;
-	private final BookmarkTagSaveService bookmarkTagSaveService;
-	private final BookmarkTagReadService bookmarkTagReadService;
-	private final BookmarkTagSearchService bookmarkTagSearchService;
+	private final BookmarkTagService bookmarkTagService;
+	private final BookmarkTagJpaRepository bookmarkTagJpaRepository;
+	private final TagService tagService;
 
 	public Page<Bookmark> findByCategoryId(Long categoryId, Pageable pageable) {
 		return bookmarkJpaRepository.findByCategoryId(categoryId, pageable);
@@ -52,11 +48,6 @@ public class BookmarkService {
 
 	public List<Bookmark> getBookmarkListByCategoryId(Long categoryId) {
 		return bookmarkJpaRepository.findListByCategoryId(categoryId);
-	}
-
-	public Bookmark getBookmarkById(Long bookmarkId) {
-		return bookmarkJpaRepository.findById(bookmarkId)
-			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
 	}
 
 	public boolean existByBookmarkLinkAndCategoryId(String bookmarkLink, Long categoryId) {
@@ -97,7 +88,7 @@ public class BookmarkService {
 				.build())
 			.toList();
 
-		bookmarkTagSaveService.create(bookmarkTagList);
+		bookmarkTagService.create(bookmarkTagList);
 	}
 
 	public void addBookmark(BookmarkRequestDto.BookmarkAddDto bookmarkAddDto, User user) {
@@ -121,22 +112,14 @@ public class BookmarkService {
 		List<BookmarkTag> bookmarkTagList = new ArrayList<>();
 		for (String tagName : bookmarkAddDto.getTags()) {
 			// 해당 태그가 존재하지 않는다면 새롭게 생성한다.
-			Tag tag = tagSearchService.searchByTagNameAndUserId(tagName, user.getUserId())
-				.orElseGet(() -> {
-					Tag newTag = Tag.builder()
-						.user(user)
-						.tagName(tagName)
-						.build();
-					tagSaveService.createTag(newTag);
-					return newTag;
-				});
+			Tag tag = tagService.searchByTagNameAndUserId(tagName, user);
 			bookmarkTagList.add(BookmarkTag.builder()
 				.bookmark(bookmark)
 				.tag(tag)
 				.build());
 		}
 
-		bookmarkTagSaveService.create(bookmarkTagList);
+		bookmarkTagService.create(bookmarkTagList);
 	}
 
 	public void batchInsertBookmark(List<Bookmark> bookmarkList) {
@@ -151,7 +134,7 @@ public class BookmarkService {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
 		}
 
-		List<Tag> tagList = bookmarkTagReadService.findTagByBookmarkId(bookmark.getBookmarkId());
+		List<Tag> tagList = bookmarkTagService.findTagByBookmarkId(bookmark.getBookmarkId());
 
 		return BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, tagList);
 	}
@@ -164,9 +147,9 @@ public class BookmarkService {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
 		bookmarkJpaRepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
-		validateUser(bookmark, user);
+		validUser(bookmark, user);
 
-		List<String> tags = bookmarkTagSearchService.searchTagNamesByBookmarkId(bookmarkId);
+		List<String> tags = bookmarkTagJpaRepository.findTagNamesByBookmarkId(bookmarkId);
 
 		return BookmarkResponseDto.BookmarkUpdateResponseDto.builder()
 			.bookmarkId(bookmarkId)
@@ -182,7 +165,7 @@ public class BookmarkService {
 	public void deleteBookmark(Long bookmarkId, User user) {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
-		validateUser(bookmark, user);
+		validUser(bookmark, user);
 		bookmarkJpaRepository.delete(bookmark);
 	}
 
@@ -195,7 +178,7 @@ public class BookmarkService {
 		Set<Long> examineSet = new HashSet<>();
 
 		for (Bookmark b : requestedBookmarks) {
-			validateUser(b, user);
+			validUser(b, user);
 			examineSet.add(b.getBookmarkId());
 		}
 
@@ -211,13 +194,12 @@ public class BookmarkService {
 		if (isNull(condition.tags())) {
 			bookmarks = bookmarkJpaRepository.search(condition, user.getUserId(), pageable);
 		} else {
-			bookmarks = bookmarkTagSearchService.search(condition, user.getUserId(), pageable);
+			bookmarks = bookmarkTagJpaRepository.search(condition, user.getUserId(), pageable);
 		}
 		return BookmarkSearchResponseDto.of(new PageInfoDto(bookmarks), getBookmarkContentDtos(bookmarks));
 	}
 
-	// -- private --
-	private void validateUser(Bookmark bookmark, User user) {
+	private void validUser(Bookmark bookmark, User user) {
 		if (!bookmark.getCategory().getWorkspace().getUser().getUserId()
 			.equals(user.getUserId())) {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
@@ -236,7 +218,7 @@ public class BookmarkService {
 	private List<BookmarkSearchResponseDto.BookmarkContentDto> getBookmarkContentDtos(Page<Bookmark> bookmarks) {
 		List<BookmarkSearchResponseDto.BookmarkContentDto> responseDto = new ArrayList<>();
 		for (Bookmark bookmark : bookmarks) {
-			List<Tag> tags = bookmarkTagSearchService.findTagsByBookmarkId(bookmark.getBookmarkId());
+			List<Tag> tags = bookmarkTagJpaRepository.findTagByBookmarkId(bookmark.getBookmarkId());
 			responseDto.add(BookmarkSearchResponseDto.BookmarkContentDto.of(bookmark, tags));
 		}
 		return responseDto;
