@@ -55,7 +55,7 @@ public class KaKaoSendMeExtractService {
 			Matcher matcher = pattern.matcher(fileContent);
 
 			// 병렬 쓰레드로 실행
-			matcher.results().parallel()
+			matcher.results()
 				.forEach(matchResult -> {
 					String httpsLink = matchResult.group();
 					if (httpsLink.endsWith("\"")) {

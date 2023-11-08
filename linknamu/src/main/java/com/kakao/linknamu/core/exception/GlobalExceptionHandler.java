@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -71,9 +69,12 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({Exception.class})
 	public ResponseEntity<?> unknownServerError(Exception e) {
-		log.error(String.format("Location: %s, Cause: %s", e.getStackTrace()[0].toString(), e.getMessage()));
+
+		String errorText = String.format("Location: %s, Cause: %s", e.getStackTrace()[0].toString(), e.getMessage());
+
+		log.error(errorText);
 		return new ResponseEntity<>(
-			ApiUtils.error("internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value(), "05000"),
+			ApiUtils.error(String.format("internal server error  %s", errorText), HttpStatus.INTERNAL_SERVER_ERROR.value(), "05000"),
 			HttpStatus.INTERNAL_SERVER_ERROR
 		);
 	}
