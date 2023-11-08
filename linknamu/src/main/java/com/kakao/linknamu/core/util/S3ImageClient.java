@@ -57,9 +57,9 @@ public class S3ImageClient {
 		ByteArrayInputStream imageInputStream = new ByteArrayInputStream(byteImage);
 
 		try {
-			System.out.println(imageInputStream.read());
+			
 			BufferedImage image = ImageIO.read(imageInputStream);
-			System.out.println(image);
+
 			// image인지 체크하는 로직
 			if (image == null) {
 				throw new Exception400(UtilExceptionStatus.IMAGE_INVALID_DATA);
