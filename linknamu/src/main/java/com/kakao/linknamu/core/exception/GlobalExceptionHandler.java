@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
 
 		log.error(errorText);
 		return new ResponseEntity<>(
-			ApiUtils.error(String.format("internal server error  %s", errorText), HttpStatus.INTERNAL_SERVER_ERROR.value(), "05000"),
+			ApiUtils.error("internal server", HttpStatus.INTERNAL_SERVER_ERROR.value(), "05000"),
 			HttpStatus.INTERNAL_SERVER_ERROR
 		);
 	}
