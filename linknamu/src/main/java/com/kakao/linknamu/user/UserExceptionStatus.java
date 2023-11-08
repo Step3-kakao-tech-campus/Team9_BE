@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+
 public enum UserExceptionStatus implements BaseExceptionStatus {
 	GOOGLE_TOKEN_INVALID("유효하지 않은 구글 토큰입니다.", 400, "14000"),
 	REFRESH_TOKEN_INVALID("유효하지 않은 토큰입니다.", 400, "14001"),

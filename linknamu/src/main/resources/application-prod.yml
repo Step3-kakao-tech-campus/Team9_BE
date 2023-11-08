@@ -55,6 +55,19 @@ oauth2:
     secret: ${NOTION_SECRET}
     redirect_uri: ${NOTION_REDIRECT_URI}
 
+cloud:
+  aws:
+    s3:
+      bucket: linknamu-image
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
 access-jwt-secret-key: ${ACCESS_JWT_SECRET_KEY}
 refresh-jwt-secret-key: ${REFRESH_JWT_SECRET_KEY}
 
