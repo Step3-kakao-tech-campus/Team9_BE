@@ -7,22 +7,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+import java.util.Optional;
+
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class TagService {
 
 	private final TagJpaRepository tagJpaRepository;
 
-	public Tag findByTagNameAndUserId(String name, User user) {
-		return tagJpaRepository.findByUserIdAndName(user.getUserId(), name)
-			.orElseGet(() -> {
-				Tag newTag = Tag.builder()
-					.tagName(name)
-					.user(user)
-					.build();
-				tagJpaRepository.save(newTag);
-				return newTag;
-			});
+	public Optional<Tag> findByTagNameAndUserId(String name, User user) {
+		return tagJpaRepository.findByUserIdAndName(user.getUserId(), name);
 	}
+
+	@Transactional
+	public Tag create(String name, User user) {
+		return tagJpaRepository.save(Tag.builder()
+			.tagName(name)
+			.user(user)
+			.build()
+		);
+	}
+
 }
