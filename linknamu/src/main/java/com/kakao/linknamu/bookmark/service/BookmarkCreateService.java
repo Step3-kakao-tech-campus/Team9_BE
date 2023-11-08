@@ -51,7 +51,7 @@ public class BookmarkCreateService {
 				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
 			});
 
-		String imageUrl = s3ImageClient.base64ImageToS3(bookmarkAddDto.getImageData(), bookmarkAddDto.getBookmarkLink());
+		String imageUrl = s3ImageClient.base64ImageToS3(bookmarkAddDto.getImageUrl(), bookmarkAddDto.getBookmarkLink());
 		Bookmark bookmark = bookmarkAddDto.toEntity(category, imageUrl);
 
 		bookmarkJpaRepository.save(bookmark);

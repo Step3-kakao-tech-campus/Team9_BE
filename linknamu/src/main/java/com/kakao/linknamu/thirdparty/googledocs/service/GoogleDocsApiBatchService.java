@@ -13,6 +13,7 @@ import com.kakao.linknamu.core.config.GoogleDocsConfig;
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
 import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaRepository;
 import com.kakao.linknamu.thirdparty.googledocs.util.InvalidGoogleDocsApiException;
+import com.kakao.linknamu.thirdparty.utils.JsoupResult;
 import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,15 +84,11 @@ public class GoogleDocsApiBatchService {
 									continue;
 								}
 
-								// 링크 항목이 있을 경우 해당 링크의 사이트 제목을 Jsoup 라이브러리를 사용해 받아온다.
-								// 이를 생성할 북마크의 이름으로 사용한다.
-								// 만약 해당 데이터를 읽어오지 못하는 경우 link로 저장한다.
-								String bookmarkName = link;
-								bookmarkName = jsoupUtils.getTitle(link);
+								JsoupResult jsoupResult = jsoupUtils.getTitleAndImgUrl(link);
 								resultBookmarks.add(Bookmark.builder()
 									.bookmarkLink(link)
-									.bookmarkName(bookmarkName.length() > 30
-										? bookmarkName.substring(0, 30) : bookmarkName)
+									.bookmarkName(jsoupResult.getTitle())
+									.bookmarkThumbnail(jsoupResult.getImageUrl())
 									.category(googlePage.getCategory())
 									.build());
 							}
