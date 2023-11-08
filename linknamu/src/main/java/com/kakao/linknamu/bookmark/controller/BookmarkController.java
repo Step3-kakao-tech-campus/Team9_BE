@@ -1,22 +1,16 @@
 package com.kakao.linknamu.bookmark.controller;
 
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
+import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
+import com.kakao.linknamu.bookmark.service.*;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.kakao.linknamu.bookmark.dto.BookmarkRequestDto;
 import com.kakao.linknamu.bookmark.dto.BookmarkResponseDto;
-import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
-import com.kakao.linknamu.bookmark.service.BookmarkDeleteService;
-import com.kakao.linknamu.bookmark.service.BookmarkMoveService;
-import com.kakao.linknamu.bookmark.service.BookmarkReadService;
-import com.kakao.linknamu.bookmark.service.BookmarkUpdateService;
 import com.kakao.linknamu.core.security.CustomUserDetails;
 import com.kakao.linknamu.core.util.ApiUtils;
 
@@ -27,11 +21,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/bookmark")
 public class BookmarkController {
-	private final BookmarkCreateService bookmarkCreateService;
-	private final BookmarkDeleteService bookmarkDeleteService;
-	private final BookmarkUpdateService bookmarkUpdateService;
-	private final BookmarkMoveService bookmarkMoveService;
-	private final BookmarkReadService bookmarkReadService;
+	private final BookmarkService bookmarkService;
+	private static final int PAGE_SIZE = 10;
 
 	@PostMapping("/create")
 	public ResponseEntity<?> createBookmark(
@@ -39,7 +30,7 @@ public class BookmarkController {
 		BookmarkRequestDto.BookmarkAddDto dto,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		bookmarkCreateService.addBookmark(dto, user.getUser());
+		bookmarkService.addBookmark(dto, user.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
@@ -48,7 +39,7 @@ public class BookmarkController {
 		@PathVariable Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		bookmarkDeleteService.deleteBookmark(user.getUser().getUserId(), bookmarkId);
+		bookmarkService.deleteBookmark(bookmarkId, user.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
@@ -58,8 +49,7 @@ public class BookmarkController {
 		@PathVariable Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		BookmarkResponseDto.BookmarkUpdateResponseDto responseDto = bookmarkUpdateService.updateBookmark(dto,
-			user.getUser().getUserId(), bookmarkId);
+		BookmarkResponseDto.BookmarkUpdateResponseDto responseDto = bookmarkService.updateBookmark(dto, bookmarkId, user.getUser());
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}
 
@@ -68,7 +58,7 @@ public class BookmarkController {
 		@RequestBody @Valid BookmarkRequestDto.BookmarkMoveRequestDto dto,
 		@AuthenticationPrincipal CustomUserDetails user
 	) {
-		bookmarkMoveService.moveBookmark(dto, user.getUser().getUserId());
+		bookmarkService.moveBookmark(dto, user.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
@@ -77,8 +67,19 @@ public class BookmarkController {
 		@PathVariable("bookmarkId") Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
-		BookmarkResponseDto.BookmarkGetResponseDto responseDto = bookmarkReadService.getBookmarkById(bookmarkId,
+		BookmarkResponseDto.BookmarkGetResponseDto responseDto = bookmarkService.getBookmarkById(bookmarkId,
 			userDetails.getUser());
+		return ResponseEntity.ok(ApiUtils.success(responseDto));
+	}
+
+	@PostMapping("/search")
+	public ResponseEntity<?> searchBookmark(
+		@RequestBody BookmarkSearchCondition condition,
+		@RequestParam(name = "page", defaultValue = "0") int page,
+		@AuthenticationPrincipal CustomUserDetails user) {
+		Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+		BookmarkSearchResponseDto responseDto = bookmarkService.searchBookmark(condition, user.getUser(),
+			pageable);
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}
 }

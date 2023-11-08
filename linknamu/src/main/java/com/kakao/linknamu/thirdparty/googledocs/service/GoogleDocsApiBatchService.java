@@ -7,8 +7,7 @@ import com.google.api.services.docs.v1.model.Document;
 import com.google.api.services.docs.v1.model.ParagraphElement;
 import com.google.api.services.docs.v1.model.StructuralElement;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
-import com.kakao.linknamu.bookmark.service.BookmarkReadService;
+import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.core.config.GoogleDocsConfig;
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
 import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaRepository;
@@ -33,21 +32,19 @@ import static com.kakao.linknamu.core.config.GoogleDocsConfig.getCredentials;
 @Service
 public class GoogleDocsApiBatchService {
 	private final GooglePageJpaRepository googlePageJpaRepository;
-	private final GoogleDocsApiGetService googleDocsApiGetService;
-	private final BookmarkCreateService bookmarkCreateService;
-	private final BookmarkReadService bookmarkReadService;
 	private final JsoupUtils jsoupUtils;
+	private final BookmarkService bookmarkService;
 
 	@Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
 	public void googleDocsApiCronJob() {
 		// 활성화된 페이지들을 리스트에 저장
-		List<GooglePage> activeGoogleDocsPages = googleDocsApiGetService.getActiveGoogleDocsPage();
+		List<GooglePage> activeGoogleDocsPages = googlePageJpaRepository.findByActivePage();
 
 		// 활성화된 구글 독스 페이지들에 대해 배치를 실행한다.
 		activeGoogleDocsPages.forEach((GooglePage gp) -> {
 			try {
 				List<Bookmark> resultBookmarks = getLinks(gp);
-				bookmarkCreateService.batchInsertBookmark(resultBookmarks);
+				bookmarkService.batchInsertBookmark(resultBookmarks);
 			} catch (InvalidGoogleDocsApiException e) {
 				gp.deactivate();
 				googlePageJpaRepository.save(gp);
@@ -79,7 +76,7 @@ public class GoogleDocsApiBatchService {
 							String link = pe.getTextRun().getTextStyle().getLink().getUrl();
 							if (link != null) {
 								// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
-								if (bookmarkReadService.existByBookmarkLinkAndCategoryId(link,
+								if (bookmarkService.existByBookmarkLinkAndCategoryId(link,
 									googlePage.getCategory().getCategoryId())) {
 									continue;
 								}

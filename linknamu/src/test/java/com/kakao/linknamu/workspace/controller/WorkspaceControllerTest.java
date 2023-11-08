@@ -13,10 +13,6 @@ import com.kakao.linknamu.workspace.dto.WorkspaceUpdateRequestDto;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
 import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
-import com.kakao.linknamu.workspace.service.WorkspaceDeleteService;
-import com.kakao.linknamu.workspace.service.WorkspaceReadService;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
-import com.kakao.linknamu.workspace.service.WorkspaceUpdateService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,14 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Transactional
 public class WorkspaceControllerTest extends RestDocs {
-	@Autowired
-	private WorkspaceReadService workspaceReadService;
-	@Autowired
-	private WorkspaceSaveService workspaceSaveService;
-	@Autowired
-	private WorkspaceDeleteService workspaceDeleteService;
-	@Autowired
-	private WorkspaceUpdateService workspaceUpdateService;
+
 	@Autowired
 	private WorkspaceJpaRepository workspaceJPARepository;
 	@Autowired
