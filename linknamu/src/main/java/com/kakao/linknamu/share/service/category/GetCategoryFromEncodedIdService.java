@@ -1,7 +1,7 @@
 package com.kakao.linknamu.share.service.category;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.service.BookmarkReadService;
+import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
@@ -23,9 +23,9 @@ import java.util.List;
 @Service
 public class GetCategoryFromEncodedIdService {
 	private final CategoryService categoryService;
-	private final BookmarkReadService bookmarkReadService;
 	private final BookmarkTagReadService bookmarkTagReadService;
 	private final AesEncryption aesEncryption;
+	private final BookmarkService bookmarkService;
 
 	public GetCategoryFromLinkResponseDto getCategory(String encodedCategoryId, Pageable pageable) {
 
@@ -34,7 +34,7 @@ public class GetCategoryFromEncodedIdService {
 
 		Category category = categoryService.findById(id);
 
-		Page<Bookmark> bookmarkPage = bookmarkReadService.findByCategoryId(id, pageable);
+		Page<Bookmark> bookmarkPage = bookmarkService.findByCategoryId(id, pageable);
 
 		List<List<Tag>> tagListList = new ArrayList<>();
 

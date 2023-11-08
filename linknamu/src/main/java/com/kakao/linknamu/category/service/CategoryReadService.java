@@ -1,7 +1,7 @@
 package com.kakao.linknamu.category.service;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.service.BookmarkReadService;
+import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagReadService;
 import com.kakao.linknamu.category.dto.CategoryGetResponseDto;
 import com.kakao.linknamu.category.entity.Category;
@@ -23,14 +23,14 @@ import java.util.List;
 public class CategoryReadService {
 
 	private final CategoryService categoryService;
-	private final BookmarkReadService bookmarkReadService;
 	private final BookmarkTagReadService bookmarkTagReadService;
+	private final BookmarkService bookmarkService;
 
 	public CategoryGetResponseDto getCategory(Long categoryId, User user, Pageable pageable) {
 		Category category = categoryService.findByIdFetchJoinWorkspace(categoryId);
 		categoryService.validUser(category.getWorkspace(), user);
 
-		Page<Bookmark> bookmarkPage = bookmarkReadService.findByCategoryId(categoryId, pageable);
+		Page<Bookmark> bookmarkPage = bookmarkService.findByCategoryId(categoryId, pageable);
 		PageInfoDto pageInfoDto = new PageInfoDto(bookmarkPage);
 		List<CategoryGetResponseDto.BookmarkContentDto> bookmarkContentDtos = new ArrayList<>();
 		for (Bookmark bookmark : bookmarkPage.getContent()) {

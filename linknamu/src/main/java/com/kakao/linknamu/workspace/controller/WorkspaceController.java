@@ -36,7 +36,6 @@ public class WorkspaceController {
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
-
 	@PostMapping("/update/{workspaceId}")
 	public ResponseEntity<?> updateWorkspace(
 		@PathVariable("workspaceId") Long workspaceId,

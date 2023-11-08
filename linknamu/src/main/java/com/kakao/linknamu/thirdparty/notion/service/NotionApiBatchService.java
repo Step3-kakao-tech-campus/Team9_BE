@@ -1,8 +1,7 @@
 package com.kakao.linknamu.thirdparty.notion.service;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
-import com.kakao.linknamu.bookmark.service.BookmarkCreateService;
-import com.kakao.linknamu.bookmark.service.BookmarkReadService;
+import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.thirdparty.notion.entity.NotionPage;
 import com.kakao.linknamu.thirdparty.notion.repository.NotionPageJpaRepository;
 import com.kakao.linknamu.thirdparty.notion.util.InvalidNotionApiException;
@@ -33,9 +32,8 @@ public class NotionApiBatchService {
 	private final ObjectProvider<JSONParser> jsonParserProvider;
 	private final NotionApiUriBuilder notionApiUriBuilder;
 	private final NotionApiGetService notionApiGetService;
-	private final BookmarkCreateService bookmarkCreateService;
-	private final BookmarkReadService bookmarkReadService;
 	private final JsoupUtils jsoupUtils;
+	private final BookmarkService bookmarkService;
 
 	private static final String NOTION_VERSION = "2022-06-28";
 
@@ -51,7 +49,7 @@ public class NotionApiBatchService {
 			try {
 				List<Bookmark> resultBookmarks = getPageLinks(n.getPageId(), n.getNotionAccount().getToken(), n);
 				// 2-2 배치 insert 추가
-				bookmarkCreateService.batchInsertBookmark(resultBookmarks);
+				bookmarkService.batchInsertBookmark(resultBookmarks);
 			} catch (InvalidNotionApiException e) {
 				// 2-2 NotionPage 접근 권한, 없는 페이지라면 isActive를 false로 만들고 종료
 				n.deactivate();
@@ -119,7 +117,7 @@ public class NotionApiBatchService {
 		JSONArray caption = (JSONArray) bookmarkTypeObject.get("caption");
 		String url = (String) bookmarkTypeObject.get("url");
 		// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
-		if (bookmarkReadService.existByBookmarkLinkAndCategoryId(url, notionPage.getCategory().getCategoryId())) {
+		if (bookmarkService.existByBookmarkLinkAndCategoryId(url, notionPage.getCategory().getCategoryId())) {
 			return;
 		}
 
@@ -156,7 +154,7 @@ public class NotionApiBatchService {
 
 			if (Objects.nonNull(href)) {
 				// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
-				if (bookmarkReadService.existByBookmarkLinkAndCategoryId(href, notionPage.getCategory().getCategoryId())) {
+				if (bookmarkService.existByBookmarkLinkAndCategoryId(href, notionPage.getCategory().getCategoryId())) {
 					continue;
 				}
 

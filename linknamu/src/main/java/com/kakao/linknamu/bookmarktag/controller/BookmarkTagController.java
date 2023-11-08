@@ -18,7 +18,6 @@ public class BookmarkTagController {
 	private final BookmarkTagSaveService bookmarkTagSaveService;
 	private final BookmarkTagDeleteService bookmarkTagDeleteService;
 
-
 	@PostMapping("/create/{bookmarkId}")
 	public ResponseEntity<?> createBookmarkTag(
 		@PathVariable(value = "bookmarkId") Long bookmarkId,
