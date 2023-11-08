@@ -7,6 +7,7 @@ import com.kakao.linknamu.thirdparty.notion.entity.NotionPage;
 import com.kakao.linknamu.thirdparty.notion.repository.NotionPageJpaRepository;
 import com.kakao.linknamu.thirdparty.notion.util.InvalidNotionApiException;
 import com.kakao.linknamu.thirdparty.notion.util.NotionApiUriBuilder;
+import com.kakao.linknamu.thirdparty.utils.JsoupResult;
 import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,9 @@ public class NotionApiBatchService {
 	private final BookmarkReadService bookmarkReadService;
 	private final JsoupUtils jsoupUtils;
 
+	// 멘션 타입의 노션 페이지 링크일 시, Untitled로 나와 이를 기본 설정으로 변경해서 저장한다.
+	private static final String DEFAULT_NOTION_PAGE_NAME = "Notion Page";
+	private static final String DEFAULT_NOTION_IMAGE = "https://www.notion.so/images/meta/default.png";
 	private static final String NOTION_VERSION = "2022-06-28";
 
 	// 한 시간마다 notion API를 통해서 연동한 페이지의 링크를 가져오는 기능 수행
@@ -123,22 +127,21 @@ public class NotionApiBatchService {
 			return;
 		}
 
-		String title = url;
+		JsoupResult jsoupResult = jsoupUtils.getTitleAndImgUrl(url);
 		if (!caption.isEmpty()) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < caption.size(); i++) {
 				JSONObject captionObject = (JSONObject) caption.get(i);
 				sb.append(captionObject.get("plain_text"));
-				title = sb.toString().strip();
 			}
-		} else {
-			title = jsoupUtils.getTitle(url);
+			jsoupResult.setTitle(sb.toString().strip());
 		}
 
 		resultBookmarks.add(Bookmark.builder()
 			.bookmarkLink(url)
-			.bookmarkName(title.length() > 30 ? title.substring(0, 30) : title)
+			.bookmarkName(jsoupResult.getTitle())
 			.category(notionPage.getCategory())
+			.bookmarkThumbnail(jsoupResult.getImageUrl())
 			.build()
 		);
 	}
@@ -152,7 +155,9 @@ public class NotionApiBatchService {
 
 		for (Object richText : richTexts) {
 			String href = (String) ((JSONObject) richText).get("href");
-			String plainText = (String) ((JSONObject) richText).get("plain_text");
+			String title = (String) ((JSONObject) richText).get("plain_text");
+			String type = (String) ((JSONObject) richText).get("type");
+			JsoupResult jsoupResult = new JsoupResult();
 
 			if (Objects.nonNull(href)) {
 				// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
@@ -160,13 +165,25 @@ public class NotionApiBatchService {
 					continue;
 				}
 
-				if (href.equals(plainText)) {
-					plainText = jsoupUtils.getTitle(href);
+				jsoupResult = jsoupUtils.getTitleAndImgUrl(href);
+
+				if (!href.equals(title)) {
+					jsoupResult.setTitle(title);
+				}
+
+				if(type.equals("mention")) {
+					if( title.equals("Untitled")) {
+						jsoupResult.setTitle(DEFAULT_NOTION_PAGE_NAME);
+					} else {
+						jsoupResult.setTitle(title);
+						jsoupResult.setImageUrl(DEFAULT_NOTION_IMAGE);
+					}
 				}
 
 				resultBookmarks.add(Bookmark.builder()
 					.bookmarkLink(href.startsWith("/") ? "https://www.notion.so" + href : href)
-					.bookmarkName(plainText.length() > 30 ? plainText.substring(0, 30) : plainText)
+					.bookmarkName(jsoupResult.getTitle())
+					.bookmarkThumbnail(jsoupResult.getImageUrl())
 					.category(notionPage.getCategory())
 					.build());
 			}

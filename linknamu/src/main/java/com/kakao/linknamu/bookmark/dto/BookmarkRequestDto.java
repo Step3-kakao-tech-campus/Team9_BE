@@ -1,16 +1,15 @@
 package com.kakao.linknamu.bookmark.dto;
 
-import java.util.List;
-
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.entity.Category;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 public class BookmarkRequestDto {
 	@Getter
@@ -33,7 +32,7 @@ public class BookmarkRequestDto {
 
 		private List<String> tags;
 
-		public Bookmark toEntity(Category category) {
+		public Bookmark toEntity(Category category, String imageUrl) {
 			return Bookmark.builder()
 				.bookmarkName(bookmarkName)
 				.bookmarkLink(bookmarkLink)

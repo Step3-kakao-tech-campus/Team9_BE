@@ -12,6 +12,7 @@ import com.kakao.linknamu.category.repository.CategoryJpaRepository;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
+import com.kakao.linknamu.core.util.S3ImageClient;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.tag.service.TagSaveService;
 import com.kakao.linknamu.tag.service.TagSearchService;
@@ -32,6 +33,7 @@ public class BookmarkCreateService {
 	private final TagSearchService tagSearchService;
 	private final TagSaveService tagSaveService;
 	private final BookmarkTagSaveService bookmarkTagSaveService;
+	private final S3ImageClient s3ImageClient;
 
 	public void addBookmark(BookmarkRequestDto.BookmarkAddDto bookmarkAddDto, User userDetails) {
 
@@ -49,9 +51,11 @@ public class BookmarkCreateService {
 				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
 			});
 
-		Bookmark bookmark = bookmarkAddDto.toEntity(category);
+		String imageUrl = s3ImageClient.base64ImageToS3(bookmarkAddDto.getImageUrl(), bookmarkAddDto.getBookmarkLink());
+		Bookmark bookmark = bookmarkAddDto.toEntity(category, imageUrl);
 
 		bookmarkJpaRepository.save(bookmark);
+
 
 		List<BookmarkTag> bookmarkTagList = new ArrayList<>();
 		for (String tagName : bookmarkAddDto.getTags()) {
