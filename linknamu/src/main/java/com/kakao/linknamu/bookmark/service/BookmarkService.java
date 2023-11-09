@@ -68,7 +68,6 @@ public class BookmarkService {
 		newCategory = categoryService.findByIdFetchJoinWorkspace(newCategory.getCategoryId());
 
 		validUser(newCategory, user);
-		log.info("[Bookmark Link] : " + newBookmark.getBookmarkLink() + ", [Category Id] :" + newCategory.getCategoryId());
 
 		// 북마크의 링크에 대한 중복 검사
 		validDuplicatedLink(newCategory, newBookmark.getBookmarkLink());
@@ -177,15 +176,16 @@ public class BookmarkService {
 
 		Set<Long> examineSet = new HashSet<>();
 
-		for (Bookmark b : requestedBookmarks) {
-			validUser(b.getCategory(), user);
-			examineSet.add(b.getBookmarkId());
+		for (Bookmark bookmark : requestedBookmarks) {
+			validUser(bookmark.getCategory(), user);
+			validDuplicatedLink(toCategory, bookmark.getBookmarkLink());
+			examineSet.add(bookmark.getBookmarkId());
 		}
 
 		validExistRequest(examineSet, new HashSet<>(dto.bookmarkIdList()));
 
-		for (Bookmark b : requestedBookmarks) {
-			b.moveCategory(toCategory);
+		for (Bookmark bookmark : requestedBookmarks) {
+			bookmark.moveCategory(toCategory);
 		}
 	}
 
@@ -210,7 +210,6 @@ public class BookmarkService {
 	private void validExistRequest(Set<Long> examineSet, Set<Long> requestedSet) {
 		requestedSet.removeAll(examineSet);
 		if (!requestedSet.isEmpty()) {
-			log.error(requestedSet.toString());
 			throw new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND);
 		}
 	}
@@ -218,7 +217,6 @@ public class BookmarkService {
 	private void validDuplicatedLink(Category category, String bookmarkLink) {
 		bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(category.getCategoryId(), bookmarkLink)
 			.ifPresent((b) -> {
-				log.info("[Bookmark Link] : " + b.getBookmarkLink() + ", [Category Id] :" + category.getCategoryId());
 				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
 			});
 	}
