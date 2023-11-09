@@ -19,6 +19,6 @@ public class Exception403 extends ClientException {
 
 	@Override
 	public HttpStatus status() {
-		return HttpStatus.UNAUTHORIZED;
+		return HttpStatus.FORBIDDEN;
 	}
 }
