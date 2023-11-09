@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.UUID;
 
 // S3에 이미지 파일을 저장할 수 있도록 하는 객체
@@ -34,7 +35,10 @@ public class S3ImageClient {
 			if (base64Data == null) {
 				return jsoupUtils.getImgUrl(bookmarkLink);
 			}
+
 			byte[] byteImage = java.util.Base64.getDecoder().decode(base64Data);
+
+
 			InputStream imageInputStream = getValidImageInputStream(byteImage);
 
 			// AWS S3 저장 로직
@@ -47,6 +51,10 @@ public class S3ImageClient {
 			amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, imageInputStream, metadata));
 			return amazonS3Client.getUrl(bucket, fileName).toString();
 		} catch (IllegalArgumentException e) {
+			//base64로 인코딩된 이미지파일이 아닐경우, 이미지Url인지 확인
+			if (getValidImageUrl(base64Data)) {
+				return base64Data;
+			}
 			throw new Exception400(UtilExceptionStatus.NOT_BASE64_DATA);
 		}
 
@@ -54,10 +62,11 @@ public class S3ImageClient {
 
 	private ByteArrayInputStream getValidImageInputStream(byte[] byteImage) {
 
+
 		ByteArrayInputStream imageInputStream = new ByteArrayInputStream(byteImage);
 
 		try {
-			
+
 			BufferedImage image = ImageIO.read(imageInputStream);
 
 			// image인지 체크하는 로직
@@ -70,5 +79,25 @@ public class S3ImageClient {
 			throw new Exception400(UtilExceptionStatus.IMAGE_UNREADABLE_DATA);
 		}
 		return imageInputStream;
+	}
+
+
+	private Boolean getValidImageUrl(String imgUrlString) {
+
+
+		try {
+
+			URL imgUrl = new URL(imgUrlString);
+			BufferedImage image = ImageIO.read(imgUrl);
+
+			// image인지 체크하는 로직
+			if (image == null) {
+				throw new Exception400(UtilExceptionStatus.IMAGE_URL_INVALID);
+			}
+		} catch (IOException exception) {
+			throw new Exception400(UtilExceptionStatus.IMAGE_UNREADABLE_URL);
+		}
+
+		return true;
 	}
 }
