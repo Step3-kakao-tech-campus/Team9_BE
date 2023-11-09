@@ -12,12 +12,14 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
@@ -54,11 +56,13 @@ public class ShareWorkspaceService {
 
 		for (Category category : workspace.getCategorySet()) {
 			Category newCategory = categoryService.save(category.getCategoryName(), newWorkspace);
+			log.info("[old category: ]" + category.getCategoryName() + ", " + category.getCategoryId());
 			List<Bookmark> bookmarkList = bookmarkService.getBookmarkListByCategoryId(category.getCategoryId());
 			for (Bookmark bookmark : bookmarkList) {
 				List<Tag> tagList = bookmarkTagService.findTagByBookmarkId(bookmark.getBookmarkId());
 				bookmarkService.addBookmark(bookmark, newCategory, tagList, user);
 			}
+			log.info("========================================================");
 		}
 	}
 

@@ -65,7 +65,6 @@ public class BookmarkService {
 			.category(newCategory)
 			.build();
 
-		// Bookmark 테이블에 bookmark 항목 추가
 		newCategory = categoryService.findByIdFetchJoinWorkspace(newCategory.getCategoryId());
 
 		validUser(newCategory, user);
@@ -218,6 +217,7 @@ public class BookmarkService {
 	private void validDuplicatedLink(Category category, String bookmarkLink) {
 		bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(category.getCategoryId(), bookmarkLink)
 			.ifPresent((b) -> {
+				log.info("[Bookmark Link] : " + b.getBookmarkLink() + ", [Category Id] :" + category.getCategoryId());
 				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
 			});
 	}
