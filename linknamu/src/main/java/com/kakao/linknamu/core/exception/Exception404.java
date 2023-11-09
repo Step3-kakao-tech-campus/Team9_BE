@@ -18,6 +18,6 @@ public class Exception404 extends ClientException {
 
 	@Override
 	public HttpStatus status() {
-		return HttpStatus.UNAUTHORIZED;
+		return HttpStatus.NOT_FOUND;
 	}
 }
