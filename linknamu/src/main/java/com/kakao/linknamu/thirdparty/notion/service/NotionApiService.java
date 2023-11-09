@@ -3,6 +3,8 @@ package com.kakao.linknamu.thirdparty.notion.service;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception403;
+import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.thirdparty.notion.NotionExceptionStatus;
 import com.kakao.linknamu.thirdparty.notion.dto.RegisterNotionRequestDto;
 import com.kakao.linknamu.thirdparty.notion.entity.NotionAccount;
@@ -13,8 +15,7 @@ import com.kakao.linknamu.thirdparty.notion.util.NotionProvider;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
-import com.kakao.linknamu.workspace.service.WorkspaceReadService;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
+import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class NotionApiCreateService {
+public class NotionApiService {
 	private final NotionAccountJpaRepository notionAccountJpaRepository;
 	private final NotionPageJpaRepository notionPageJpaRepository;
-	private final WorkspaceReadService workspaceReadService;
-	private final WorkspaceSaveService workspaceSaveService;
 	private final CategoryService categoryService;
+	private final WorkspaceService workspaceService;
 	private final NotionProvider notionProvider;
-
 	private static final String DEFAULT_WORKSPACE_NAME = "Notion 연동";
 
 	/*
@@ -63,8 +62,7 @@ public class NotionApiCreateService {
 		}
 
 		// 노션 연동 워크스페이스가 있다면 해당 워크스페이스에 카테고리 생성 없으면 노션 워크스페이스 추가
-		Workspace notionWorkspace = workspaceReadService.findWorkspaceByUserAndProvider(user, LinkProvider.NOTION)
-			.orElseGet(() -> workspaceSaveService.createNotionWorkspace(DEFAULT_WORKSPACE_NAME, user));
+		Workspace notionWorkspace = workspaceService.findWorkspaceByUserAndProvider(DEFAULT_WORKSPACE_NAME, user, LinkProvider.NOTION);
 
 		// 초기 카테고리의 이름은 노션 페이지의 ID로 지정한다.
 		Category notionCategory = categoryService.findByWorkspaceIdAndCategoryName(notionWorkspace.getId(),
@@ -78,5 +76,18 @@ public class NotionApiCreateService {
 			.isActive(true) // 이후 검증 로직을 통해서 활성화 여부를 체크
 			.build();
 		notionPageJpaRepository.save(notionPage);
+	}
+
+	public void deleteNotionAccount(User user, Long notionAccountId) {
+		NotionAccount notionAccount = notionAccountJpaRepository.findById(notionAccountId)
+			.orElseThrow(() -> new Exception404(NotionExceptionStatus.NOTION_ACCOUNT_NOT_FOUND));
+		validUser(notionAccount, user);
+		notionAccountJpaRepository.delete(notionAccount);
+	}
+
+	private void validUser(NotionAccount notionAccount, User user) {
+		if (!notionAccount.getUser().getUserId().equals(user.getUserId())) {
+			throw new Exception403(NotionExceptionStatus.NOTION_FORBIDDEN);
+		}
 	}
 }

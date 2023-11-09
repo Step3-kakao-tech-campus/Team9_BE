@@ -15,7 +15,7 @@ import com.kakao.linknamu.bookmark.entity.Bookmark;
 
 public interface BookmarkJpaRepository
 	extends JpaRepository<Bookmark, Long>, BookmarkJpaRepositoryCustom, BookmarkCustomRepository {
-	@Modifying
+	@Modifying(flushAutomatically = true, clearAutomatically = true)
 	@Query("update Bookmark b set b.bookmarkName = :bookmarkName, "
 		+ "b.bookmarkDescription = :bookmarkDescription "
 		+ "where b.bookmarkId = :bookmarkId")

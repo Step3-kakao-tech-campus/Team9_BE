@@ -13,7 +13,7 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJpaRepository;
-import com.kakao.linknamu.workspace.service.WorkspaceSaveService;
+import com.kakao.linknamu.workspace.service.WorkspaceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -47,7 +47,7 @@ public class UserServiceTest {
 	@Mock
 	private BlackListTokenService blackListTokenService;
 	@Mock
-	private WorkspaceSaveService workspaceSaveService;
+	private WorkspaceService workspaceService;
 
 	@BeforeEach
 	public void setUp() {
@@ -75,14 +75,14 @@ public class UserServiceTest {
 			// mock
 			given(userJPARepository.findByEmail(eq(googleUserInfo.email()))).willReturn(Optional.empty());
 			given(userJPARepository.save(any())).willReturn(user);
-			given(workspaceSaveService.createWorkspace(any(), any())).willReturn(null);
+			given(workspaceService.createWorkspace(any(), any())).willReturn(null);
 
 			// when
 			LoginResponseDto result = userService.socialLogin(googleUserInfo);
 
 			// then
 			verify(userJPARepository, times(1)).save(any());
-			verify(workspaceSaveService, times(1)).createWorkspace(workspaceNameCaptor.capture(), any());
+			verify(workspaceService, times(1)).createWorkspace(workspaceNameCaptor.capture(), any());
 			assertEquals("나의 워크스페이스", workspaceNameCaptor.getValue());
 			assertTrue(result.accessToken().startsWith("Bearer "));
 			JwtProvider.verifyRefreshToken(result.refreshToken());
