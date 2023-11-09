@@ -65,13 +65,11 @@ public class AesEncryption {
 		try {
 			byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
 			SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, MAIN_ALGORITHM);
-
+			log.error("[decode start]");
 			//  /가 존재할 시 에러가 발생하므로 base64에 없는 문자인 -(마이너스)로 /를 대체.
 			String[] parts = encodedString.replaceAll("-", "/").split(":");
-
 			byte[] iv = Base64.getDecoder().decode(parts[0]);
 			byte[] cipherBytes = Base64.getDecoder().decode(parts[1]);
-
 
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
 			//base64 복호화된 초기화 벡터 이용해서 GCMParameterSpec생성
