@@ -1,6 +1,6 @@
 # 1. build
 # gradle:7.3.1-jdk17 이미지를 기반으로 함
-FROM gradle:7.3.1-jdk17
+FROM krmp-d2hub-idock.9rum.cc/goorm/gradle:7.3.1-jdk17
 
 # 작업 디렉토리 설정
 WORKDIR /home/gradle/project
@@ -16,3 +16,4 @@ RUN ./gradlew clean build -x test
 
 # 빌드 결과 jar 파일을 실행
 CMD ["java", "-jar","-Dhttp.proxyHost=krmp-proxy.9rum.cc", "-Dhttps.proxyPort=3128", "-Dhttps.proxyHost=krmp-proxy.9rum.cc", "-Dhttp.proxyPort=3128",  "-Dspring.profiles.active=prod", "/home/gradle/project/linknamu/build/libs/linknamu.jar"]
+

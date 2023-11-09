@@ -65,7 +65,6 @@ public class BookmarkService {
 			.category(newCategory)
 			.build();
 
-		// Bookmark 테이블에 bookmark 항목 추가
 		newCategory = categoryService.findByIdFetchJoinWorkspace(newCategory.getCategoryId());
 
 		validUser(newCategory, user);
@@ -177,15 +176,16 @@ public class BookmarkService {
 
 		Set<Long> examineSet = new HashSet<>();
 
-		for (Bookmark b : requestedBookmarks) {
-			validUser(b.getCategory(), user);
-			examineSet.add(b.getBookmarkId());
+		for (Bookmark bookmark : requestedBookmarks) {
+			validUser(bookmark.getCategory(), user);
+			validDuplicatedLink(toCategory, bookmark.getBookmarkLink());
+			examineSet.add(bookmark.getBookmarkId());
 		}
 
 		validExistRequest(examineSet, new HashSet<>(dto.bookmarkIdList()));
 
-		for (Bookmark b : requestedBookmarks) {
-			b.moveCategory(toCategory);
+		for (Bookmark bookmark : requestedBookmarks) {
+			bookmark.moveCategory(toCategory);
 		}
 	}
 
@@ -210,7 +210,6 @@ public class BookmarkService {
 	private void validExistRequest(Set<Long> examineSet, Set<Long> requestedSet) {
 		requestedSet.removeAll(examineSet);
 		if (!requestedSet.isEmpty()) {
-			log.error(requestedSet.toString());
 			throw new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND);
 		}
 	}
