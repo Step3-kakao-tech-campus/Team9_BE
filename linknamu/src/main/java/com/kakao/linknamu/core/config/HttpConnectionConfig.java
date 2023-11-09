@@ -12,7 +12,6 @@ import java.time.Duration;
 @Configuration
 public class HttpConnectionConfig {
 
-	// Rest API 요청을 위한 Bean
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
 		return restTemplateBuilder
