@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -85,7 +84,7 @@ public class WorkspaceService {
 	}
 
 
-	// 노션 / 구글독스 연동 전용 워크스페이스 생성.
+	// 노션 - 구글독스 연동 전용 워크스페이스 생성.
 	private Workspace createWorkspaceWithLinkProvider(String workspaceName, User user, LinkProvider linkProvider) {
 		Workspace workspace = workspaceJpaRepository.findByUserIdAndWorkspaceName(user.getUserId(), workspaceName)
 			.orElseGet(() -> Workspace.builder()

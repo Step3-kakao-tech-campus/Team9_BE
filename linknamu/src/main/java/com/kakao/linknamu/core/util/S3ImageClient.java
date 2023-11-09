@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.UUID;
 
-// S3에 이미지 파일을 저장할 수 있도록 하는 객체
 @RequiredArgsConstructor
 @Component
 public class S3ImageClient {

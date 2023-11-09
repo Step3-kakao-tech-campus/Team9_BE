@@ -7,21 +7,19 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver  #MySQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DATABASE_URI}
     username: ${DATABASE_USER}
     password: ${DATABASE_PASSWORD}
 
   jpa:
     hibernate:
-      ddl-auto: update # 애플리케이션 시작 시 테이블을 자동으로 업데이트
-    show-sql: false  # SQL 쿼리 로깅 비활성화
-    database-platform: org.hibernate.dialect.MySQLDialect # MySQL방식 사용
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQLDialect
     properties:
-      # Hibernate 설정 부분
       hibernate:
         format_sql: false
-        # Hibernate의 기본 배치 페치 크기를 지정하는 설정입니다. 배치 페치 크기는 데이터베이스에서 여러 엔티티를 한 번에 가져올 때 사용되는 일괄 처리 크기를 나타냅니다.
         default_batch_fetch_size: 100
 
     open-in-view: false
@@ -37,9 +35,7 @@ spring:
 
 logging:
   level:
-    # Spring Framework 패키지의 로깅 레벨을 INFO로 설정합니다.
     org.springframework: INFO
-    # com.example 패키지의 로깅 레벨을 INFO로 설정합니다.
     com.example: INFO
 
 proxy:

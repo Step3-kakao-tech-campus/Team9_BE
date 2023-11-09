@@ -1,6 +1,5 @@
 package com.kakao.linknamu.thirdparty.notion.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,39 +39,5 @@ public class DevNotionController {
 	@GetMapping("/redirect")
 	public String redirectNotion(@RequestParam(value = "code") String code) {
 		return code;
-//        String authKey = Base64.getEncoder().encodeToString(
-//                (OAUTH_CLIENT_ID + ":" + OAUTH_CLIENT_SECRET).getBytes());
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set("Authorization", String.format("Basic %s", authKey));
-//
-//        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-//        body.add("code", code);
-//        body.add("grant_type", "authorization_code");
-//        body.add("redirect_uri", "https://localhost:8000/dev/notion/redirect");
-//        HttpEntity<?> httpEntity = new HttpEntity<>(body, headers);
-//
-//        ResponseEntity<NotionTokenDto> response = restTemplate.exchange(TOKEN_URL, HttpMethod.POST, httpEntity, NotionTokenDto.class);
-//        return Objects.requireNonNull(response.getBody()).accessToken();
-	}
-
-	private record NotionTokenDto(
-		@JsonProperty("access_token") String accessToken,
-		@JsonProperty("token_type") String tokenType,
-		@JsonProperty("bot_id") String botId,
-		@JsonProperty("workspace_name") String workspaceName,
-		@JsonProperty("workspace_icon") String workspaceIcon,
-		@JsonProperty("workspace_id") String workspaceId,
-		Owner owner,
-		@JsonProperty("duplicated_template_id") String duplicatedTemplateId
-	) {
-
-		record Owner(String type,
-					 User user) {
-			record User(
-				String object,
-				String id
-			) {
-			}
-		}
 	}
 }

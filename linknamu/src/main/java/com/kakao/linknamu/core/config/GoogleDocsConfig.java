@@ -20,21 +20,13 @@ import java.util.List;
 @Configuration
 @Getter
 public class GoogleDocsConfig {
-	// Application Name
 	@Getter
 	private static final String APPLICATION_NAME = "Google Docs API Java Quickstart";
-	// Json Factory
 	@Getter
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-	// google credential.json을 통해 생성한 클라이언트 비밀키(구글 인증 토큰)를 저장할 위치 지정
 	private static final String TOKENS_DIRECTORY_PATH = "tokens/googledocs";
-	/*
-	 * Global instance of the scopes required by this quickstart.
-	 * If modifying these scopes, delete your previously saved tokens/ folder.
-	 */
 	private static final List<String> SCOPES =
 		Collections.singletonList(DocsScopes.DOCUMENTS_READONLY);
-	// OAuth 2.0 credentials.json 경로 지정
 	private static final String CREDENTIALS_FILE_PATH = "./src/main/resources/credentials.json";
 
 	public static Credential getCredentials(final NetHttpTransport httpTransport)
@@ -54,9 +46,8 @@ public class GoogleDocsConfig {
 			.setAccessType("offline")
 			.build();
 		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-		Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
 		// Credential 객체 반환
-		return credential;
+		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 	}
 }
