@@ -41,8 +41,7 @@
 
 ## 배포 링크
 - 통합 주소 :  https://k3f12e8e83a24a.user-app.krampoline.com
-- 프론트 :
-- 백엔드 :
+
 
 
 ## ERD 
