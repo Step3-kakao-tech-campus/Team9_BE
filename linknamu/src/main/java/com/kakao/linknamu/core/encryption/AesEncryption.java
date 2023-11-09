@@ -69,6 +69,7 @@ public class AesEncryption {
 			//  /가 존재할 시 에러가 발생하므로 base64에 없는 문자인 -(마이너스)로 /를 대체.
 			String[] parts = encodedString.replaceAll("-", "/").split(":");
 			log.error("1");
+			log.error(parts[1]);
 			byte[] iv = Base64.getDecoder().decode(parts[0]);
 			log.error("2");
 			byte[] cipherBytes = Base64.getDecoder().decode(parts[1]);
@@ -86,6 +87,7 @@ public class AesEncryption {
 			log.error("7");
 			//utf-8 인코딩 형식에 맞는 원본 문자열로 변경
 			String plainString = new String(decryptedBytes, "UTF-8");
+			log.error(plainString);
 			log.error("[decode end]");
 			return plainString;
 		} catch (InvalidKeyException e) {
