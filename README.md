@@ -5,9 +5,15 @@
 
 ## 👋 프로젝트 소개
 
-- 프로젝트 이름 : 링크나무
-- 기획 의도 : 다양한 곳에 분산되어 있는 링크를 통합해 관리 및 공유하고자 링크나무를 기획했습니다.
-- 개발 기간 : 2023.09 ~ 2023.11
+|내용|설명|
+|-----------|----|
+|프로젝트 이름 |링크나무| 
+|한줄 소개 |다양한 곳에 분산되어 있는 링크를 통합해 관리 및 공유해주는 사이트|
+|개발 기간 |2023.09 - 2023.11|
+
+## 기획 의도
+
+> 링크나무는 분산된 링크를 한눈에 볼 수 있도록 통합하고, 노션, 구글, 카카오톡 등 다양한 소스의 링크를 한 곳에서 효율적으로 관리하며,<br> 그룹화, 태깅, 공유 등 다양한 기능을 제공하여 사용자들에게 **직관적이고 협업에 용이한 링크 관리 경험**을 제공하기위해 기획했습니다.
 
 ## 👨‍👩‍👧‍👦 BE 팀원 소개
 |조장|타임 키퍼 |기획 리더| 리액셔너|
@@ -15,15 +21,38 @@
 | [김태호](https://github.com/Train0303) | [손재성](https://github.com/JS970)|[조영진](https://github.com/jhy0285)|[김이경](https://github.com/ikyeong) |
 | <img src="https://github.com/Train0303.png" width="100"> | <img src="https://github.com/JS970.png" width="100"> | <img src="https://github.com/jhy0285.png" width="100"> | <img src="https://github.com/ikyeong.png" width="100"> |
 
+
+## 아키텍쳐
+추가예정
+
 ## 💡 주요 기능
 |     기능     | 화면  |             설명              |
-|:----------:|:---:|:---------------------------:|
-| 카카오톡 링크 추출 |  -  | 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
-|   노션 연동    |  -  |  원하는 노션 페이지에 저장된 링크를 저장한다.  |
-|  구글 문서 연동  |  -  |     구글문서에 저장된 링크를 저장한다.     |
-|   공유 링크 생성   |  -  | 워크스페이스/카테고리를 다른 유저와 공유하는 링크를 생성한다. |
-|공유 링크로 조회|-|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 조회한다.|
-|공유 링크로 저장|-|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 저장한다. |
+|:----------:|:--------------:|:-------------:|
+| 카카오톡 링크 추출 |    <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >| 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
+|   노션 연동    |  <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >|  원하는 노션 페이지에 저장된 링크를 저장한다.  |
+|  구글 문서 연동  |  <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >  |     구글문서에 저장된 링크를 저장한다.     |
+|   공유 링크 생성   |  <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" > | 워크스페이스/카테고리를 다른 유저와 공유하는 링크를 생성한다. |
+|공유 링크로 조회|<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 조회한다.|
+|공유 링크로 저장|<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 저장한다. |
+
+
+
+
+
+## 배포 링크
+- 통합 주소 :  https://k3f12e8e83a24a.user-app.krampoline.com
+- 프론트 :
+- 백엔드 :
+
+
+## ERD 
+
+![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
+
+
+
+
+
 
 ## 🔗 관련 링크
 - [링크나무 팀 노션](https://www.notion.so/taeho1234/9-c9956e710af447b4b0aa1197fc4cf76f)
