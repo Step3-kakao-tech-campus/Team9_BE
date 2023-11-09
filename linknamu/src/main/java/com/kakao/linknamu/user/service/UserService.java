@@ -66,7 +66,7 @@ public class UserService {
 		// refresh 토큰으로 User정보 추출
 		User user = getUserByRefreshToken(refreshToken);
 
-		// refresh 토큰이 redis에 있는지 확인(유효한지 확인)
+		// refresh 토큰이 유효한지 확인
 		checkRefreshTokenInRedis(refreshToken);
 
 		String newAccessToken = JwtProvider.create(user);
@@ -92,7 +92,6 @@ public class UserService {
 		blackListTokenService.save(accessToken);
 	}
 
-	// ---- private ----
 
 	private void checkRefreshTokenInRedis(String refreshToken) {
 		if (!refreshTokenService.existsById(refreshToken)) {

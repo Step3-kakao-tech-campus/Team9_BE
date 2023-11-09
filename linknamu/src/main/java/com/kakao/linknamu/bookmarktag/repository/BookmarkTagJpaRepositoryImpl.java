@@ -27,7 +27,6 @@ public class BookmarkTagJpaRepositoryImpl implements BookmarkTagJpaRepositoryCus
 
 	private final JPAQueryFactory queryFactory;
 
-	// BookmarkTagJPARepositoryCustom의 search 메서드를 구현한다.
 	@Override
 	public Page<Bookmark> search(BookmarkSearchCondition condition, Long userId, Pageable pageable) {
 		// 기본 검색쿼리를 생성한다.
