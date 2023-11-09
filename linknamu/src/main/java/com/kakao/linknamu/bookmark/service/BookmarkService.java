@@ -68,6 +68,7 @@ public class BookmarkService {
 		newCategory = categoryService.findByIdFetchJoinWorkspace(newCategory.getCategoryId());
 
 		validUser(newCategory, user);
+		log.info("[Bookmark Link] : " + newBookmark.getBookmarkLink() + ", [Category Id] :" + newCategory.getCategoryId());
 
 		// 북마크의 링크에 대한 중복 검사
 		validDuplicatedLink(newCategory, newBookmark.getBookmarkLink());
