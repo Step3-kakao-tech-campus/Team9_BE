@@ -45,6 +45,8 @@ public class CategoryService {
 			.categoryName(categoryName)
 			.workspace(workspace)
 			.build();
+
+		validDuplicatedCategoryName(workspace.getId(), categoryName);
 		return categoryJPARepository.save(category);
 	}
 
@@ -68,7 +70,6 @@ public class CategoryService {
 	public void createCategory(CategorySaveRequestDto requestDto, User user) {
 		Workspace workspace = workspaceService.getWorkspaceById(requestDto.workspaceId());
 		validUser(workspace, user);
-		validDuplicatedCategoryName(workspace, requestDto.categoryName());
 		save(requestDto.categoryName(), workspace);
 	}
 
@@ -90,7 +91,7 @@ public class CategoryService {
 	public void update(CategoryUpdateRequestDto requestDto, Long categoryId, User user) {
 		Category category = findByIdFetchJoinWorkspace(categoryId);
 		validUser(category.getWorkspace(), user);
-		validDuplicatedCategoryName(category.getWorkspace(), requestDto.categoryName());
+		validDuplicatedCategoryName(category.getWorkspace().getId(), requestDto.categoryName());
 		category.updateCategoryName(requestDto.categoryName());
 	}
 
@@ -108,8 +109,8 @@ public class CategoryService {
 		}
 	}
 
-	private void validDuplicatedCategoryName(Workspace workspace, String categoryName) {
-		categoryJPARepository.findByWorkspaceIdAndCategoryName(workspace.getId(), categoryName)
+	private void validDuplicatedCategoryName(Long workspaceId, String categoryName) {
+		categoryJPARepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName)
 			.ifPresent((c) -> {
 				throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
 			});
