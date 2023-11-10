@@ -52,4 +52,8 @@ public interface BookmarkJpaRepository
 		+ "where b.bookmarkId in :bookmarkIds")
 	List<Bookmark> searchRequiredBookmarks(@Param("bookmarkIds") List<Long> bookmarkIds);
 
+	@Query("select b from Bookmark b "
+		+ "where b.category.workspace.user.userId = :userId "
+		+ "order by b.createdAt desc")
+	Page<Bookmark> recentBookmarks(Pageable pageable, @Param("userId") Long userId);
 }
