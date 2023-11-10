@@ -28,8 +28,8 @@ public class GoogleDocsController {
 	@PostMapping("/delete/{docsPageId}")
 	public ResponseEntity<?> deleteDocs(
 		@PathVariable(name = "docsPageId") Long docsPageId,
-		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-		googleDocsApiService.deleteDocsPage(customUserDetails.getUser(), docsPageId);
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		googleDocsApiService.deleteDocsPage(userDetails.getUser(), docsPageId);
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 }

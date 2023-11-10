@@ -1,6 +1,7 @@
 package com.kakao.linknamu.bookmark.entity;
 
 import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
+import com.kakao.linknamu.bookmarktag.entity.BookmarkTag;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.util.AuditingEntity;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -27,7 +29,11 @@ import java.util.Objects;
 	indexes = {
 		@Index(
 			name = "bookmark_name_index",
-			columnList = "bookmark_name")}
+			columnList = "bookmark_name"),
+		@Index(
+			name = "bookmark_created_at_index",
+			columnList = "createdAt")
+	}
 )
 public class Bookmark extends AuditingEntity {
 

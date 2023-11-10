@@ -95,7 +95,7 @@ public class WorkspaceService {
 		return workspaceJpaRepository.saveAndFlush(workspace);
 	}
 
-	private void validUser(Workspace workspace, User user) {
+	public void validUser(Workspace workspace, User user) {
 		if (!workspace.getUser().getUserId().equals(user.getUserId())) {
 			throw new Exception403(WorkspaceExceptionStatus.WORKSPACE_FORBIDDEN);
 		}

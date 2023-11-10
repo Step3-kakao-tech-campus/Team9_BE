@@ -6,9 +6,11 @@ import com.kakao.linknamu.bookmarktag.service.BookmarkTagService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.encryption.AesEncryption;
+import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.share.dto.workspace.GetWorkSpaceFromLinkResponseDto;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
+import com.kakao.linknamu.workspace.WorkspaceExceptionStatus;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +34,9 @@ public class ShareWorkspaceService {
 	private final BookmarkService bookmarkService;
 	private static final String URL = "/share-link/workspace/share?workspace=";
 
-	public String createLink(Long workSpaceId) {
-		workspaceService.getWorkspaceById(workSpaceId);
+	public String createLink(Long workSpaceId, User user) {
+		Workspace workspace = workspaceService.getWorkspaceById(workSpaceId);
+		workspaceService.validUser(workspace, user);
 		String encodedString = aesEncryption.encode(workSpaceId.toString());
 		return URL + encodedString;
 	}
@@ -69,5 +72,4 @@ public class ShareWorkspaceService {
 		Long id = Long.parseLong(workspaceId);
 		return workspaceService.getWorkspaceById(id);
 	}
-
 }

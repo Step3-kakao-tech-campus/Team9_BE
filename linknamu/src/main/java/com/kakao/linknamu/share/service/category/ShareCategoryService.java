@@ -3,11 +3,13 @@ package com.kakao.linknamu.share.service.category;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagService;
+import com.kakao.linknamu.category.CategoryExceptionStatus;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.core.encryption.AesEncryption;
 import com.kakao.linknamu.core.exception.Exception400;
+import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.share.dto.category.CreateCategoryFromEncodedIdRequestDto;
 import com.kakao.linknamu.share.dto.category.GetCategoryFromLinkResponseDto;
 import com.kakao.linknamu.tag.entity.Tag;
@@ -35,8 +37,9 @@ public class ShareCategoryService {
 	private final WorkspaceService workspaceService;
 	private static final String URL = "/share-link/category/share?category=";
 
-	public String createLink(Long categoryId) {
-		categoryService.findById(categoryId);
+	public String createLink(Long categoryId, User user) {
+		Category category = categoryService.findByIdFetchJoinWorkspace(categoryId);
+		categoryService.validUser(category, user);
 		String encodedString = aesEncryption.encode(categoryId.toString());
 		return URL + encodedString;
 	}

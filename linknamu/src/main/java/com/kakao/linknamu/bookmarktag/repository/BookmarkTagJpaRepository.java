@@ -27,4 +27,7 @@ public interface BookmarkTagJpaRepository
 
 	@Query("select bt from BookmarkTag bt join fetch bt.tag t where bt.bookmarkTagId = :bookmarkTagId")
 	Optional<BookmarkTag> findByIdFetchJoinTag(@Param("bookmarkTagId") BookmarkTagId bookmarkTagId);
+
+	@Query("select bt from BookmarkTag bt join fetch bt.tag t where bt.bookmark.bookmarkId in :bookmarkIdList")
+	List<BookmarkTag> findByBookmarkIdsFetchJoinTag(@Param("bookmarkIdList") List<Long> BookmarkIdList);
 }

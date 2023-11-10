@@ -29,8 +29,9 @@ public class ShareController {
 	// 워크스페이스
 	@GetMapping("/workspace/{workSpaceId}")
 	public ResponseEntity<?> createLinkFromWorkSpaceId(
-		@PathVariable("workSpaceId") @Positive(message = "id는 양수여야한다.") Long workSpaceId) {
-		String link = shareWorkspaceService.createLink(workSpaceId);
+		@PathVariable("workSpaceId") @Positive(message = "id는 양수여야한다.") Long workSpaceId,
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		String link = shareWorkspaceService.createLink(workSpaceId, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(link));
 	}
 
@@ -52,8 +53,9 @@ public class ShareController {
 	// 카테고리
 	@GetMapping("/category/{categoryId}")
 	public ResponseEntity<?> createLinkFromCategoryId(
-		@PathVariable("categoryId") @Positive(message = "id는 양수여야한다.") Long categoryId) {
-		String link = shareCategoryService.createLink(categoryId);
+		@PathVariable("categoryId") @Positive(message = "id는 양수여야한다.") Long categoryId,
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		String link = shareCategoryService.createLink(categoryId, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(link));
 	}
 

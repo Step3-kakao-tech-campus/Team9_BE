@@ -3,6 +3,7 @@ package com.kakao.linknamu.bookmark.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.tag.entity.Tag;
 
 import lombok.Builder;
@@ -42,6 +43,17 @@ public class BookmarkResponseDto {
 				.description(bookmark.getDescription())
 				.url(bookmark.getUrl())
 				.imageUrl(bookmark.getImageUrl())
+				.tagList(tagList.stream().map(TagDto::of).toList())
+				.createdAt(bookmark.getCreatedAt())
+				.build();
+		}
+		public static BookmarkGetResponseDto of(Bookmark bookmark, List<Tag> tagList) {
+			return BookmarkGetResponseDto.builder()
+				.bookmarkId(bookmark.getBookmarkId())
+				.title(bookmark.getBookmarkName())
+				.description(bookmark.getBookmarkDescription())
+				.url(bookmark.getBookmarkLink())
+				.imageUrl(bookmark.getBookmarkThumbnail())
 				.tagList(tagList.stream().map(TagDto::of).toList())
 				.createdAt(bookmark.getCreatedAt())
 				.build();
