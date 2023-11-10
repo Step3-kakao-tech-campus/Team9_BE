@@ -23,12 +23,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -54,6 +54,25 @@ public class BookmarkService {
 		return bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();
 	}
 
+	// 사용자 계정에 최근 등록된 북마크 목록을 보여준다.
+	public List<BookmarkResponseDto.BookmarkGetResponseDto> getRecentBookmark(Pageable pageable, User user) {
+		List<Bookmark> bookmarkList = bookmarkJpaRepository.recentBookmarks(pageable, user.getUserId()).toList();
+		List<BookmarkTag> bookmarkTagList = bookmarkTagJpaRepository.findByBookmarkIdsFetchJoinTag(
+			bookmarkList
+				.stream()
+				.map(Bookmark::getBookmarkId)
+				.toList()
+		);
+
+		Map<Bookmark, List<Tag>> bookmarkTagListMap = bookmarkTagList.stream()
+			.collect(groupingBy(BookmarkTag::getBookmark
+				, Collectors.mapping(BookmarkTag::getTag, toList())));
+
+		return bookmarkList.stream()
+			.map(bookmark -> BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, bookmarkTagListMap.get(bookmark)))
+			.toList();
+	}
+
 	@Transactional
 	public void addBookmark(Bookmark bookmark, Category newCategory, List<Tag> tagList, User user) {
 		// category는 새로만든 카테고리, 북마크는 과거 북마크 user는 새로운 유저
@@ -67,7 +86,7 @@ public class BookmarkService {
 
 		newCategory = categoryService.findByIdFetchJoinWorkspace(newCategory.getCategoryId());
 
-		validUser(newCategory, user);
+		categoryService.validUser(newCategory, user);
 
 		bookmarkJpaRepository.save(newBookmark);
 
@@ -94,7 +113,7 @@ public class BookmarkService {
 		// Bookmark 테이블에 bookmark 항목 추가
 		Category category = categoryService.findByIdFetchJoinWorkspace(bookmarkAddDto.getCategoryId());
 
-		validUser(category, user);
+		categoryService.validUser(category, user);
 
 		// 북마크의 링크에 대한 중복 검사
 		validDuplicatedLink(category, bookmarkAddDto.getBookmarkLink());
@@ -148,7 +167,7 @@ public class BookmarkService {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
 
-		validUser(bookmark.getCategory(), user);
+		validUser(bookmark, user);
 		bookmarkJpaRepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
 
 
@@ -168,7 +187,7 @@ public class BookmarkService {
 	public void deleteBookmark(Long bookmarkId, User user) {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
-		validUser(bookmark.getCategory(), user);
+		validUser(bookmark, user);
 		bookmarkJpaRepository.delete(bookmark);
 	}
 
@@ -181,7 +200,7 @@ public class BookmarkService {
 		Set<Long> examineSet = new HashSet<>();
 
 		for (Bookmark bookmark : requestedBookmarks) {
-			validUser(bookmark.getCategory(), user);
+			validUser(bookmark, user);
 			// 만약 같은 카테고리로 이동한다면 중복 검사를 할 필요가 없다.
 			if(!isMoveSameCategory(bookmark.getCategory(), toCategory))
 				validDuplicatedLink(toCategory, bookmark.getBookmarkLink());
@@ -205,8 +224,8 @@ public class BookmarkService {
 		return BookmarkSearchResponseDto.of(new PageInfoDto(bookmarks), getBookmarkContentDtos(bookmarks));
 	}
 
-	private void validUser(Category category, User user) {
-		if (!category.getWorkspace().getUser().getUserId()
+	public void validUser(Bookmark bookmark, User user) {
+		if (!bookmark.getCategory().getWorkspace().getUser().getUserId()
 			.equals(user.getUserId())) {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
 		}

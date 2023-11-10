@@ -17,6 +17,8 @@ import com.kakao.linknamu.core.util.ApiUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/bookmark")
@@ -28,18 +30,18 @@ public class BookmarkController {
 	public ResponseEntity<?> createBookmark(
 		@RequestBody @Valid
 		BookmarkRequestDto.BookmarkAddDto dto,
-		@AuthenticationPrincipal CustomUserDetails user
+		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
-		bookmarkService.addBookmark(dto, user.getUser());
+		bookmarkService.addBookmark(dto, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
 	@PostMapping("/delete/{bookmarkId}")
 	public ResponseEntity<?> deleteBookmark(
 		@PathVariable Long bookmarkId,
-		@AuthenticationPrincipal CustomUserDetails user
+		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
-		bookmarkService.deleteBookmark(bookmarkId, user.getUser());
+		bookmarkService.deleteBookmark(bookmarkId, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
@@ -47,18 +49,18 @@ public class BookmarkController {
 	public ResponseEntity<?> updateBookmark(
 		@RequestBody @Valid BookmarkRequestDto.BookmarkUpdateRequestDto dto,
 		@PathVariable Long bookmarkId,
-		@AuthenticationPrincipal CustomUserDetails user
+		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
-		BookmarkResponseDto.BookmarkUpdateResponseDto responseDto = bookmarkService.updateBookmark(dto, bookmarkId, user.getUser());
+		BookmarkResponseDto.BookmarkUpdateResponseDto responseDto = bookmarkService.updateBookmark(dto, bookmarkId, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}
 
 	@PostMapping("/move")
 	public ResponseEntity<?> moveBookmark(
 		@RequestBody @Valid BookmarkRequestDto.BookmarkMoveRequestDto dto,
-		@AuthenticationPrincipal CustomUserDetails user
+		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
-		bookmarkService.moveBookmark(dto, user.getUser());
+		bookmarkService.moveBookmark(dto, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
@@ -76,10 +78,21 @@ public class BookmarkController {
 	public ResponseEntity<?> searchBookmark(
 		@RequestBody @Valid BookmarkSearchCondition condition,
 		@RequestParam(name = "page", defaultValue = "0") int page,
-		@AuthenticationPrincipal CustomUserDetails user) {
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
 		Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-		BookmarkSearchResponseDto responseDto = bookmarkService.searchBookmark(condition, user.getUser(),
+		BookmarkSearchResponseDto responseDto = bookmarkService.searchBookmark(condition, userDetails.getUser(),
 			pageable);
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
+	}
+
+	// 사용자 계정에 등록된 북마크 목록을 최신순으로 보여준다.
+	@GetMapping("/list")
+	public ResponseEntity<?> recentBookmarkList(
+		@RequestParam(name = "page", defaultValue = "0") int page,
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+		List<BookmarkResponseDto.BookmarkGetResponseDto> response =
+			bookmarkService.getRecentBookmark(pageable, userDetails.getUser());
+		return ResponseEntity.ok(ApiUtils.success(response));
 	}
 }
