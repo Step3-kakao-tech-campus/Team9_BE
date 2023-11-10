@@ -54,7 +54,7 @@ public class BookmarkService {
 		return bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(categoryId, bookmarkLink).isPresent();
 	}
 
-	// 사용자 계정에 최근 등록된 북마크 목록을 보여준다.
+	// 사용자 계정에 등록된 북마크 목록을 최신순으로 보여준다.
 	public List<BookmarkResponseDto.BookmarkGetResponseDto> getRecentBookmark(Pageable pageable, User user) {
 		List<Bookmark> bookmarkList = bookmarkJpaRepository.recentBookmarks(pageable, user.getUserId()).toList();
 		List<BookmarkTag> bookmarkTagList = bookmarkTagJpaRepository.findByBookmarkIdsFetchJoinTag(
