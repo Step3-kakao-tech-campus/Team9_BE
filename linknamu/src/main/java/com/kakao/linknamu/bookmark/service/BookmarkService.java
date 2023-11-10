@@ -69,18 +69,22 @@ public class BookmarkService {
 
 		validUser(newCategory, user);
 
-		// 북마크의 링크에 대한 중복 검사
-		validDuplicatedLink(newCategory, newBookmark.getBookmarkLink());
-
 		bookmarkJpaRepository.save(newBookmark);
 
 		// BookmarkTag 테이블에 등록
-		List<BookmarkTag> bookmarkTagList = tagList.stream()
-			.map(tag -> BookmarkTag.builder()
+		List<BookmarkTag> bookmarkTagList = new ArrayList<>();
+		for (String tagName : tagList.stream().map(Tag::getTagName).toList()) {
+			// 해당 태그가 존재하지 않는다면 새롭게 생성한다.
+			Tag tag = tagService.findByTagNameAndUserId(tagName, user)
+				.orElseGet(
+					() -> tagService.create(tagName, user)
+				);
+
+			bookmarkTagList.add(BookmarkTag.builder()
 				.bookmark(newBookmark)
 				.tag(tag)
-				.build())
-			.toList();
+				.build());
+		}
 
 		bookmarkTagJpaRepository.saveAll(bookmarkTagList);
 	}
