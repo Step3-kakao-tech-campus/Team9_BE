@@ -1,6 +1,8 @@
 package com.kakao.linknamu.bookmark.entity;
 
+import com.kakao.linknamu.bookmark.BookmarkExceptionStatus;
 import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.querydsl.core.annotations.QueryInit;
 import jakarta.persistence.*;
@@ -49,7 +51,7 @@ public class Bookmark extends AuditingEntity {
 	@Column(length = 200, name = "bookmark_description")
 	private String bookmarkDescription;
 
-	@Column(length = 512, name = "bookmark_thumbnail")
+	@Column(length = 1024, name = "bookmark_thumbnail")
 	private String bookmarkThumbnail;
 
 	public void moveCategory(Category category) {
@@ -62,9 +64,16 @@ public class Bookmark extends AuditingEntity {
 		this.bookmarkId = bookmarkId;
 		this.category = category;
 		this.bookmarkName = bookmarkName;
-		this.bookmarkLink = bookmarkLink;
+		this.bookmarkLink = getValidBookmarkLink(bookmarkLink);
 		this.bookmarkDescription = bookmarkDescription;
 		this.bookmarkThumbnail = bookmarkThumbnail;
+	}
+
+	private String getValidBookmarkLink(String bookmarkLink) {
+		if(bookmarkLink.length() > 1024) {
+			throw new Exception400(BookmarkExceptionStatus.BOOKMARK_LINK_TOO_LONG);
+		}
+		return bookmarkLink;
 	}
 
 	@Override
