@@ -27,8 +27,8 @@ public class CategoryController {
 	@PostMapping("/create")
 	public ResponseEntity<?> createCategory(
 		@RequestBody @Valid CategorySaveRequestDto requestDto,
-		@AuthenticationPrincipal CustomUserDetails user) {
-		categoryService.createCategory(requestDto, user.getUser());
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		categoryService.createCategory(requestDto, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
@@ -36,9 +36,9 @@ public class CategoryController {
 	public ResponseEntity<?> getCategory(
 		@RequestParam(defaultValue = "0") int page,
 		@PathVariable Long categoryId,
-		@AuthenticationPrincipal CustomUserDetails user) {
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
 		Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
-		CategoryGetResponseDto responseDto = categoryService.getCategory(categoryId, user.getUser(), pageable);
+		CategoryGetResponseDto responseDto = categoryService.getCategory(categoryId, userDetails.getUser(), pageable);
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}
 
@@ -46,16 +46,16 @@ public class CategoryController {
 	public ResponseEntity<?> updateCategory(
 		@PathVariable Long categoryId,
 		@RequestBody @Valid CategoryUpdateRequestDto requestDto,
-		@AuthenticationPrincipal CustomUserDetails user) {
-		categoryService.update(requestDto, categoryId, user.getUser());
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		categoryService.update(requestDto, categoryId, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 
 	@PostMapping("/delete/{categoryId}")
 	public ResponseEntity<?> deleteCategory(
 		@PathVariable Long categoryId,
-		@AuthenticationPrincipal CustomUserDetails user) {
-		categoryService.delete(categoryId, user.getUser());
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		categoryService.delete(categoryId, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(null));
 	}
 }
