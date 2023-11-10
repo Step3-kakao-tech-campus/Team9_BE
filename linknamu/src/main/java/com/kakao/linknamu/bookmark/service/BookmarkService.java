@@ -184,6 +184,20 @@ public class BookmarkService {
 	}
 
 	@Transactional
+	public void bookmarkImageUpdate(
+		BookmarkRequestDto.BookmarkImageUpdateRequestDto dto,
+		Long bookmarkId,
+		User user
+	) {
+		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
+			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
+
+		validUser(bookmark, user);
+		String imageUrl = s3ImageClient.base64ImageToS3(dto.imageUrl());
+		bookmark.changeThumbnail(imageUrl);
+	}
+
+	@Transactional
 	public void deleteBookmark(Long bookmarkId, User user) {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));

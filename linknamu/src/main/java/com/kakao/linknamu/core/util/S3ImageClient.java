@@ -27,16 +27,10 @@ public class S3ImageClient {
 	private final AmazonS3Client amazonS3Client;
 	private final JsoupUtils jsoupUtils;
 
-	public String base64ImageToS3(String base64Data, String bookmarkLink) {
+	public String base64ImageToS3(String base64Data) {
 
 		try {
-			// null 이면 메타데이터에서 썸네일 가져오기 시도, 실패하면 기본 이미지 url 반환
-			if (base64Data == null) {
-				return jsoupUtils.getImgUrl(bookmarkLink);
-			}
-
 			byte[] byteImage = java.util.Base64.getDecoder().decode(base64Data);
-
 
 			InputStream imageInputStream = getValidImageInputStream(byteImage);
 
@@ -56,7 +50,14 @@ public class S3ImageClient {
 			}
 			throw new Exception400(UtilExceptionStatus.NOT_BASE64_DATA);
 		}
+	}
 
+	public String base64ImageToS3(String base64Data, String bookmarkLink) {
+		if (base64Data == null) {
+			return jsoupUtils.getImgUrl(bookmarkLink);
+		}
+
+		return base64ImageToS3(base64Data);
 	}
 
 	private ByteArrayInputStream getValidImageInputStream(byte[] byteImage) {
