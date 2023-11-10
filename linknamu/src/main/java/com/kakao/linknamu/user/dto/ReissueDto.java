@@ -7,7 +7,8 @@ public class ReissueDto {
 
 
 	public record ReissueRequestDto(
-		@NotNull String refreshToken
+		@NotNull(message = "Refresh 토큰을 입력해주세요.")
+		String refreshToken
 	) {
 		@Builder
 		public ReissueRequestDto {

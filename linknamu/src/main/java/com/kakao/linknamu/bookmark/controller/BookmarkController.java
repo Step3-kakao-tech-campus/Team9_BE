@@ -74,7 +74,7 @@ public class BookmarkController {
 
 	@PostMapping("/search")
 	public ResponseEntity<?> searchBookmark(
-		@RequestBody BookmarkSearchCondition condition,
+		@RequestBody @Valid BookmarkSearchCondition condition,
 		@RequestParam(name = "page", defaultValue = "0") int page,
 		@AuthenticationPrincipal CustomUserDetails user) {
 		Pageable pageable = PageRequest.of(page, PAGE_SIZE);
