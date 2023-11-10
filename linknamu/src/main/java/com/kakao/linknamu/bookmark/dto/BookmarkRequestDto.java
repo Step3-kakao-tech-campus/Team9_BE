@@ -46,13 +46,21 @@ public class BookmarkRequestDto {
 	}
 
 	public record BookmarkUpdateRequestDto(
+		@NotBlank(message = "북마크 이름은 공백이 될 수 없습니다.")
+		@Size(max = 100, message = "북마크 이름은 최대 100자까지 가능합니다.")
 		String bookmarkName,
+		@Size(max = 200, message = "북마크 설명을 최대 200자까지 가능합니다.")
 		String description
 	) {
 		@Builder
 		public BookmarkUpdateRequestDto {
 		}
 	}
+
+	public record BookmarkImageUpdateRequestDto(
+		@NotBlank(message = "북마크 링크는 공백이 될 수 없습니다.")
+		String imageUrl
+	) {}
 
 	public record BookmarkMoveRequestDto(
 		List<Long> bookmarkIdList,

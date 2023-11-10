@@ -63,6 +63,9 @@ public class Bookmark extends AuditingEntity {
 	public void moveCategory(Category category) {
 		this.category = category;
 	}
+	public void changeThumbnail(String imageUrl) {
+		this.bookmarkThumbnail = imageUrl;
+	}
 
 	@Builder
 	public Bookmark(Long bookmarkId, Category category, String bookmarkName, String bookmarkLink,
