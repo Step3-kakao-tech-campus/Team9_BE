@@ -69,13 +69,13 @@ public class CategoryService {
 	@Transactional
 	public void createCategory(CategorySaveRequestDto requestDto, User user) {
 		Workspace workspace = workspaceService.getWorkspaceById(requestDto.workspaceId());
-		validUser(workspace, user);
+		workspaceService.validUser(workspace, user);
 		save(requestDto.categoryName(), workspace);
 	}
 
 	public CategoryGetResponseDto getCategory(Long categoryId, User user, Pageable pageable) {
 		Category category = findByIdFetchJoinWorkspace(categoryId);
-		validUser(category.getWorkspace(), user);
+		validUser(category, user);
 
 		Page<Bookmark> bookmarkPage = bookmarkJpaRepository.findByCategoryId(categoryId, pageable);
 		PageInfoDto pageInfoDto = new PageInfoDto(bookmarkPage);
@@ -90,7 +90,7 @@ public class CategoryService {
 	@Transactional
 	public void update(CategoryUpdateRequestDto requestDto, Long categoryId, User user) {
 		Category category = findByIdFetchJoinWorkspace(categoryId);
-		validUser(category.getWorkspace(), user);
+		validUser(category, user);
 		validDuplicatedCategoryName(category.getWorkspace().getId(), requestDto.categoryName());
 		category.updateCategoryName(requestDto.categoryName());
 	}
@@ -98,13 +98,13 @@ public class CategoryService {
 	@Transactional
 	public void delete(Long categoryId, User user) {
 		Category category = findByIdFetchJoinWorkspace(categoryId);
-		validUser(category.getWorkspace(), user);
+		validUser(category, user);
 		categoryJPARepository.deleteById(categoryId);
 	}
 
 
-	private void validUser(Workspace workspace, User user) {
-		if (!workspace.getUser().getUserId().equals(user.getUserId())) {
+	public void validUser(Category category, User user) {
+		if (!category.getWorkspace().getUser().getUserId().equals(user.getUserId())) {
 			throw new Exception403(CategoryExceptionStatus.CATEGORY_FORBIDDEN);
 		}
 	}
