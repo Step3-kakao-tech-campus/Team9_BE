@@ -55,6 +55,16 @@ public class BookmarkController {
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}
 
+	@PostMapping("/image/update/{bookmarkId}")
+	public ResponseEntity<?> updateBookmarkImage(
+		@RequestBody BookmarkRequestDto.BookmarkImageUpdateRequestDto dto,
+		@PathVariable Long bookmarkId,
+		@AuthenticationPrincipal CustomUserDetails userDetails
+	) {
+		bookmarkService.bookmarkImageUpdate(dto, bookmarkId, userDetails.getUser());
+		return ResponseEntity.ok(ApiUtils.success(null));
+	}
+
 	@PostMapping("/move")
 	public ResponseEntity<?> moveBookmark(
 		@RequestBody @Valid BookmarkRequestDto.BookmarkMoveRequestDto dto,
