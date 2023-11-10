@@ -178,7 +178,9 @@ public class BookmarkService {
 
 		for (Bookmark bookmark : requestedBookmarks) {
 			validUser(bookmark.getCategory(), user);
-			validDuplicatedLink(toCategory, bookmark.getBookmarkLink());
+			// 만약 같은 카테고리로 이동한다면 중복 검사를 할 필요가 없다.
+			if(!isMoveSameCategory(bookmark.getCategory(), toCategory))
+				validDuplicatedLink(toCategory, bookmark.getBookmarkLink());
 			examineSet.add(bookmark.getBookmarkId());
 		}
 
@@ -204,6 +206,11 @@ public class BookmarkService {
 			.equals(user.getUserId())) {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
 		}
+	}
+
+	// 이동하려는 북마크의 카테고리가 같은지 체크
+	private boolean isMoveSameCategory(Category fromCategory, Category toCategory) {
+		return fromCategory.getCategoryId().equals(toCategory.getCategoryId());
 	}
 
 	// 요청 북마크들이 모두 실제로 디비에 존재하는 북마크인지 체크
