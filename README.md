@@ -190,7 +190,7 @@
 
 <img src="https://img.shields.io/badge/Docker-120f0f?style=flat-square&logo=Docker&logoColor=white" width="110" heigt="200"/>
 
-<img src="https://img.shields.io/badge/Querydsl-white" width="110" heigt="200"/>
+<img src="https://img.shields.io/badge/QueryDSL-120f0f?style=flat-square&logo=SpringBoot&logoColor=white" width="140" heigt="200"/>
 
 
 
