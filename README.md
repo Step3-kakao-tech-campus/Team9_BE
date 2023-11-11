@@ -28,30 +28,19 @@
 ## 💡 주요 기능
 |     기능     | 화면  |             설명              |
 |:----------:|:--------------:|:-------------:|
-| 카카오톡 링크 추출 |    <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >| 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
-|   노션 연동    |  <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >|  원하는 노션 페이지에 저장된 링크를 저장한다.  |
-|  구글 문서 연동  |  <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >  |     구글문서에 저장된 링크를 저장한다.     |
-|   공유 링크 생성   |  <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" > | 워크스페이스/카테고리를 다른 유저와 공유하는 링크를 생성한다. |
-|공유 링크로 조회|<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 조회한다.|
-|공유 링크로 저장|<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/8d175e5b-42da-4a1f-8879-fc85a93c1714" width="100%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 저장한다. |
-
-
-
-
+| 카카오톡 링크 추출 |    <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/bc52ffcd-4373-4e2d-9d47-ab3643ff8c53" width="50%" >| 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
+|   노션 연동    |  <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/3dd3d89a-2c89-458c-bcd3-6038f973678d" width="70%" >|  원하는 노션 페이지에 저장된 링크를 저장한다.  |
+|  구글 문서 연동  |  <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/a24a17d4-7a0f-412e-ba3b-f6325829d95f" width="70%" >  |     구글문서에 저장된 링크를 저장한다.     |
+|   공유 링크 생성   |  <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/23ff717e-b5dc-41ec-b4ad-1b84db57324f" width="80%" > | 워크스페이스/카테고리를 다른 유저와 공유하는 링크를 생성한다. |
+|공유 링크로 조회|<img src="https://github.com/ikyeong/Team9_BE/assets/103908923/fbde6ef6-d178-4b45-8fce-ded2a434ff91" width="70%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 조회한다.|
+|공유 링크로 저장|<img src="https://github.com/ikyeong/Team9_BE/assets/103908923/792f0431-b729-40a8-9a9d-e562e69868c6" width="70%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 저장한다. |
+|북마크 검색| <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/1683d704-3b56-4913-a898-e36fc03de50b" width="70%" > | 검색창을 통해 원하는 키워드의 북마크를 검색한다.|
 
 ## 배포 링크
 - 통합 주소 :  https://k3f12e8e83a24a.user-app.krampoline.com
-
-
-
+  
 ## ERD 
-
 ![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
-
-
-
-
-
 
 ## 🔗 관련 링크
 - [링크나무 팀 노션](https://www.notion.so/taeho1234/9-c9956e710af447b4b0aa1197fc4cf76f)
@@ -59,21 +48,6 @@
 - [링크나무 ERD](https://www.erdcloud.com/d/abkTHAyST7msXzBh7)
 - [링크나무 와이어프레임](https://www.figma.com/file/RD1mjdlArlVzteT8L8g6hs/%EC%99%80%EC%9D%B4%EC%96%B4-%ED%94%84%EB%A0%88%EC%9E%84-%ED%85%8C%EC%8A%A4%ED%8A%B8?type=design&node-id=114-299&mode=design&t=xwNpPiwxeWToXGlN-0)
 - [링크나무 기획안](https://www.notion.so/taeho1234/5edcf26e1f844c4c88fc1b471abbebb5)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ---
 
