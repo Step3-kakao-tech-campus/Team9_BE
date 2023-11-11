@@ -9,7 +9,6 @@ public class NotionApiUriBuilder {
 	private static final String BLOCK_URI = "https://api.notion.com/v1/blocks/";
 	private static final int PAGE_SIZE = 100;
 
-
 	public String getBlockUri(String pageId, Optional<String> nextCursor) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(BLOCK_URI)

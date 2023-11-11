@@ -1,6 +1,7 @@
 package com.kakao.linknamu.core.exception;
 
 import com.kakao.linknamu.core.util.ApiUtils;
+
 import org.springframework.http.HttpStatus;
 
 //Bad Gateway에러 시 사용

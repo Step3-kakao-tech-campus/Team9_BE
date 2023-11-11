@@ -3,7 +3,24 @@
 [//]: # (로고)
 링크 통합 관리 서비스 **링크나무** 입니다.
 
-## 👋 프로젝트 소개
+## 목차 
+> - [👋 프로젝트 소개](#프로젝트-소개)
+> - [📖 기획 의도](#기획-의도)
+> - [👩‍👩‍👧‍👧 팀원 소개](#팀원-소개)
+> - [📋 배포 링크](#배포-링크)
+> - [🚩 테스트 가이드](#테스트-가이드)
+> - [💻 아키텍쳐](#아키텍쳐)
+> - [📜 ERD](#erd)
+> - [✏️ 주요 기능](#주요-기능)
+> - [📄 API 모아보기](#api-모아보기)
+> - [📁 파일 구조](#파일-구조)
+> - [🖥️ 기술 스택](#기술-스택)
+> - [🏗️ 코딩 컨벤션](#코딩-컨벤션)
+> - [🔗 관련 링크](#관련-링크)
+> - [🔒 라이선스](#라이선스)
+
+
+## 프로젝트 소개
 
 |내용|설명|
 |-----------|----|
@@ -11,25 +28,48 @@
 |한줄 소개 |다양한 곳에 분산되어 있는 링크를 통합해 관리 및 공유해주는 사이트|
 |개발 기간 |2023.09 - 2023.11|
 
+
 ## 기획 의도
 
-> 링크나무는 분산된 링크를 한눈에 볼 수 있도록 통합하고, 노션, 구글, 카카오톡 등 다양한 소스의 링크를 한 곳에서 효율적으로 관리하며,<br> 그룹화, 태깅, 공유 등 다양한 기능을 제공하여 사용자들에게 **직관적이고 협업에 용이한 링크 관리 경험**을 제공하기위해 기획했습니다.
+링크나무 프로젝트는 **분산된 링크를 한눈에 볼 수 있도록 통합**하고, 다양한 소스에서 링크를 효율적으로 관리하여 사용자들에게 직관적이고 편리한 링크 관리 경험을 제공하는 것을 목표로 하고 있습니다.
 
-## 👨‍👩‍👧‍👦 BE 팀원 소개
+평소에 감명 깊었던 유튜브 영상이나 기술 블로그 같은 북마크를 저장하는 것은 많은 사람들이 공감할 수 있는 경험이죠.
+그러나 이렇게 저장해놔도 **어디에 저장해놨는지 기억하지 못하거나, 저장한 사실을 잊고 다시 검색**하는 일은 흔한 문제입니다.
+이렇게 하면 저장해 놓은 링크를 효과적으로 관리하는 데 어려움이 생깁니다.
+
+이러한 문제에 대응하기 위해 링크나무는 사용자들이 간편하게 링크를 저장하고 찾을 수 있는 다양한 기능을 제공합니다. 
+**그룹화, 태깅, 공유 기능을 통해 링크를 카테고리화**하고 필요에 따라 쉽게 찾을 수 있도록 도와줍니다. 
+
+**설문조사 결과에 따르면** 대다수의 인터넷 사용자들이 노션, 구글 독스, 카카오톡, 이메일 등을 활용하여 링크를 저장한다는 사실을 확인했습니다.
+따라서, 저희는 **노션, 구글 독스, 카카오톡 등 다양한 소스에서 링크를 가져와 한 곳에서 통합적으로 관리**할 수 있는 기능을 제공합니다.
+이러한 다양한 소스에서의 링크를 링크나무를 통해 통합 관리함으로써 사용자들은 불필요한 중복 작업을 피하고, 한눈에 모든 링크를 확인할 수 있는 편의성을 경험할 수 있을 것입니다. 
+
+
+## 팀원 소개
+
 |조장|타임 키퍼 |기획 리더| 리액셔너|
 |:-----:|:------:|:--------:|:------:|
 | [김태호](https://github.com/Train0303) | [손재성](https://github.com/JS970)|[조영진](https://github.com/jhy0285)|[김이경](https://github.com/ikyeong) |
 | <img src="https://github.com/Train0303.png" width="100"> | <img src="https://github.com/JS970.png" width="100"> | <img src="https://github.com/jhy0285.png" width="100"> | <img src="https://github.com/ikyeong.png" width="100"> |
 
-
 ## 배포 링크
 -  https://k3f12e8e83a24a.user-app.krampoline.com
+
+## 테스트 가이드 
+
+테스트를 하실떄 아래 테스트 시나리오를 참고해주시면 감사하겠습니다.<br><br>
+[테스트 시나리오](https://www.notion.so/04a226ff46b6469186e05694ed916726)
+
+
 
 ## 아키텍쳐
 <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/355174f3-dd9e-4317-b932-27d0cda2bf0a" width="90%"/>
 
+## ERD 
+![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
 
-## 💡 주요 기능
+
+## 주요 기능
 |     기능     | 화면  |             설명              |
 |:----------:|:--------------:|:-------------:|
 | 카카오톡 링크 추출 |    <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/0a10ad03-e34e-4c85-b360-29027ff4f84a" width="70%" >| 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
@@ -40,10 +80,213 @@
 |공유 링크로 저장|<img src="https://github.com/ikyeong/Team9_BE/assets/103908923/792f0431-b729-40a8-9a9d-e562e69868c6" width="70%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 저장한다. |
 |북마크 검색| <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/1683d704-3b56-4913-a898-e36fc03de50b" width="70%" > | 검색창을 통해 원하는 키워드의 북마크를 검색한다.|
 
-## ERD 
-![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
 
-## 🔗 관련 링크
+## API 모아보기 
+
+[API 명세서](https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4)
+
+
+## 파일 구조
+```
+📦src
+ ┣ 📂main
+ ┃ ┣ 📂java
+ ┃ ┃ ┗ 📂com
+ ┃ ┃ ┃ ┗ 📂kakao
+ ┃ ┃ ┃ ┃ ┗ 📂linknamu
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂bookmark
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂validator
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂bookmarktag
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂category
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂core
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂config
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂encryption
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exception
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂log
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂redis
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂security
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂util
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂kakao
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂share
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂category
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂workspace
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂category
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂workspace
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂tag
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂thirdparty
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂googleDocs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂util
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notion
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂util
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂utils
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂oauth
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂constant
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂workspace
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂constant
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┗ 📂resources
+```
+
+## 기술 스택 
+<img src="https://img.shields.io/badge/SpringBoot 3.13-120f0f?style=flat-square&logo=SpringBoot&logoColor=white" width="200" heigt="200"/>
+
+<img src="https://img.shields.io/badge/SpringSecurity-120f0f?style=flat-square&logo=SpringSecurity&logoColor=white" width="200" heigt="200"/>
+
+<img src="https://img.shields.io/badge/SpringDataJpa-120f0f?style=flat-square&logo=SpringBoot&logoColor=white" width="200" heigt="200"/>
+
+<img src="https://img.shields.io/badge/Redis-120f0f?style=flat-square&logo=Redis&logoColor=white" width="110" heigt="200"/>
+
+<img src="https://img.shields.io/badge/junit5-120f0f?style=flat-square&logo=junit5&logoColor=white" width="110" heigt="200"/>
+
+<img src="https://img.shields.io/badge/MySql-120f0f?style=flat-square&logo=MySql&logoColor=white" width="110" heigt="200"/>
+
+<img src="https://img.shields.io/badge/Docker-120f0f?style=flat-square&logo=Docker&logoColor=white" width="110" heigt="200"/>
+
+<img src="https://img.shields.io/badge/QueryDSL-120f0f?style=flat-square&logo=SpringBoot&logoColor=white" width="140" heigt="200"/>
+
+
+
+
+
+
+
+## 코딩 컨벤션 
+[캠퍼스 핵데이 Java 코딩 컨벤션](https://github.com/naver/hackday-conventions-java)
+
+editorconfig 설정
+```
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.bat]
+end_of_line = crlf
+
+[*.adoc]
+indent_style = space
+indent_size = 4
+tab_width = 4
+trim_trailing_whitespace = true
+```
+
+Intellij 포멧터 설정
+```
+<code_scheme name="Naver-coding-convention-v1.2">
+  <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
+  <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="1" />
+  <option name="IMPORT_LAYOUT_TABLE">
+    <value>
+      <emptyLine />
+      <package name="" withSubpackages="true" static="true" />
+      <emptyLine />
+      <package name="java" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="javax" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="org" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="net" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.nhncorp" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.navercorp" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.naver" withSubpackages="true" static="false" />
+      <emptyLine />
+    </value>
+  </option>
+  <option name="RIGHT_MARGIN" value="120" />
+  <option name="ENABLE_JAVADOC_FORMATTING" value="false" />
+  <option name="JD_KEEP_EMPTY_LINES" value="false" />
+  <option name="FORMATTER_TAGS_ENABLED" value="true" />
+  <XML>
+    <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+  </XML>
+  <codeStyleSettings language="JAVA">
+    <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
+    <option name="LINE_COMMENT_ADD_SPACE" value="true" />
+    <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
+    <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
+    <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
+    <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+    <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
+    <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+    <option name="SPACE_AFTER_TYPE_CAST" value="false" />
+    <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
+    <option name="CALL_PARAMETERS_WRAP" value="1" />
+    <option name="METHOD_PARAMETERS_WRAP" value="1" />
+    <option name="EXTENDS_LIST_WRAP" value="1" />
+    <option name="METHOD_CALL_CHAIN_WRAP" value="5" />
+    <option name="THROWS_LIST_WRAP" value="5" />
+    <option name="EXTENDS_KEYWORD_WRAP" value="1" />
+    <option name="BINARY_OPERATION_WRAP" value="1" />
+    <option name="BINARY_OPERATION_SIGN_ON_NEXT_LINE" value="true" />
+    <option name="TERNARY_OPERATION_WRAP" value="1" />
+    <option name="ARRAY_INITIALIZER_WRAP" value="1" />
+    <indentOptions>
+      <option name="CONTINUATION_INDENT_SIZE" value="4" />
+      <option name="USE_TAB_CHARACTER" value="true" />
+    </indentOptions>
+  </codeStyleSettings>
+</code_scheme>
+```
+## 관련 링크
 - [링크나무 팀 노션](https://www.notion.so/taeho1234/9-c9956e710af447b4b0aa1197fc4cf76f)
 - [링크나무 API 명세서](https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85)
 - [링크나무 ERD](https://www.erdcloud.com/d/abkTHAyST7msXzBh7)
@@ -53,6 +296,22 @@
 - [링크나무 테스트 결과보고서](https://www.notion.so/a41e2905a8644c249f95d58c9344e933)
 - [링크나무 테스트 시나리오 명세서](https://www.notion.so/04a226ff46b6469186e05694ed916726)
 ---
+
+## 라이선스 
+
+The MIT License (MIT)
+
+Copyright (c) <year> <copyright holders>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+
 
 <details>
     <summary><h2>카카오 테크 캠퍼스 3단계 진행 보드</h2></summary>

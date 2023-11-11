@@ -1,8 +1,10 @@
 package com.kakao.linknamu.core.security;
 
 import com.kakao.linknamu.user.entity.User;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +18,6 @@ import java.util.stream.Collectors;
 public class CustomUserDetails implements UserDetails {
 
 	private final User user;
-
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

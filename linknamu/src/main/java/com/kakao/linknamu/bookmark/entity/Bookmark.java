@@ -6,15 +6,16 @@ import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.querydsl.core.annotations.QueryInit;
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -63,13 +64,14 @@ public class Bookmark extends AuditingEntity {
 	public void moveCategory(Category category) {
 		this.category = category;
 	}
+
 	public void changeThumbnail(String imageUrl) {
 		this.bookmarkThumbnail = imageUrl;
 	}
 
 	@Builder
 	public Bookmark(Long bookmarkId, Category category, String bookmarkName, String bookmarkLink,
-					String bookmarkDescription, String bookmarkThumbnail) {
+		String bookmarkDescription, String bookmarkThumbnail) {
 		this.bookmarkId = bookmarkId;
 		this.category = category;
 		this.bookmarkName = bookmarkName;
@@ -79,7 +81,7 @@ public class Bookmark extends AuditingEntity {
 	}
 
 	private String getValidBookmarkLink(String bookmarkLink) {
-		if(bookmarkLink.length() > 1024) {
+		if (bookmarkLink.length() > 1024) {
 			throw new Exception400(BookmarkExceptionStatus.BOOKMARK_LINK_TOO_LONG);
 		}
 		return bookmarkLink;
@@ -93,7 +95,7 @@ public class Bookmark extends AuditingEntity {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		Bookmark bookmark = (Bookmark) obj;
+		Bookmark bookmark = (Bookmark)obj;
 		return Objects.equals(getBookmarkId(), bookmark.getBookmarkId())
 			&& Objects.equals(getBookmarkLink(), bookmark.getBookmarkLink());
 	}

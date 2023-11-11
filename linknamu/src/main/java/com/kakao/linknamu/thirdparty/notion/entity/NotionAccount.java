@@ -2,6 +2,7 @@ package com.kakao.linknamu.thirdparty.notion.entity;
 
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -47,7 +48,7 @@ public class NotionAccount extends AuditingEntity {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		NotionAccount notion = (NotionAccount) obj;
+		NotionAccount notion = (NotionAccount)obj;
 		return Objects.equals(getId(), notion.getId()) && Objects.equals(getToken(), notion.getToken());
 	}
 

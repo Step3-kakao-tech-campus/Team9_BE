@@ -2,6 +2,7 @@ package com.kakao.linknamu.thirdparty.notion.repository;
 
 import com.kakao.linknamu.thirdparty.notion.entity.NotionAccount;
 import com.kakao.linknamu.thirdparty.notion.entity.NotionPage;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

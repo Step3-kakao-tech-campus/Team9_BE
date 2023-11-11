@@ -18,8 +18,10 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.user.entity.constant.Role;
 import com.kakao.linknamu.user.repository.UserJpaRepository;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +93,6 @@ public class UserService {
 		refreshTokenService.deleteByAccessToken(accessToken);
 		blackListTokenService.save(accessToken);
 	}
-
 
 	private void checkRefreshTokenInRedis(String refreshToken) {
 		if (!refreshTokenService.existsById(refreshToken)) {

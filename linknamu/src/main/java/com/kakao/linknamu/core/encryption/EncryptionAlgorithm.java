@@ -1,6 +1,5 @@
 package com.kakao.linknamu.core.encryption;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,11 +8,9 @@ import lombok.Getter;
 public enum EncryptionAlgorithm {
 	AES("AES/GCM/NoPadding", "AES", 12, 16 * 8);
 
-
 	private final String algorithm;
 	private final String mainAlgorithm;
 	private final int ivByteLength;
 	private final int tagBitLength;
-
 
 }

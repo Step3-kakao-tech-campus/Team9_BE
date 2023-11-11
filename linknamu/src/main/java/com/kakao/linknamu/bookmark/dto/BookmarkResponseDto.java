@@ -23,6 +23,7 @@ public class BookmarkResponseDto {
 		}
 	}
 
+	@SuppressWarnings("checkstyle:RegexpSingleline")
 	public record BookmarkGetResponseDto(
 		Long bookmarkId,
 		String title,
@@ -47,6 +48,7 @@ public class BookmarkResponseDto {
 				.createdAt(bookmark.getCreatedAt())
 				.build();
 		}
+
 		public static BookmarkGetResponseDto of(Bookmark bookmark, List<Tag> tagList) {
 			return BookmarkGetResponseDto.builder()
 				.bookmarkId(bookmark.getBookmarkId())

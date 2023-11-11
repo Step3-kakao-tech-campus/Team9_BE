@@ -4,9 +4,11 @@ import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception500;
 import com.kakao.linknamu.kakao.KakaoExceptionStatus;
 import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
+
 import com.kakao.linknamu.core.util.JsoupResult;
 import com.kakao.linknamu.core.util.JsoupUtils;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,7 +70,6 @@ public class KaKaoSendMeExtractService {
 						jsoupResult.getImageUrl())
 					);
 				});
-
 
 			return responseDtos;
 		} catch (IOException e) {

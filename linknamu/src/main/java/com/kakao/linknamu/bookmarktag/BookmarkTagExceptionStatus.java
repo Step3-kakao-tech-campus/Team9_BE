@@ -1,6 +1,7 @@
 package com.kakao.linknamu.bookmarktag;
 
 import com.kakao.linknamu.core.exception.BaseExceptionStatus;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

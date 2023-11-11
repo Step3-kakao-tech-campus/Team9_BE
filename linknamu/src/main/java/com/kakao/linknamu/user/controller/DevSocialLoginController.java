@@ -2,8 +2,10 @@ package com.kakao.linknamu.user.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
@@ -30,7 +32,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/dev")
 public class DevSocialLoginController {
-
 
 	@Value("${oauth2.google.client_id}")
 	private String clientId;

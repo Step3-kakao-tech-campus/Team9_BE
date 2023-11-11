@@ -1,6 +1,7 @@
 package com.kakao.linknamu.core.exception;
 
 import com.kakao.linknamu.core.util.ApiUtils;
+
 import org.springframework.http.HttpStatus;
 
 public class Exception404 extends ClientException {

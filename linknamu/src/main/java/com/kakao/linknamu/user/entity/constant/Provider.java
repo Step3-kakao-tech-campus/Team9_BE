@@ -8,7 +8,6 @@ public enum Provider {
 	PROVIDER_NORMAL("normal", "일반 회원가입"),
 	PROVIDER_GOOGLE("google", "구글");
 
-
 	@Getter
 	private final String provider;
 

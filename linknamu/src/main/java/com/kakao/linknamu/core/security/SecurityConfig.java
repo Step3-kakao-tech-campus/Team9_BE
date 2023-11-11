@@ -4,7 +4,9 @@ import com.kakao.linknamu.core.exception.Exception401;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.redis.service.BlackListTokenService;
 import com.kakao.linknamu.core.util.FilterResponseUtils;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,7 +25,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-
 
 	private final BlackListTokenService blackListTokenService;
 

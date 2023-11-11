@@ -5,7 +5,9 @@ import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -19,11 +21,9 @@ import static com.kakao.linknamu.tag.entity.QTag.tag;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
 
-
 @Repository
 @RequiredArgsConstructor
 public class BookmarkTagJpaRepositoryImpl implements BookmarkTagJpaRepositoryCustom {
-
 
 	private final JPAQueryFactory queryFactory;
 
@@ -43,7 +43,7 @@ public class BookmarkTagJpaRepositoryImpl implements BookmarkTagJpaRepositoryCus
 				bookmarkTag.tag.tagName.in(condition.tags())
 			)
 			.groupBy(bookmarkTag.bookmark.bookmarkId)
-			.having(bookmarkTag.tag.count().eq((long) condition.tags().size()))
+			.having(bookmarkTag.tag.count().eq((long)condition.tags().size()))
 			.orderBy(bookmark.createdAt.desc());
 
 		// 페이징을 위해 offset, limit을 검색쿼리에 추가한다.

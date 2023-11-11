@@ -10,7 +10,9 @@ import com.kakao.linknamu.workspace.dto.WorkspaceUpdateRequestDto;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
 import com.kakao.linknamu.workspace.repository.WorkspaceJpaRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,7 +84,6 @@ public class WorkspaceService {
 		validUser(workspace, user);
 		workspaceJpaRepository.delete(workspace);
 	}
-
 
 	// 노션 - 구글독스 연동 전용 워크스페이스 생성.
 	private Workspace createWorkspaceWithLinkProvider(String workspaceName, User user, LinkProvider linkProvider) {

@@ -1,9 +1,11 @@
 package com.kakao.linknamu.core.exception;
 
 import com.kakao.linknamu.core.util.ApiUtils;
+
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,7 +23,6 @@ import java.util.List;
 @Slf4j
 
 public class GlobalExceptionHandler {
-
 
 	@ExceptionHandler({ConstraintViolationException.class})
 	public ResponseEntity<?> pathVarValidationException(ConstraintViolationException exception) {
@@ -68,9 +69,10 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler({Exception.class})
-	public ResponseEntity<?> unknownServerError(Exception e) {
+	public ResponseEntity<?> unknownServerError(Exception exception) {
 
-		String errorText = String.format("Location: %s, Cause: %s", e.getStackTrace()[0].toString(), e.getMessage());
+		String errorText = String.format("Location: %s, Cause: %s", exception.getStackTrace()[0].toString(),
+			exception.getMessage());
 
 		log.error(errorText);
 		return new ResponseEntity<>(
