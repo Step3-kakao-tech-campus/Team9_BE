@@ -23,8 +23,7 @@
 
 
 ## 아키텍쳐
-<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/57710585-a5c0-4262-b7ab-20336cb2295e" width="90%"/>
-
+<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/9b9293fe-cec0-4deb-a4b3-04e6e3d0636a" width="90%"/>
 
 
 ## 💡 주요 기능
