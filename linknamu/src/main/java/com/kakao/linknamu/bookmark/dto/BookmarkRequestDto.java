@@ -2,6 +2,7 @@ package com.kakao.linknamu.bookmark.dto;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.category.entity.Category;
+
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,7 +61,8 @@ public class BookmarkRequestDto {
 	public record BookmarkImageUpdateRequestDto(
 		@NotBlank(message = "북마크 링크는 공백이 될 수 없습니다.")
 		String imageUrl
-	) {}
+	) {
+	}
 
 	public record BookmarkMoveRequestDto(
 		List<Long> bookmarkIdList,

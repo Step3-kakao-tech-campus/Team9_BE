@@ -2,18 +2,20 @@ package com.kakao.linknamu.core.encryption;
 
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception500;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.SecureRandom;
 import java.util.Base64;
-
 
 @Slf4j
 @Component
@@ -21,7 +23,6 @@ public class AesEncryption {
 
 	@Value("${AES_SECRET_KEY}")
 	private String secretKey;
-
 
 	private static final String ALGORITHM = EncryptionAlgorithm.AES.getAlgorithm();
 	private static final String MAIN_ALGORITHM = EncryptionAlgorithm.AES.getMainAlgorithm();
@@ -51,7 +52,6 @@ public class AesEncryption {
 				+ Base64.getEncoder().encodeToString(encryptedWorkSpaceIdBytes);
 			return encodedBase64.replaceAll("/", "-");
 
-
 		} catch (InvalidKeyException e) {
 			throw new Exception400(EncryptionExceptionStatus.ENCRYPTION_INVALID_KEY);
 		} catch (Exception e) {
@@ -59,7 +59,6 @@ public class AesEncryption {
 			throw new Exception500(EncryptionExceptionStatus.ENCRYPTION_SERVER_ERROR);
 		}
 	}
-
 
 	public String decode(String encodedString) {
 		try {
@@ -88,6 +87,5 @@ public class AesEncryption {
 			throw new Exception500(EncryptionExceptionStatus.ENCRYPTION_SERVER_ERROR);
 		}
 	}
-
 
 }

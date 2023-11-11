@@ -4,8 +4,10 @@ import com.kakao.linknamu.core.security.CustomUserDetails;
 import com.kakao.linknamu.core.util.ApiUtils;
 import com.kakao.linknamu.thirdparty.googledocs.dto.RegisterGoogleDocsRequestDto;
 import com.kakao.linknamu.thirdparty.googledocs.service.GoogleDocsApiService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

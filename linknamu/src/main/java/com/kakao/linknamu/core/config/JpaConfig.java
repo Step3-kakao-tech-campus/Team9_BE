@@ -1,6 +1,7 @@
 package com.kakao.linknamu.core.config;
 
 import com.kakao.linknamu.core.security.CustomUserDetails;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

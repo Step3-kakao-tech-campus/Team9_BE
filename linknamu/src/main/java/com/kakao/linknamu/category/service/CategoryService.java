@@ -14,6 +14,7 @@ import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -35,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
 
 	private final BookmarkJpaRepository bookmarkJpaRepository;
-	private final CategoryJpaRepository categoryJPARepository;
+	private final CategoryJpaRepository categoryJpaRepository;
 	private final BookmarkTagJpaRepository bookmarkTagJpaRepository;
 	private final WorkspaceService workspaceService;
 
@@ -47,23 +49,23 @@ public class CategoryService {
 			.build();
 
 		validDuplicatedCategoryName(workspace.getId(), categoryName);
-		return categoryJPARepository.save(category);
+		return categoryJpaRepository.save(category);
 	}
 
 	public Category findByIdFetchJoinWorkspace(Long id) {
-		return categoryJPARepository.findByIdFetchJoinWorkspace(id).orElseThrow(
+		return categoryJpaRepository.findByIdFetchJoinWorkspace(id).orElseThrow(
 			() -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
 		);
 	}
 
 	public Category findById(Long id) {
-		return categoryJPARepository.findById(id).orElseThrow(
+		return categoryJpaRepository.findById(id).orElseThrow(
 			() -> new Exception404(CategoryExceptionStatus.CATEGORY_NOT_FOUND)
 		);
 	}
 
 	public Optional<Category> findByWorkspaceIdAndCategoryName(Long workspaceId, String categoryName) {
-		return categoryJPARepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName);
+		return categoryJpaRepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName);
 	}
 
 	@Transactional
@@ -99,9 +101,8 @@ public class CategoryService {
 	public void delete(Long categoryId, User user) {
 		Category category = findByIdFetchJoinWorkspace(categoryId);
 		validUser(category, user);
-		categoryJPARepository.deleteById(categoryId);
+		categoryJpaRepository.deleteById(categoryId);
 	}
-
 
 	public void validUser(Category category, User user) {
 		if (!category.getWorkspace().getUser().getUserId().equals(user.getUserId())) {
@@ -110,7 +111,7 @@ public class CategoryService {
 	}
 
 	private void validDuplicatedCategoryName(Long workspaceId, String categoryName) {
-		categoryJPARepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName)
+		categoryJpaRepository.findByWorkspaceIdAndCategoryName(workspaceId, categoryName)
 			.ifPresent((c) -> {
 				throw new Exception400(CategoryExceptionStatus.CATEGORY_ALREADY_EXISTS);
 			});

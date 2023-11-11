@@ -2,10 +2,12 @@ package com.kakao.linknamu.tag.entity;
 
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -54,7 +56,7 @@ public class Tag extends AuditingEntity {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		Tag tag = (Tag) obj;
+		Tag tag = (Tag)obj;
 		return Objects.equals(tagId, tag.tagId);
 	}
 

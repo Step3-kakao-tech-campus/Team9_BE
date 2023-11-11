@@ -5,7 +5,9 @@ import com.kakao.linknamu.bookmarktag.dto.DeleteBookmarkTagRequestDto;
 import com.kakao.linknamu.bookmarktag.service.BookmarkTagService;
 import com.kakao.linknamu.core.security.CustomUserDetails;
 import com.kakao.linknamu.core.util.ApiUtils;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

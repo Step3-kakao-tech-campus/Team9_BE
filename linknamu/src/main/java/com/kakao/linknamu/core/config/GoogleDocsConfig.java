@@ -10,7 +10,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.docs.v1.DocsScopes;
+
 import lombok.Getter;
+
 import org.springframework.context.annotation.Configuration;
 
 import java.io.*;

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -22,8 +23,8 @@ public class LoggingFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
 		IOException,
 		ServletException {
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		HttpServletRequest httpRequest = (HttpServletRequest)request;
+		HttpServletResponse httpResponse = (HttpServletResponse)response;
 		ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(httpRequest);
 
 		chain.doFilter(requestWrapper, response);
@@ -54,12 +55,13 @@ public class LoggingFilter implements Filter {
 	private String exceptImageUrl(String strJson) {
 		try {
 			JSONParser jsonParser = new JSONParser();
-			JSONObject obj = (JSONObject) jsonParser.parse(strJson);
+			JSONObject obj = (JSONObject)jsonParser.parse(strJson);
 			if (obj.get("imageUrl") != null) {
-				try{
+				try {
 					Base64.getDecoder().decode(obj.get("imageUrl").toString());
 					obj.remove("imageUrl");
-				} catch (IllegalArgumentException ignored) {}
+				} catch (IllegalArgumentException ignored) {
+				}
 			}
 			return obj.toString();
 		} catch (ParseException e) {

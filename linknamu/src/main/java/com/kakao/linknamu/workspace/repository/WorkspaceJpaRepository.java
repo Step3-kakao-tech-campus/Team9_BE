@@ -2,6 +2,7 @@ package com.kakao.linknamu.workspace.repository;
 
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,5 +24,5 @@ public interface WorkspaceJpaRepository extends JpaRepository<Workspace, Long> {
 	@Query(value = "select w from Workspace w "
 		+ "where w.user.userId =:userId and w.linkProvider = :provider")
 	Optional<Workspace> findByUserIdAndProvider(@Param("userId") Long userId,
-												@Param("provider") LinkProvider provider);
+		@Param("provider") LinkProvider provider);
 }

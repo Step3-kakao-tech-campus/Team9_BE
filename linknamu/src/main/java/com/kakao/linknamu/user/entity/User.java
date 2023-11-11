@@ -3,6 +3,7 @@ package com.kakao.linknamu.user.entity;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.constant.Provider;
 import com.kakao.linknamu.user.entity.constant.Role;
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class User extends AuditingEntity {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		User user = (User) obj;
+		User user = (User)obj;
 		return Objects.equals(getUserId(), user.getUserId());
 	}
 

@@ -25,7 +25,7 @@ public class BookmarkTagId implements Serializable {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		BookmarkTagId that = (BookmarkTagId) obj;
+		BookmarkTagId that = (BookmarkTagId)obj;
 		return Objects.equals(bookmarkId, that.bookmarkId) && Objects.equals(tagId, that.tagId);
 	}
 

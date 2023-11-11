@@ -14,8 +14,10 @@ import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaReposito
 import com.kakao.linknamu.thirdparty.googledocs.util.InvalidGoogleDocsApiException;
 import com.kakao.linknamu.thirdparty.utils.JsoupResult;
 import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 

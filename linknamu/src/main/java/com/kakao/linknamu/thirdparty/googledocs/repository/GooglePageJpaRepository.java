@@ -2,6 +2,7 @@ package com.kakao.linknamu.thirdparty.googledocs.repository;
 
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
 import com.kakao.linknamu.user.entity.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

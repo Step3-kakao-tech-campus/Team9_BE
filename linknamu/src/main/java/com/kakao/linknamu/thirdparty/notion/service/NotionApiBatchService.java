@@ -8,8 +8,10 @@ import com.kakao.linknamu.thirdparty.notion.util.InvalidNotionApiException;
 import com.kakao.linknamu.thirdparty.notion.util.NotionApiUriBuilder;
 import com.kakao.linknamu.thirdparty.utils.JsoupResult;
 import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -75,15 +77,15 @@ public class NotionApiBatchService {
 			String uri = notionApiUriBuilder.getBlockUri(pageId, Optional.ofNullable(nextCursor));
 			try {
 				ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, String.class);
-				JSONObject jsonObject = (JSONObject) jsonParser.parse(response.getBody());
-				JSONArray result = (JSONArray) jsonObject.get("results");
-				hasMore = (Boolean) jsonObject.get("has_more");
-				nextCursor = (String) jsonObject.get("next_cursor");
+				JSONObject jsonObject = (JSONObject)jsonParser.parse(response.getBody());
+				JSONArray result = (JSONArray)jsonObject.get("results");
+				hasMore = (Boolean)jsonObject.get("has_more");
+				nextCursor = (String)jsonObject.get("next_cursor");
 
 				for (Object o : result) {
-					JSONObject subObject = (JSONObject) o;
-					String type = (String) subObject.get("type");
-					JSONObject subObjectChild = (JSONObject) subObject.get(type);
+					JSONObject subObject = (JSONObject)o;
+					String type = (String)subObject.get("type");
+					JSONObject subObjectChild = (JSONObject)subObject.get(type);
 					if (type.equals("bookmark") | type.equals("embed")) {
 						saveBookmarkOrEmbedLink(subObjectChild, resultBookmarks, notionPage);
 					} else {
@@ -117,8 +119,8 @@ public class NotionApiBatchService {
 	private void saveBookmarkOrEmbedLink(
 		JSONObject bookmarkTypeObject,
 		Set<Bookmark> resultBookmarks, NotionPage notionPage) {
-		JSONArray caption = (JSONArray) bookmarkTypeObject.get("caption");
-		String url = (String) bookmarkTypeObject.get("url");
+		JSONArray caption = (JSONArray)bookmarkTypeObject.get("caption");
+		String url = (String)bookmarkTypeObject.get("url");
 		// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
 		if (bookmarkService.existByBookmarkLinkAndCategoryId(url, notionPage.getCategory().getCategoryId())) {
 			return;
@@ -128,7 +130,7 @@ public class NotionApiBatchService {
 		if (!caption.isEmpty()) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < caption.size(); i++) {
-				JSONObject captionObject = (JSONObject) caption.get(i);
+				JSONObject captionObject = (JSONObject)caption.get(i);
 				sb.append(captionObject.get("plain_text"));
 			}
 			jsoupResult.setTitle(sb.toString().strip());
@@ -145,15 +147,15 @@ public class NotionApiBatchService {
 
 	// 북마크, 임베드 이외의 링크 데이터를 저장한다.
 	private void saveOtherLink(JSONObject otherTypeObject, Set<Bookmark> resultBookmarks, NotionPage notionPage) {
-		JSONArray richTexts = (JSONArray) otherTypeObject.get("rich_text");
+		JSONArray richTexts = (JSONArray)otherTypeObject.get("rich_text");
 		if (Objects.isNull(richTexts)) {
 			return;
 		}
 
 		for (Object richText : richTexts) {
-			String href = (String) ((JSONObject) richText).get("href");
-			String title = (String) ((JSONObject) richText).get("plain_text");
-			String type = (String) ((JSONObject) richText).get("type");
+			String href = (String)((JSONObject)richText).get("href");
+			String title = (String)((JSONObject)richText).get("plain_text");
+			String type = (String)((JSONObject)richText).get("type");
 			JsoupResult jsoupResult = new JsoupResult();
 
 			if (Objects.nonNull(href)) {
@@ -168,8 +170,8 @@ public class NotionApiBatchService {
 					jsoupResult.setTitle(title);
 				}
 
-				if(type.equals("mention")) {
-					if( title.equals("Untitled")) {
+				if (type.equals("mention")) {
+					if (title.equals("Untitled")) {
 						jsoupResult.setTitle(DEFAULT_NOTION_PAGE_NAME);
 					} else {
 						jsoupResult.setTitle(title);

@@ -3,7 +3,9 @@ package com.kakao.linknamu.kakao.controller;
 import com.kakao.linknamu.core.util.ApiUtils;
 import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
 import com.kakao.linknamu.kakao.service.KaKaoSendMeExtractService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

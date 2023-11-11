@@ -3,6 +3,7 @@ package com.kakao.linknamu.bookmark.dto;
 import java.util.List;
 
 import com.kakao.linknamu.bookmark.dto.validator.SearchCheck;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 

@@ -6,8 +6,10 @@ import com.kakao.linknamu.core.exception.Exception500;
 import com.kakao.linknamu.user.UserExceptionStatus;
 import com.kakao.linknamu.user.dto.oauth.GoogleTokenResponseDto;
 import com.kakao.linknamu.user.dto.oauth.GoogleUserInfo;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,6 @@ public class GoogleService {
 	private static final String GOOGLE_INFO_URI = "https://www.googleapis.com/oauth2/v2/userinfo";
 
 	private final RestTemplate restTemplate;
-
 
 	public GoogleUserInfo getGoogleUserInfo(String token) {
 		HttpHeaders httpHeaders = new HttpHeaders();

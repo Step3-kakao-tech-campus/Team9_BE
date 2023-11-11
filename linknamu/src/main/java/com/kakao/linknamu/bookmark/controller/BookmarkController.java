@@ -3,6 +3,7 @@ package com.kakao.linknamu.bookmark.controller;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchCondition;
 import com.kakao.linknamu.bookmark.dto.BookmarkSearchResponseDto;
 import com.kakao.linknamu.bookmark.service.*;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,8 @@ public class BookmarkController {
 		@PathVariable Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
-		BookmarkResponseDto.BookmarkUpdateResponseDto responseDto = bookmarkService.updateBookmark(dto, bookmarkId, userDetails.getUser());
+		BookmarkResponseDto.BookmarkUpdateResponseDto responseDto = bookmarkService.updateBookmark(dto, bookmarkId,
+			userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
 	}
 

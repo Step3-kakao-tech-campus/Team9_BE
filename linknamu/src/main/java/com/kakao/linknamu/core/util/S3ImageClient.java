@@ -5,11 +5,14 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -62,7 +65,6 @@ public class S3ImageClient {
 
 	private ByteArrayInputStream getValidImageInputStream(byte[] byteImage) {
 
-
 		ByteArrayInputStream imageInputStream = new ByteArrayInputStream(byteImage);
 
 		try {
@@ -81,9 +83,7 @@ public class S3ImageClient {
 		return imageInputStream;
 	}
 
-
 	private Boolean getValidImageUrl(String imgUrlString) {
-
 
 		try {
 

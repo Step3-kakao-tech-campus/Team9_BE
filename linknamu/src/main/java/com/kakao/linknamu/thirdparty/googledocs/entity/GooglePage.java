@@ -3,11 +3,13 @@ package com.kakao.linknamu.thirdparty.googledocs.entity;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -62,7 +64,7 @@ public class GooglePage extends AuditingEntity {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		GooglePage that = (GooglePage) obj;
+		GooglePage that = (GooglePage)obj;
 		return Objects.equals(id, that.id) && Objects.equals(pageName, that.getPageName());
 	}
 
