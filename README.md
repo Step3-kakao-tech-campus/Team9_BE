@@ -83,7 +83,7 @@
 
 ## API 모아보기 
 
-https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
+[API 명세서](https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4)
 
 
 ## 파일 구조
@@ -191,9 +191,6 @@ https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
 <img src="https://img.shields.io/badge/Docker-120f0f?style=flat-square&logo=Docker&logoColor=white" width="110" heigt="200"/>
 
 
-
-
-https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
 
 
 ## 코딩 컨벤션 
