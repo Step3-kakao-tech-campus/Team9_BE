@@ -31,7 +31,6 @@ public class S3ImageClient {
 	private final JsoupUtils jsoupUtils;
 
 	public String base64ImageToS3(String base64Data) {
-
 		try {
 			byte[] byteImage = java.util.Base64.getDecoder().decode(base64Data);
 
@@ -48,7 +47,7 @@ public class S3ImageClient {
 			return amazonS3Client.getUrl(bucket, fileName).toString();
 		} catch (IllegalArgumentException e) {
 			//base64로 인코딩된 이미지파일이 아닐경우, 이미지Url인지 확인
-			if (getValidImageUrl(base64Data)) {
+			if (isValidImageUrl(base64Data)) {
 				return base64Data;
 			}
 			throw new Exception400(UtilExceptionStatus.NOT_BASE64_DATA);
@@ -68,7 +67,6 @@ public class S3ImageClient {
 		ByteArrayInputStream imageInputStream = new ByteArrayInputStream(byteImage);
 
 		try {
-
 			BufferedImage image = ImageIO.read(imageInputStream);
 
 			// image인지 체크하는 로직
@@ -83,10 +81,9 @@ public class S3ImageClient {
 		return imageInputStream;
 	}
 
-	private Boolean getValidImageUrl(String imgUrlString) {
+	private Boolean isValidImageUrl(String imgUrlString) {
 
 		try {
-
 			URL imgUrl = new URL(imgUrlString);
 			BufferedImage image = ImageIO.read(imgUrl);
 

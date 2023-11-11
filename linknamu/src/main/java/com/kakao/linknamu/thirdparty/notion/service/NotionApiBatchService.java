@@ -6,8 +6,8 @@ import com.kakao.linknamu.thirdparty.notion.entity.NotionPage;
 import com.kakao.linknamu.thirdparty.notion.repository.NotionPageJpaRepository;
 import com.kakao.linknamu.thirdparty.notion.util.InvalidNotionApiException;
 import com.kakao.linknamu.thirdparty.notion.util.NotionApiUriBuilder;
-import com.kakao.linknamu.thirdparty.utils.JsoupResult;
-import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
+import com.kakao.linknamu.core.util.JsoupResult;
+import com.kakao.linknamu.core.util.JsoupUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

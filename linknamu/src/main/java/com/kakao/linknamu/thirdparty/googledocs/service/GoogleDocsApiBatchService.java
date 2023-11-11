@@ -12,8 +12,9 @@ import com.kakao.linknamu.core.config.GoogleDocsConfig;
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
 import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaRepository;
 import com.kakao.linknamu.thirdparty.googledocs.util.InvalidGoogleDocsApiException;
-import com.kakao.linknamu.thirdparty.utils.JsoupResult;
-import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
+
+import com.kakao.linknamu.core.util.JsoupResult;
+import com.kakao.linknamu.core.util.JsoupUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

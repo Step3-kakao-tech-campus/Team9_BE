@@ -4,9 +4,9 @@ import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception500;
 import com.kakao.linknamu.kakao.KakaoExceptionStatus;
 import com.kakao.linknamu.kakao.dto.KakaoSendMeResponseDto;
-import com.kakao.linknamu.thirdparty.utils.JsoupResult;
-import com.kakao.linknamu.thirdparty.utils.JsoupUtils;
 
+import com.kakao.linknamu.core.util.JsoupResult;
+import com.kakao.linknamu.core.util.JsoupUtils;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
