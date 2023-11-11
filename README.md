@@ -22,6 +22,9 @@
 | <img src="https://github.com/Train0303.png" width="100"> | <img src="https://github.com/JS970.png" width="100"> | <img src="https://github.com/jhy0285.png" width="100"> | <img src="https://github.com/ikyeong.png" width="100"> |
 
 
+## 배포 링크
+-  https://k3f12e8e83a24a.user-app.krampoline.com
+
 ## 아키텍쳐
 <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/355174f3-dd9e-4317-b932-27d0cda2bf0a" width="90%"/>
 
@@ -37,9 +40,6 @@
 |공유 링크로 저장|<img src="https://github.com/ikyeong/Team9_BE/assets/103908923/792f0431-b729-40a8-9a9d-e562e69868c6" width="70%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 저장한다. |
 |북마크 검색| <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/1683d704-3b56-4913-a898-e36fc03de50b" width="70%" > | 검색창을 통해 원하는 키워드의 북마크를 검색한다.|
 
-## 배포 링크
-- 통합 주소 :  https://k3f12e8e83a24a.user-app.krampoline.com
-  
 ## ERD 
 ![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
 
@@ -49,7 +49,9 @@
 - [링크나무 ERD](https://www.erdcloud.com/d/abkTHAyST7msXzBh7)
 - [링크나무 와이어프레임](https://www.figma.com/file/RD1mjdlArlVzteT8L8g6hs/%EC%99%80%EC%9D%B4%EC%96%B4-%ED%94%84%EB%A0%88%EC%9E%84-%ED%85%8C%EC%8A%A4%ED%8A%B8?type=design&node-id=114-299&mode=design&t=xwNpPiwxeWToXGlN-0)
 - [링크나무 기획안](https://www.notion.so/taeho1234/5edcf26e1f844c4c88fc1b471abbebb5)
-
+- [링크나무 기획안](https://www.notion.so/taeho1234/5edcf26e1f844c4c88fc1b471abbebb5)
+- [링크나무 테스트 결과보고서](https://www.notion.so/a41e2905a8644c249f95d58c9344e933)
+- [링크나무 테스트 시나리오 명세서](https://www.notion.so/04a226ff46b6469186e05694ed916726)
 ---
 
 <details>
