@@ -9,13 +9,15 @@
 > - [👩‍👩‍👧‍👧 팀원 소개](#팀원-소개)
 > - [📋 배포 링크](#배포-링크)
 > - [💻 아키텍쳐](#아키텍쳐)
-> - [✏️ 주요 기능](#주요-기능)
 > - [📜 ERD](#erd)
+> - [✏️ 주요 기능](#주요-기능)
 > - [📄 API 모아보기](#api-모아보기)
 > - [📁 파일 구조](#파일-구조)
 > - [🚩 시작 가이드](#시작-가이드)
 > - [🖥️ 기술 스택](#기술-스택)
-> - [©️ License: The MIT License (MIT)](#license)
+> - [🖥 코딩 컨벤션](#기술-스택)
+> - [🔗 관련 링크](#관련-링크)
+> - [🔒 라이선스](#license)
 
 
 ## 프로젝트 소개
@@ -56,6 +58,9 @@
 ## 아키텍쳐
 <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/355174f3-dd9e-4317-b932-27d0cda2bf0a" width="90%"/>
 
+## ERD 
+![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
+
 
 ## 주요 기능
 |     기능     | 화면  |             설명              |
@@ -68,10 +73,116 @@
 |공유 링크로 저장|<img src="https://github.com/ikyeong/Team9_BE/assets/103908923/792f0431-b729-40a8-9a9d-e562e69868c6" width="70%" >|공유 링크를 통해 다른 유저의 워크스페이스/카테고리를 저장한다. |
 |북마크 검색| <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/1683d704-3b56-4913-a898-e36fc03de50b" width="70%" > | 검색창을 통해 원하는 키워드의 북마크를 검색한다.|
 
-## ERD 
-![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
 
-## 🔗 관련 링크
+## API 모아보기 
+
+https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
+
+
+## 파일 구조
+
+https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
+
+
+## 시작 가이드 
+
+https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
+
+
+## 기술 스택 
+
+https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
+
+
+## 코딩 컨벤션 
+[캠퍼스 핵데이 Java 코딩 컨벤션](https://github.com/naver/hackday-conventions-java)
+
+editorconfig 설정
+```
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.bat]
+end_of_line = crlf
+
+[*.adoc]
+indent_style = space
+indent_size = 4
+tab_width = 4
+trim_trailing_whitespace = true
+```
+
+Intellij 포멧터 설정
+```
+<code_scheme name="Naver-coding-convention-v1.2">
+  <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
+  <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="1" />
+  <option name="IMPORT_LAYOUT_TABLE">
+    <value>
+      <emptyLine />
+      <package name="" withSubpackages="true" static="true" />
+      <emptyLine />
+      <package name="java" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="javax" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="org" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="net" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.nhncorp" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.navercorp" withSubpackages="true" static="false" />
+      <emptyLine />
+      <package name="com.naver" withSubpackages="true" static="false" />
+      <emptyLine />
+    </value>
+  </option>
+  <option name="RIGHT_MARGIN" value="120" />
+  <option name="ENABLE_JAVADOC_FORMATTING" value="false" />
+  <option name="JD_KEEP_EMPTY_LINES" value="false" />
+  <option name="FORMATTER_TAGS_ENABLED" value="true" />
+  <XML>
+    <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+  </XML>
+  <codeStyleSettings language="JAVA">
+    <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
+    <option name="LINE_COMMENT_ADD_SPACE" value="true" />
+    <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
+    <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
+    <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
+    <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+    <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
+    <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+    <option name="SPACE_AFTER_TYPE_CAST" value="false" />
+    <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
+    <option name="CALL_PARAMETERS_WRAP" value="1" />
+    <option name="METHOD_PARAMETERS_WRAP" value="1" />
+    <option name="EXTENDS_LIST_WRAP" value="1" />
+    <option name="METHOD_CALL_CHAIN_WRAP" value="5" />
+    <option name="THROWS_LIST_WRAP" value="5" />
+    <option name="EXTENDS_KEYWORD_WRAP" value="1" />
+    <option name="BINARY_OPERATION_WRAP" value="1" />
+    <option name="BINARY_OPERATION_SIGN_ON_NEXT_LINE" value="true" />
+    <option name="TERNARY_OPERATION_WRAP" value="1" />
+    <option name="ARRAY_INITIALIZER_WRAP" value="1" />
+    <indentOptions>
+      <option name="CONTINUATION_INDENT_SIZE" value="4" />
+      <option name="USE_TAB_CHARACTER" value="true" />
+    </indentOptions>
+  </codeStyleSettings>
+</code_scheme>
+```
+## 관련 링크
 - [링크나무 팀 노션](https://www.notion.so/taeho1234/9-c9956e710af447b4b0aa1197fc4cf76f)
 - [링크나무 API 명세서](https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85)
 - [링크나무 ERD](https://www.erdcloud.com/d/abkTHAyST7msXzBh7)
@@ -82,7 +193,17 @@
 - [링크나무 테스트 시나리오 명세서](https://www.notion.so/04a226ff46b6469186e05694ed916726)
 ---
 
+## 라이선스 
 
+The MIT License (MIT)
+
+Copyright (c) <year> <copyright holders>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
