@@ -5,7 +5,6 @@ import lombok.Builder;
 
 public class ReissueDto {
 
-
 	public record ReissueRequestDto(
 		@NotNull(message = "Refresh 토큰을 입력해주세요.")
 		String refreshToken

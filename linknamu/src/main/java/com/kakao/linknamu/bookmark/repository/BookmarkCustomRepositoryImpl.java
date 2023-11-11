@@ -1,8 +1,10 @@
 package com.kakao.linknamu.bookmark.repository;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
+
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;

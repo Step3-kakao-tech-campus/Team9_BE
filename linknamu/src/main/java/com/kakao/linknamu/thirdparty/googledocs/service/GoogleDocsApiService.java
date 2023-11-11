@@ -14,7 +14,9 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +39,8 @@ public class GoogleDocsApiService {
 		}
 
 		// 워크스페이스 지정
-		Workspace docsWorkspace = workspaceService.findWorkspaceByUserAndProvider(DEFAULT_WORKSPACE_NAME, user, LinkProvider.GOOGLE_DOCS);
+		Workspace docsWorkspace = workspaceService.findWorkspaceByUserAndProvider(DEFAULT_WORKSPACE_NAME, user,
+			LinkProvider.GOOGLE_DOCS);
 
 		// 카테고리 지정, 초기 카테고리의 이름은 pageName 으로 지정한다.
 		Category docsCategory = categoryService.findByWorkspaceIdAndCategoryName(docsWorkspace.getId(), pageName)

@@ -16,7 +16,9 @@ import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +42,8 @@ public class NotionApiService {
 		5. noticePage 생성
 	 */
 	public void createNotionApi(String accessToken,
-								RegisterNotionRequestDto requestDto,
-								User user) {
+		RegisterNotionRequestDto requestDto,
+		User user) {
 
 		// 유효한 accessToken과 pageId를 입력했는지 검증
 		String pageTitle = notionProvider.getPageTitle(accessToken, requestDto.pageId());
@@ -62,7 +64,8 @@ public class NotionApiService {
 		}
 
 		// 노션 연동 워크스페이스가 있다면 해당 워크스페이스에 카테고리 생성 없으면 노션 워크스페이스 추가
-		Workspace notionWorkspace = workspaceService.findWorkspaceByUserAndProvider(DEFAULT_WORKSPACE_NAME, user, LinkProvider.NOTION);
+		Workspace notionWorkspace = workspaceService.findWorkspaceByUserAndProvider(DEFAULT_WORKSPACE_NAME, user,
+			LinkProvider.NOTION);
 
 		// 초기 카테고리의 이름은 노션 페이지의 ID로 지정한다.
 		Category notionCategory = categoryService.findByWorkspaceIdAndCategoryName(notionWorkspace.getId(),

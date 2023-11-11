@@ -4,8 +4,10 @@ import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.util.AuditingEntity;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.constant.LinkProvider;
+
 import jakarta.persistence.*;
 import lombok.*;
+
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -74,7 +76,7 @@ public class Workspace extends AuditingEntity {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		Workspace workspace = (Workspace) obj;
+		Workspace workspace = (Workspace)obj;
 		return Objects.equals(getId(), workspace.getId());
 	}
 

@@ -1,20 +1,23 @@
 package com.kakao.linknamu.core.util;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.kakao.linknamu.core.exception.Exception400;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.kakao.linknamu.core.exception.Exception400;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
@@ -59,6 +62,7 @@ public class S3ImageClient {
 	}
 
 	private ByteArrayInputStream getValidImageInputStream(byte[] byteImage) {
+
 		ByteArrayInputStream imageInputStream = new ByteArrayInputStream(byteImage);
 
 		try {
@@ -76,8 +80,8 @@ public class S3ImageClient {
 		return imageInputStream;
 	}
 
-
 	private Boolean isValidImageUrl(String imgUrlString) {
+
 		try {
 			URL imgUrl = new URL(imgUrlString);
 			BufferedImage image = ImageIO.read(imgUrl);

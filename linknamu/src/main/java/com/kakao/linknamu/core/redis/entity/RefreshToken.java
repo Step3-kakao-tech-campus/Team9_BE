@@ -2,8 +2,10 @@ package com.kakao.linknamu.core.redis.entity;
 
 import com.kakao.linknamu.core.security.JwtProvider;
 import com.kakao.linknamu.user.entity.User;
+
 import lombok.Builder;
 import lombok.Getter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
@@ -20,7 +22,6 @@ public class RefreshToken {
 	private String refreshToken;
 
 	private Long userId;
-
 
 	private String email;
 
@@ -55,7 +56,7 @@ public class RefreshToken {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		RefreshToken that = (RefreshToken) obj;
+		RefreshToken that = (RefreshToken)obj;
 		return Objects.equals(getRefreshToken(), that.getRefreshToken());
 	}
 

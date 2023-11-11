@@ -16,7 +16,9 @@ import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.user.entity.User;
 import com.kakao.linknamu.workspace.entity.Workspace;
 import com.kakao.linknamu.workspace.service.WorkspaceService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,7 +55,8 @@ public class ShareCategoryService {
 			List<Tag> tags = bookmarkTagService.findTagByBookmarkId(bookmark.getBookmarkId());
 			tagListList.add(tags);
 		}
-		return new GetCategoryFromLinkResponseDto(new PageInfoDto(bookmarkPage), category, bookmarkPage.getContent(), tagListList);
+		return new GetCategoryFromLinkResponseDto(new PageInfoDto(bookmarkPage), category, bookmarkPage.getContent(),
+			tagListList);
 	}
 
 	@Transactional

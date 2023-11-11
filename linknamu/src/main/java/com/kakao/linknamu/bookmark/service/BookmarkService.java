@@ -16,8 +16,10 @@ import com.kakao.linknamu.core.util.S3ImageClient;
 import com.kakao.linknamu.tag.entity.Tag;
 import com.kakao.linknamu.tag.service.TagService;
 import com.kakao.linknamu.user.entity.User;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,11 +60,7 @@ public class BookmarkService {
 	public List<BookmarkResponseDto.BookmarkGetResponseDto> getRecentBookmark(Pageable pageable, User user) {
 		List<Bookmark> bookmarkList = bookmarkJpaRepository.recentBookmarks(pageable, user.getUserId()).toList();
 		List<BookmarkTag> bookmarkTagList = bookmarkTagJpaRepository.findByBookmarkIdsFetchJoinTag(
-			bookmarkList
-				.stream()
-				.map(Bookmark::getBookmarkId)
-				.toList()
-		);
+			bookmarkList.stream().map(Bookmark::getBookmarkId).toList());
 
 		Map<Bookmark, List<Tag>> bookmarkTagListMap = new HashMap<>();
 		for(Bookmark bookmark : bookmarkList) {
@@ -100,14 +98,9 @@ public class BookmarkService {
 		for (String tagName : tagList.stream().map(Tag::getTagName).toList()) {
 			// 해당 태그가 존재하지 않는다면 새롭게 생성한다.
 			Tag tag = tagService.findByTagNameAndUserId(tagName, user)
-				.orElseGet(
-					() -> tagService.create(tagName, user)
-				);
+				.orElseGet(() -> tagService.create(tagName, user));
 
-			bookmarkTagList.add(BookmarkTag.builder()
-				.bookmark(newBookmark)
-				.tag(tag)
-				.build());
+			bookmarkTagList.add(BookmarkTag.builder().bookmark(newBookmark).tag(tag).build());
 		}
 
 		bookmarkTagJpaRepository.saveAll(bookmarkTagList);
@@ -132,14 +125,9 @@ public class BookmarkService {
 		for (String tagName : bookmarkAddDto.getTags()) {
 			// 해당 태그가 존재하지 않는다면 새롭게 생성한다.
 			Tag tag = tagService.findByTagNameAndUserId(tagName, user)
-				.orElseGet(
-					() -> tagService.create(tagName, user)
-				);
+				.orElseGet(() -> tagService.create(tagName, user));
 
-			bookmarkTagList.add(BookmarkTag.builder()
-				.bookmark(bookmark)
-				.tag(tag)
-				.build());
+			bookmarkTagList.add(BookmarkTag.builder().bookmark(bookmark).tag(tag).build());
 		}
 
 		bookmarkTagJpaRepository.saveAll(bookmarkTagList);
@@ -164,17 +152,13 @@ public class BookmarkService {
 	}
 
 	@Transactional
-	public BookmarkResponseDto.BookmarkUpdateResponseDto updateBookmark(
-		BookmarkRequestDto.BookmarkUpdateRequestDto dto,
-		Long bookmarkId,
-		User user
-	) {
+	public BookmarkResponseDto.BookmarkUpdateResponseDto updateBookmark(BookmarkRequestDto.BookmarkUpdateRequestDto dto,
+		Long bookmarkId, User user) {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
 
 		validUser(bookmark, user);
 		bookmarkJpaRepository.updateBookmark(bookmarkId, dto.bookmarkName(), dto.description());
-
 
 		List<String> tags = bookmarkTagJpaRepository.findTagNamesByBookmarkId(bookmarkId);
 
@@ -189,11 +173,7 @@ public class BookmarkService {
 	}
 
 	@Transactional
-	public void bookmarkImageUpdate(
-		BookmarkRequestDto.BookmarkImageUpdateRequestDto dto,
-		Long bookmarkId,
-		User user
-	) {
+	public void bookmarkImageUpdate(BookmarkRequestDto.BookmarkImageUpdateRequestDto dto, Long bookmarkId, User user) {
 		Bookmark bookmark = bookmarkJpaRepository.findByIdFetchJoinCategoryAndWorkspace(bookmarkId)
 			.orElseThrow(() -> new Exception404(BookmarkExceptionStatus.BOOKMARK_NOT_FOUND));
 
@@ -221,8 +201,9 @@ public class BookmarkService {
 		for (Bookmark bookmark : requestedBookmarks) {
 			validUser(bookmark, user);
 			// 만약 같은 카테고리로 이동한다면 중복 검사를 할 필요가 없다.
-			if(!isMoveSameCategory(bookmark.getCategory(), toCategory))
+			if (!isMoveSameCategory(bookmark.getCategory(), toCategory)) {
 				validDuplicatedLink(toCategory, bookmark.getBookmarkLink());
+			}
 			examineSet.add(bookmark.getBookmarkId());
 		}
 
@@ -244,8 +225,7 @@ public class BookmarkService {
 	}
 
 	public void validUser(Bookmark bookmark, User user) {
-		if (!bookmark.getCategory().getWorkspace().getUser().getUserId()
-			.equals(user.getUserId())) {
+		if (!bookmark.getCategory().getWorkspace().getUser().getUserId().equals(user.getUserId())) {
 			throw new Exception403(BookmarkExceptionStatus.BOOKMARK_FORBIDDEN);
 		}
 	}
@@ -264,10 +244,9 @@ public class BookmarkService {
 	}
 
 	private void validDuplicatedLink(Category category, String bookmarkLink) {
-		bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(category.getCategoryId(), bookmarkLink)
-			.ifPresent((b) -> {
-				throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
-			});
+		bookmarkJpaRepository.findByCategoryIdAndBookmarkLink(category.getCategoryId(), bookmarkLink).ifPresent((b) -> {
+			throw new Exception400(BookmarkExceptionStatus.BOOKMARK_ALREADY_EXISTS);
+		});
 	}
 
 	private List<BookmarkSearchResponseDto.BookmarkContentDto> getBookmarkContentDtos(Page<Bookmark> bookmarks) {

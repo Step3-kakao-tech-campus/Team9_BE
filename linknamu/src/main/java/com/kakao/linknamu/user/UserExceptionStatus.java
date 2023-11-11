@@ -1,6 +1,7 @@
 package com.kakao.linknamu.user;
 
 import com.kakao.linknamu.core.exception.BaseExceptionStatus;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +14,6 @@ public enum UserExceptionStatus implements BaseExceptionStatus {
 	GOOGLE_TOKEN_MISSING("구글 토큰를 입력하지 않았습니다.", 400, "14003"),
 	USER_NOT_FOUND("회원이 존재하지 않습니다", 404, "14040"),
 	GOOGLE_API_CONNECTION_ERROR("구글 API 연동 중 문제가 발생했습니다", 500, "15000");
-
 
 	@Getter
 	private final String message;

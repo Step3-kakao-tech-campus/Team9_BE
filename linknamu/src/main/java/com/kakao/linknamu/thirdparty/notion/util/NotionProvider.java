@@ -4,8 +4,10 @@ import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception500;
 import com.kakao.linknamu.thirdparty.notion.NotionExceptionStatus;
 import com.kakao.linknamu.thirdparty.notion.dto.NotionTokenDto;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -79,14 +81,14 @@ public class NotionProvider {
 			ResponseEntity<String> response =
 				restTemplate.exchange(PAGE_URL + pageId, HttpMethod.GET, httpEntity, String.class);
 			JSONParser jsonParser = jsonParserProvider.getObject();
-			JSONObject jsonObject = (JSONObject) jsonParser.parse(response.getBody());
-			JSONObject properties = (JSONObject) jsonObject.get("properties");
-			JSONObject titleObject = (JSONObject) properties.get("title");
-			JSONArray titleArray = (JSONArray) titleObject.get("title");
+			JSONObject jsonObject = (JSONObject)jsonParser.parse(response.getBody());
+			JSONObject properties = (JSONObject)jsonObject.get("properties");
+			JSONObject titleObject = (JSONObject)properties.get("title");
+			JSONArray titleArray = (JSONArray)titleObject.get("title");
 			StringBuilder titleBuilder = new StringBuilder();
 			for (Object o : titleArray) {
-				JSONObject titleInfo = (JSONObject) o;
-				titleBuilder.append((String) titleInfo.get("plain_text"));
+				JSONObject titleInfo = (JSONObject)o;
+				titleBuilder.append((String)titleInfo.get("plain_text"));
 			}
 			return titleBuilder.toString();
 		} catch (HttpClientErrorException e) {

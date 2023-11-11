@@ -2,6 +2,7 @@ package com.kakao.linknamu.workspace.dto;
 
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.workspace.entity.Workspace;
+
 import lombok.Builder;
 
 import java.util.Comparator;
@@ -18,11 +19,9 @@ public record WorkspaceGetResponseDto(
 	) {
 	}
 
-
 	@Builder
 	public WorkspaceGetResponseDto {
 	}
-
 
 	public static WorkspaceGetResponseDto of(Workspace workspace) {
 		return WorkspaceGetResponseDto.builder()

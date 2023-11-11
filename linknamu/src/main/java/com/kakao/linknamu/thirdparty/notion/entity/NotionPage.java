@@ -2,11 +2,13 @@ package com.kakao.linknamu.thirdparty.notion.entity;
 
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.util.AuditingEntity;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,7 +23,6 @@ import java.util.Objects;
 }
 )
 public class NotionPage extends AuditingEntity {
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +66,7 @@ public class NotionPage extends AuditingEntity {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		NotionPage that = (NotionPage) obj;
+		NotionPage that = (NotionPage)obj;
 		return Objects.equals(getId(), that.getId()) && Objects.equals(getPageId(), that.getPageId());
 	}
 

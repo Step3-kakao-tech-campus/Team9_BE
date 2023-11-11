@@ -2,6 +2,7 @@ package com.kakao.linknamu.core.redis.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
@@ -33,7 +34,7 @@ public class BlackListToken {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		BlackListToken that = (BlackListToken) obj;
+		BlackListToken that = (BlackListToken)obj;
 		return Objects.equals(getAccessToken(), that.getAccessToken());
 	}
 
