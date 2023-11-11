@@ -58,7 +58,8 @@ public class Bookmark extends AuditingEntity {
 	@Column(length = 200, name = "bookmark_description")
 	private String bookmarkDescription;
 
-	@Column(length = 1024, name = "bookmark_thumbnail")
+	// 현재 이미지 링크를 디비에 저장하고 있어, 최대 길이 확보.
+	@Column(length = 65535, name = "bookmark_thumbnail")
 	private String bookmarkThumbnail;
 
 	public void moveCategory(Category category) {
