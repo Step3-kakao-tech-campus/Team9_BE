@@ -1,4 +1,4 @@
-package com.kakao.linknamu.thirdparty.utils;
+package com.kakao.linknamu.core.util;
 
 import lombok.Getter;
 import lombok.Setter;
