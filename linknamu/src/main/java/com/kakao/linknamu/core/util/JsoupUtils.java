@@ -1,4 +1,4 @@
-package com.kakao.linknamu.thirdparty.utils;
+package com.kakao.linknamu.core.util;
 
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
@@ -8,7 +8,10 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
 
@@ -56,9 +59,9 @@ public class JsoupUtils {
 			Elements imgTwitterTags = doc.select("meta[name=twitter:image]");
 
 			if (!imgOgTags.isEmpty()) {
-				return imgOgTags.first().attr("content");
+				return getValidImageUrl(imgOgTags.first().attr("content"));
 			} else if (!imgTwitterTags.isEmpty()) {
-				return imgTwitterTags.first().attr("content");
+				return getValidImageUrl(imgTwitterTags.first().attr("content"));
 			}
 
 			// 이미지를 찾지 못한 경우 기본값
@@ -91,9 +94,9 @@ public class JsoupUtils {
 			}
 
 			if (!imgOgTags.isEmpty()) {
-				imageUrl = imgOgTags.first().attr("content");
+				imageUrl = getValidImageUrl(imgOgTags.first().attr("content"));
 			} else if (!imgTwitterTags.isEmpty()) {
-				imageUrl = imgTwitterTags.first().attr("content");
+				imageUrl = getValidImageUrl(imgTwitterTags.first().attr("content"));
 			}
 
 			// 이미지 혹은 제목을 찾지 못한 경우 기본값
@@ -114,5 +117,21 @@ public class JsoupUtils {
 		}
 
 		return connection.get();
+	}
+
+	private String getValidImageUrl(String imgUrlString) {
+		try {
+			URL imgUrl = new URL(imgUrlString);
+			BufferedImage image = ImageIO.read(imgUrl);
+
+			// image인지 체크하는 로직
+			if (image == null) {
+				return DEFAULT_IMAGE;
+			}
+		} catch (IOException exception) {
+			return DEFAULT_IMAGE;
+		}
+
+		return imgUrlString;
 	}
 }
