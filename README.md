@@ -8,14 +8,14 @@
 > - [📖 기획 의도](#기획-의도)
 > - [👩‍👩‍👧‍👧 팀원 소개](#팀원-소개)
 > - [📋 배포 링크](#배포-링크)
+> - [🚩 테스트 가이드](#테스트-가이드)
 > - [💻 아키텍쳐](#아키텍쳐)
 > - [📜 ERD](#erd)
 > - [✏️ 주요 기능](#주요-기능)
 > - [📄 API 모아보기](#api-모아보기)
 > - [📁 파일 구조](#파일-구조)
-> - [🚩 시작 가이드](#시작-가이드)
 > - [🖥️ 기술 스택](#기술-스택)
-> - [🖥 코딩 컨벤션](#코딩-컨벤션)
+> - [🏗️ 코딩 컨벤션](#코딩-컨벤션)
 > - [🔗 관련 링크](#관련-링크)
 > - [🔒 라이선스](#라이선스)
 
@@ -55,6 +55,13 @@
 ## 배포 링크
 -  https://k3f12e8e83a24a.user-app.krampoline.com
 
+## 테스트 가이드 
+
+테스트를 하실떄 아래 테스트 시나리오를 참고해주시면 감사하겠습니다.<br><br>
+[테스트 시나리오](https://www.notion.so/04a226ff46b6469186e05694ed916726)
+
+
+
 ## 아키텍쳐
 <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/355174f3-dd9e-4317-b932-27d0cda2bf0a" width="90%"/>
 
@@ -80,16 +87,111 @@ https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
 
 
 ## 파일 구조
-
-https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
-
-
-## 시작 가이드 
-
-https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
-
+```
+📦src
+ ┣ 📂main
+ ┃ ┣ 📂java
+ ┃ ┃ ┗ 📂com
+ ┃ ┃ ┃ ┗ 📂kakao
+ ┃ ┃ ┃ ┃ ┗ 📂linknamu
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂bookmark
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂validator
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂bookmarktag
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂category
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂core
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂config
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂encryption
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂exception
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂log
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂redis
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂security
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂util
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂kakao
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂share
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂category
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂workspace
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂category
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂workspace
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂tag
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂thirdparty
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂googleDocs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂util
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂notion
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂util
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂utils
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂oauth
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂constant
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂workspace
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂constant
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂service
+ ┃ ┗ 📂resources
+```
 
 ## 기술 스택 
+<img src="https://img.shields.io/badge/SpringBoot 3.13-120f0f?style=flat-square&logo=SpringBoot&logoColor=white" width="200" heigt="200"/>
+
+<img src="https://img.shields.io/badge/SpringSecurity-120f0f?style=flat-square&logo=SpringSecurity&logoColor=white" width="200" heigt="200"/>
+
+<img src="https://img.shields.io/badge/SpringDataJpa-120f0f?style=flat-square&logo=SpringBoot&logoColor=white" width="200" heigt="200"/>
+
+<img src="https://img.shields.io/badge/Redis-120f0f?style=flat-square&logo=Redis&logoColor=white" width="110" heigt="200"/>
+
+<img src="https://img.shields.io/badge/junit5-120f0f?style=flat-square&logo=junit5&logoColor=white" width="110" heigt="200"/>
+
+<img src="https://img.shields.io/badge/MySql-120f0f?style=flat-square&logo=MySql&logoColor=white" width="110" heigt="200"/>
+
+<img src="https://img.shields.io/badge/Docker-120f0f?style=flat-square&logo=Docker&logoColor=white" width="110" heigt="200"/>
+
+
+
 
 https://www.notion.so/taeho1234/API-eec9b74e1dff454d9a51789550cb1b85?pvs=4
 
@@ -204,15 +306,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-
-
-
-
-
-
 
 
 
