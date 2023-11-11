@@ -5,10 +5,11 @@
 
 ## 목차 
 > - [👋 프로젝트 소개](#프로젝트-소개)
-> - [✏️ 기획 의도](#기획-의도)
+> - [📖 기획 의도](#기획-의도)
 > - [👩‍👩‍👧‍👧 팀원 소개](#팀원-소개)
+> - [📋 배포 링크](#배포-링크)
+> - [💻 아키텍쳐](#아키텍쳐)
 > - [✏️ 주요 기능](#주요-기능)
-> - [🔗 링크 모음(배포 주소 포함)](#링크-모음)
 > - [📜 ERD](#erd)
 > - [📄 API 모아보기](#api-모아보기)
 > - [📁 파일 구조](#파일-구조)
@@ -49,11 +50,6 @@
 | [김태호](https://github.com/Train0303) | [손재성](https://github.com/JS970)|[조영진](https://github.com/jhy0285)|[김이경](https://github.com/ikyeong) |
 | <img src="https://github.com/Train0303.png" width="100"> | <img src="https://github.com/JS970.png" width="100"> | <img src="https://github.com/jhy0285.png" width="100"> | <img src="https://github.com/ikyeong.png" width="100"> |
 
-
-
-
-
-
 ## 배포 링크
 -  https://k3f12e8e83a24a.user-app.krampoline.com
 
@@ -61,7 +57,7 @@
 <img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/355174f3-dd9e-4317-b932-27d0cda2bf0a" width="90%"/>
 
 
-## 💡 주요 기능
+## 주요 기능
 |     기능     | 화면  |             설명              |
 |:----------:|:--------------:|:-------------:|
 | 카카오톡 링크 추출 |    <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/0a10ad03-e34e-4c85-b360-29027ff4f84a" width="70%" >| 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
@@ -85,6 +81,21 @@
 - [링크나무 테스트 결과보고서](https://www.notion.so/a41e2905a8644c249f95d58c9344e933)
 - [링크나무 테스트 시나리오 명세서](https://www.notion.so/04a226ff46b6469186e05694ed916726)
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <details>
     <summary><h2>카카오 테크 캠퍼스 3단계 진행 보드</h2></summary>
