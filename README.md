@@ -23,11 +23,7 @@
 
 
 ## 아키텍쳐
-
-<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/c326c2ea-0a76-4be3-a966-e94ec8589bfb" width="50%" height="500" />
-
-
-
+추가예정
 
 ## 💡 주요 기능
 |     기능     | 화면  |             설명              |
