@@ -64,9 +64,14 @@ public class BookmarkService {
 				.toList()
 		);
 
-		Map<Bookmark, List<Tag>> bookmarkTagListMap = bookmarkTagList.stream()
-			.collect(groupingBy(BookmarkTag::getBookmark
-				, Collectors.mapping(BookmarkTag::getTag, toList())));
+		Map<Bookmark, List<Tag>> bookmarkTagListMap = new HashMap<>();
+		for(Bookmark bookmark : bookmarkList) {
+			bookmarkTagListMap.put(bookmark, new ArrayList<>());
+		}
+
+		for(BookmarkTag bookmarkTag : bookmarkTagList) {
+			bookmarkTagListMap.get(bookmarkTag.getBookmark()).add(bookmarkTag.getTag());
+		}
 
 		return bookmarkList.stream()
 			.map(bookmark -> BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, bookmarkTagListMap.get(bookmark)))
