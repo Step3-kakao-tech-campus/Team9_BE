@@ -28,7 +28,7 @@
 ## 💡 주요 기능
 |     기능     | 화면  |             설명              |
 |:----------:|:--------------:|:-------------:|
-| 카카오톡 링크 추출 |    <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/bc52ffcd-4373-4e2d-9d47-ab3643ff8c53" width="50%" >| 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
+| 카카오톡 링크 추출 |    <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/0a10ad03-e34e-4c85-b360-29027ff4f84a" width="70%" >| 카카오톡 메세지에 포함된 링크를 추출해 저장한다. |
 |   노션 연동    |  <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/3dd3d89a-2c89-458c-bcd3-6038f973678d" width="70%" >|  원하는 노션 페이지에 저장된 링크를 저장한다.  |
 |  구글 문서 연동  |  <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/a24a17d4-7a0f-412e-ba3b-f6325829d95f" width="70%" >  |     구글문서에 저장된 링크를 저장한다.     |
 |   공유 링크 생성   |  <img src="https://github.com/ikyeong/Team9_BE/assets/103908923/23ff717e-b5dc-41ec-b4ad-1b84db57324f" width="80%" > | 워크스페이스/카테고리를 다른 유저와 공유하는 링크를 생성한다. |
