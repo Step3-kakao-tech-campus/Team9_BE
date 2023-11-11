@@ -57,7 +57,7 @@ public class BookmarkController {
 
 	@PostMapping("/image/update/{bookmarkId}")
 	public ResponseEntity<?> updateBookmarkImage(
-		@RequestBody BookmarkRequestDto.BookmarkImageUpdateRequestDto dto,
+		@RequestBody @Valid BookmarkRequestDto.BookmarkImageUpdateRequestDto dto,
 		@PathVariable Long bookmarkId,
 		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
