@@ -2,8 +2,12 @@ package com.kakao.linknamu.bookmark.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Page;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
+import com.kakao.linknamu.core.dto.PageInfoDto;
 import com.kakao.linknamu.tag.entity.Tag;
 
 import lombok.Builder;
@@ -58,6 +62,27 @@ public class BookmarkResponseDto {
 				.imageUrl(bookmark.getBookmarkThumbnail())
 				.tagList(tagList.stream().map(TagDto::of).toList())
 				.createdAt(bookmark.getCreatedAt())
+				.build();
+		}
+	}
+
+	public record BookmarkGetListResponseDto(
+		PageInfoDto pageInfo,
+		List<BookmarkGetResponseDto> bookmarkContents
+	) {
+		@Builder
+		public BookmarkGetListResponseDto {
+		}
+
+		public static BookmarkGetListResponseDto of(
+			Page<Bookmark> bookmarkPage,
+			Map<Bookmark, List<Tag>> bookmarkListMap) {
+			return BookmarkGetListResponseDto.builder()
+				.bookmarkContents(
+					bookmarkPage.stream()
+					.map(b -> BookmarkGetResponseDto.of(b, bookmarkListMap.get(b))).toList()
+				)
+				.pageInfo(new PageInfoDto(bookmarkPage))
 				.build();
 		}
 	}
