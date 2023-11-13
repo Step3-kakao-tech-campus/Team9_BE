@@ -11,6 +11,7 @@ import java.util.List;
 public record WorkspaceGetResponseDto(
 	Long workspaceId,
 	String workspaceName,
+	String linkProvider,
 	List<CategoryResponseDto> categoryList
 ) {
 	record CategoryResponseDto(
@@ -27,6 +28,7 @@ public record WorkspaceGetResponseDto(
 		return WorkspaceGetResponseDto.builder()
 			.workspaceId(workspace.getId())
 			.workspaceName(workspace.getWorkspaceName())
+			.linkProvider(workspace.getLinkProvider().name())
 			.categoryList(workspace.getCategorySet().stream()
 				.sorted(Comparator.comparing(Category::getCategoryId))
 				.map((c) -> new CategoryResponseDto(c.getCategoryId(), c.getCategoryName()))

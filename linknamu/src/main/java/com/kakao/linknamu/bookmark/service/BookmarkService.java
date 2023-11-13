@@ -57,8 +57,8 @@ public class BookmarkService {
 	}
 
 	// 사용자 계정에 등록된 북마크 목록을 최신순으로 보여준다.
-	public List<BookmarkResponseDto.BookmarkGetResponseDto> getRecentBookmark(Pageable pageable, User user) {
-		List<Bookmark> bookmarkList = bookmarkJpaRepository.recentBookmarks(pageable, user.getUserId()).toList();
+	public BookmarkResponseDto.BookmarkGetListResponseDto getRecentBookmark(Pageable pageable, User user) {
+		Page<Bookmark> bookmarkList = bookmarkJpaRepository.recentBookmarks(pageable, user.getUserId());
 		List<BookmarkTag> bookmarkTagList = bookmarkTagJpaRepository.findByBookmarkIdsFetchJoinTag(
 			bookmarkList.stream().map(Bookmark::getBookmarkId).toList());
 
@@ -71,9 +71,8 @@ public class BookmarkService {
 			bookmarkTagListMap.get(bookmarkTag.getBookmark()).add(bookmarkTag.getTag());
 		}
 
-		return bookmarkList.stream()
-			.map(bookmark -> BookmarkResponseDto.BookmarkGetResponseDto.of(bookmark, bookmarkTagListMap.get(bookmark)))
-			.toList();
+		return BookmarkResponseDto.BookmarkGetListResponseDto.of(bookmarkList, bookmarkTagListMap);
+
 	}
 
 	@Transactional

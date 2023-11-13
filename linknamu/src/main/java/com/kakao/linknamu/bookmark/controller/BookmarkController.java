@@ -6,6 +6,7 @@ import com.kakao.linknamu.bookmark.service.*;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -91,7 +92,7 @@ public class BookmarkController {
 		@RequestBody @Valid BookmarkSearchCondition condition,
 		@RequestParam(name = "page", defaultValue = "0") int page,
 		@AuthenticationPrincipal CustomUserDetails userDetails) {
-		Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+		Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
 		BookmarkSearchResponseDto responseDto = bookmarkService.searchBookmark(condition, userDetails.getUser(),
 			pageable);
 		return ResponseEntity.ok(ApiUtils.success(responseDto));
@@ -102,8 +103,8 @@ public class BookmarkController {
 	public ResponseEntity<?> recentBookmarkList(
 		@RequestParam(name = "page", defaultValue = "0") int page,
 		@AuthenticationPrincipal CustomUserDetails userDetails) {
-		Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-		List<BookmarkResponseDto.BookmarkGetResponseDto> response =
+		Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
+		BookmarkResponseDto.BookmarkGetListResponseDto response =
 			bookmarkService.getRecentBookmark(pageable, userDetails.getUser());
 		return ResponseEntity.ok(ApiUtils.success(response));
 	}
