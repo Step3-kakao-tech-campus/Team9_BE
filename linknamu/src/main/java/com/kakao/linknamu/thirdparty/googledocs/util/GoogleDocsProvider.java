@@ -9,6 +9,7 @@ import com.google.api.services.docs.v1.model.ParagraphElement;
 import com.google.api.services.docs.v1.model.StructuralElement;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkService;
+import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.config.GoogleDocsConfig;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception500;
@@ -66,7 +67,7 @@ public class GoogleDocsProvider {
 		}
 	}
 
-	public List<Bookmark> getLinks(GooglePage googlePage) {
+	public List<Bookmark> getLinks(String documentId, Category category) {
 		Set<Bookmark> resultBookmarks = new HashSet<>();
 		try {
 			// 서비스 생성
@@ -79,7 +80,7 @@ public class GoogleDocsProvider {
 				.build();
 
 			// google docs 객체 생성 및 get API를 사용해서 link 항목 불러오기
-			Document response = service.documents().get(googlePage.getDocumentId()).execute();
+			Document response = service.documents().get(documentId).execute();
 			List<StructuralElement> contents = response.getBody().getContent();
 			for (StructuralElement e : contents) {
 				if (e.getParagraph() != null && e.getParagraph().getElements() != null) {
@@ -91,7 +92,7 @@ public class GoogleDocsProvider {
 							if (link != null) {
 								// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
 								if (bookmarkService.existByBookmarkLinkAndCategoryId(link,
-									googlePage.getCategory().getCategoryId())) {
+									category.getCategoryId())) {
 									continue;
 								}
 
@@ -100,7 +101,7 @@ public class GoogleDocsProvider {
 									.bookmarkLink(link)
 									.bookmarkName(jsoupResult.getTitle())
 									.bookmarkThumbnail(jsoupResult.getImageUrl())
-									.category(googlePage.getCategory())
+									.category(category)
 									.build());
 							}
 						}
