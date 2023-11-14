@@ -40,6 +40,19 @@ spring:
       port: 6379 # Redis 데이터베이스에 연결할 포트 번호
       host: localhost # Redis 데이터베이스에 연결할 호스트 주소
 
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group-id-linknamu
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 0 # 오류시 재시도 횟수
+
 
 access-jwt-secret-key: KakaoTechCampusLinkNamu
 refresh-jwt-secret-key: KakaoTechCampusLinkNamu1234
@@ -78,7 +91,3 @@ cloud:
       auto: false
 
 AES_SECRET_KEY: ${aes-secret-key}
-
-
-
-

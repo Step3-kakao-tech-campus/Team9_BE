@@ -11,6 +11,7 @@ import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.core.config.GoogleDocsConfig;
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
 import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaRepository;
+import com.kakao.linknamu.thirdparty.googledocs.util.GoogleDocsProvider;
 import com.kakao.linknamu.thirdparty.googledocs.util.InvalidGoogleDocsApiException;
 
 import com.kakao.linknamu.core.util.JsoupResult;
@@ -22,20 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static com.kakao.linknamu.core.config.GoogleDocsConfig.getCredentials;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class GoogleDocsApiBatchService {
 	private final GooglePageJpaRepository googlePageJpaRepository;
-	private final JsoupUtils jsoupUtils;
+	private final GoogleDocsProvider googleDocsProvider;
 	private final BookmarkService bookmarkService;
 
 	@Scheduled(cron = "0 0 0/1 * * *", zone = "Asia/Seoul")
@@ -46,64 +42,16 @@ public class GoogleDocsApiBatchService {
 		// 활성화된 구글 독스 페이지들에 대해 배치를 실행한다.
 		activeGoogleDocsPages.forEach((GooglePage gp) -> {
 			try {
-				List<Bookmark> resultBookmarks = getLinks(gp);
+				List<Bookmark> resultBookmarks = googleDocsProvider.getLinks(gp);
 				bookmarkService.batchInsertBookmark(resultBookmarks);
 			} catch (InvalidGoogleDocsApiException e) {
 				gp.deactivate();
 				googlePageJpaRepository.save(gp);
+			} catch (Exception e) {
+				log.error(e.getMessage());
 			}
 		});
 	}
 
-	private List<Bookmark> getLinks(GooglePage googlePage) {
-		Set<Bookmark> resultBookmarks = new HashSet<>();
-		try {
-			// 서비스 생성
-			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-			Docs service = new Docs.Builder(
-				httpTransport,
-				GoogleDocsConfig.getJSON_FACTORY(),
-				getCredentials(httpTransport))
-				.setApplicationName(GoogleDocsConfig.getAPPLICATION_NAME())
-				.build();
 
-			// google docs 객체 생성 및 get API를 사용해서 link 항목 불러오기
-			Document response = service.documents().get(googlePage.getDocumentId()).execute();
-			List<StructuralElement> contents = response.getBody().getContent();
-			for (StructuralElement e : contents) {
-				if (e.getParagraph() != null && e.getParagraph().getElements() != null) {
-					List<ParagraphElement> elements = e.getParagraph().getElements();
-					for (ParagraphElement pe : elements) {
-						if (pe.getTextRun() != null && pe.getTextRun().getTextStyle() != null
-							&& pe.getTextRun().getTextStyle().getLink() != null) {
-							String link = pe.getTextRun().getTextStyle().getLink().getUrl();
-							if (link != null) {
-								// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
-								if (bookmarkService.existByBookmarkLinkAndCategoryId(link,
-									googlePage.getCategory().getCategoryId())) {
-									continue;
-								}
-
-								JsoupResult jsoupResult = jsoupUtils.getTitleAndImgUrl(link);
-								resultBookmarks.add(Bookmark.builder()
-									.bookmarkLink(link)
-									.bookmarkName(jsoupResult.getTitle())
-									.bookmarkThumbnail(jsoupResult.getImageUrl())
-									.category(googlePage.getCategory())
-									.build());
-							}
-						}
-					}
-				}
-			}
-		} catch (GeneralSecurityException error) {
-			log.error("구글 인증에 문제가 있습니다.");
-			throw new InvalidGoogleDocsApiException();
-		} catch (IOException error) {
-			log.error("구글Docs 연동 중 문제가 발생했습니다.");
-			throw new InvalidGoogleDocsApiException();
-		}
-
-		return resultBookmarks.stream().toList();
-	}
 }
