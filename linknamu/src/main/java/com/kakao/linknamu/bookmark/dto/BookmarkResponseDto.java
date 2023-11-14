@@ -59,7 +59,7 @@ public class BookmarkResponseDto {
 				.description(bookmark.getBookmarkDescription())
 				.url(bookmark.getBookmarkLink())
 				.imageUrl(bookmark.getBookmarkThumbnail())
-				.tagList(tagList.stream().map(TagDto::of).toList())
+				.tags(tagList.stream().map(TagDto::of).toList())
 				.createdAt(bookmark.getCreatedAt())
 				.build();
 		}
