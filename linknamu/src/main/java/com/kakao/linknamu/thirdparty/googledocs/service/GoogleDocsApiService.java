@@ -1,5 +1,11 @@
 package com.kakao.linknamu.thirdparty.googledocs.service;
 
+import static com.kakao.linknamu.core.util.KafkaTopics.*;
+
+import java.util.concurrent.CompletableFuture;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.exception.Exception400;
@@ -17,6 +23,9 @@ import com.kakao.linknamu.workspace.service.WorkspaceService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +37,19 @@ public class GoogleDocsApiService {
 	private final CategoryService categoryService;
 	private final GoogleDocsProvider googleDocsProvider;
 	private final WorkspaceService workspaceService;
+	private final KafkaTemplate<String, String> kafkaTemplate;
+	private final ObjectMapper om;
+
 	private static final String DEFAULT_WORKSPACE_NAME = "Google Docs";
 
+	/*
+		로직
+		1. 입력 문서ID가 유효한지 판단
+		2. 기존에 등록한 적이 있는지 확인 -> 있다면 예외처리
+		3. 링크들을 연동할 워크스페이스 및 카테고리 생성
+		4. GooglePage 생성
+		5. 해당 페이지를 파싱하는 Task를 다른 쓰레드에게 위임 후 종료
+	 */
 	public void createDocsApi(RegisterGoogleDocsRequestDto dto, User user) {
 		String pageName = googleDocsProvider.getGoogleDocsTitle(dto.documentId());
 
@@ -54,6 +74,8 @@ public class GoogleDocsApiService {
 			.pageName(pageName)
 			.build();
 		googlePageJpaRepository.save(googlePage);
+
+		googleDocsRequestToKafka(googlePage);
 	}
 
 	public void deleteDocsPage(User user, Long docsPageId) {
@@ -67,5 +89,18 @@ public class GoogleDocsApiService {
 		if (!googlePage.getUser().getUserId().equals(user.getUserId())) {
 			throw new Exception403(GoogleDocsExceptionStatus.DOCS_FORBIDDEN);
 		}
+	}
+
+	// 초기 구글문서 연동 생성 시 데이터를 가져오는 것을 다른 쓰레드에 위임
+	private void googleDocsRequestToKafka(GooglePage googlePage) {
+		try {
+			String message = om.writeValueAsString(googlePage);
+			CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(
+				GOOGLE_DOCS_TOPIC,
+				message
+			);
+		} catch (JsonProcessingException ignored) {
+		}
+
 	}
 }

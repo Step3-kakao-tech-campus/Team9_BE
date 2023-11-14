@@ -1,11 +1,16 @@
 package com.kakao.linknamu.thirdparty.notion.service;
 
+import java.util.concurrent.CompletableFuture;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.category.service.CategoryService;
 import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.thirdparty.notion.NotionExceptionStatus;
+import com.kakao.linknamu.thirdparty.notion.dto.NotionKafkaReqeusetDto;
 import com.kakao.linknamu.thirdparty.notion.dto.RegisterNotionRequestDto;
 import com.kakao.linknamu.thirdparty.notion.entity.NotionAccount;
 import com.kakao.linknamu.thirdparty.notion.entity.NotionPage;
@@ -19,6 +24,8 @@ import com.kakao.linknamu.workspace.service.WorkspaceService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +38,9 @@ public class NotionApiService {
 	private final CategoryService categoryService;
 	private final WorkspaceService workspaceService;
 	private final NotionProvider notionProvider;
+	private final KafkaTemplate<String, String> kafkaTemplate;
+	private final ObjectMapper om;
+
 	private static final String DEFAULT_WORKSPACE_NAME = "Notion 연동";
 
 	/*
@@ -40,6 +50,7 @@ public class NotionApiService {
 		3. 기존에 등록한 적이 있는지 확인 -> 있다면 예외처리
 		4. 링크들을 연동할 워크스페이스 및 카테고리 생성
 		5. noticePage 생성
+		6. 해당 페이지를 파싱하는 Task를 다른 쓰레드에게 위임 후 종료
 	 */
 	public void createNotionApi(String accessToken,
 		RegisterNotionRequestDto requestDto,
@@ -79,6 +90,8 @@ public class NotionApiService {
 			.isActive(true) // 이후 검증 로직을 통해서 활성화 여부를 체크
 			.build();
 		notionPageJpaRepository.save(notionPage);
+
+		notionRequestToKafka(notionPage, notionAccount);
 	}
 
 	public void deleteNotionAccount(User user, Long notionAccountId) {
@@ -91,6 +104,24 @@ public class NotionApiService {
 	private void validUser(NotionAccount notionAccount, User user) {
 		if (!notionAccount.getUser().getUserId().equals(user.getUserId())) {
 			throw new Exception403(NotionExceptionStatus.NOTION_FORBIDDEN);
+		}
+	}
+
+	// 초기 노션 연동 생성 시 데이터를 가져오는 것을 다른 쓰레드에 위임
+	private void notionRequestToKafka(NotionPage notionPage, NotionAccount notionAccount) {
+		NotionKafkaReqeusetDto requestDto = NotionKafkaReqeusetDto.builder()
+			.pageId(notionPage.getPageId())
+			.accessToken(notionAccount.getToken())
+			.categoryId(notionPage.getCategory().getCategoryId())
+			.userId(notionAccount.getUser().getUserId())
+			.build();
+
+		try {
+			CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(
+				"notion",
+				om.writeValueAsString(requestDto)
+			);
+		} catch (JsonProcessingException ignored) {
 		}
 	}
 }
