@@ -42,7 +42,7 @@ public class GoogleDocsApiBatchService {
 		// 활성화된 구글 독스 페이지들에 대해 배치를 실행한다.
 		activeGoogleDocsPages.forEach((GooglePage gp) -> {
 			try {
-				List<Bookmark> resultBookmarks = googleDocsProvider.getLinks(gp);
+				List<Bookmark> resultBookmarks = googleDocsProvider.getLinks(gp.getDocumentId(), gp.getCategory());
 				bookmarkService.batchInsertBookmark(resultBookmarks);
 			} catch (InvalidGoogleDocsApiException e) {
 				gp.deactivate();
