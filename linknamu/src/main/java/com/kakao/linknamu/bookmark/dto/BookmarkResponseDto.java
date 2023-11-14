@@ -27,14 +27,13 @@ public class BookmarkResponseDto {
 		}
 	}
 
-	@SuppressWarnings("checkstyle:RegexpSingleline")
 	public record BookmarkGetResponseDto(
 		Long bookmarkId,
 		String title,
 		String description,
 		String url,
 		String imageUrl,
-		List<TagDto> tagList,
+		List<TagDto> tags,
 		LocalDateTime createdAt
 	) {
 		@Builder
@@ -48,7 +47,7 @@ public class BookmarkResponseDto {
 				.description(bookmark.getDescription())
 				.url(bookmark.getUrl())
 				.imageUrl(bookmark.getImageUrl())
-				.tagList(tagList.stream().map(TagDto::of).toList())
+				.tags(tagList.stream().map(TagDto::of).toList())
 				.createdAt(bookmark.getCreatedAt())
 				.build();
 		}
@@ -60,7 +59,7 @@ public class BookmarkResponseDto {
 				.description(bookmark.getBookmarkDescription())
 				.url(bookmark.getBookmarkLink())
 				.imageUrl(bookmark.getBookmarkThumbnail())
-				.tagList(tagList.stream().map(TagDto::of).toList())
+				.tags(tagList.stream().map(TagDto::of).toList())
 				.createdAt(bookmark.getCreatedAt())
 				.build();
 		}
