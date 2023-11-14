@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
 import com.kakao.linknamu.bookmark.service.BookmarkService;
+import com.kakao.linknamu.category.entity.Category;
+import com.kakao.linknamu.thirdparty.googledocs.dto.GoogleDocsKafkaRequestDto;
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
 import com.kakao.linknamu.thirdparty.googledocs.util.GoogleDocsProvider;
 
@@ -25,8 +27,11 @@ public class GoogleDocsConsumer {
 
 	@KafkaListener(topics = {GOOGLE_DOCS_TOPIC}, groupId = "group-id-linknamu")
 	public void googleDocsConsumer(String message) throws JsonProcessingException {
-		GooglePage googlePage = om.readValue(message, GooglePage.class);
-		List<Bookmark> bookmarkList = googleDocsProvider.getLinks(googlePage);
+		GoogleDocsKafkaRequestDto requestDto = om.readValue(message, GoogleDocsKafkaRequestDto.class);
+		Category category = Category.builder()
+			.categoryId(requestDto.categoryId())
+			.build();
+		List<Bookmark> bookmarkList = googleDocsProvider.getLinks(requestDto.documentId(), category);
 		bookmarkService.batchInsertBookmark(bookmarkList);
 	}
 }

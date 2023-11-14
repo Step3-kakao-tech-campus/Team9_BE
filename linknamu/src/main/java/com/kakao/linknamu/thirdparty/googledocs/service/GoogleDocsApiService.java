@@ -12,6 +12,7 @@ import com.kakao.linknamu.core.exception.Exception400;
 import com.kakao.linknamu.core.exception.Exception403;
 import com.kakao.linknamu.core.exception.Exception404;
 import com.kakao.linknamu.thirdparty.googledocs.GoogleDocsExceptionStatus;
+import com.kakao.linknamu.thirdparty.googledocs.dto.GoogleDocsKafkaRequestDto;
 import com.kakao.linknamu.thirdparty.googledocs.dto.RegisterGoogleDocsRequestDto;
 import com.kakao.linknamu.thirdparty.googledocs.entity.GooglePage;
 import com.kakao.linknamu.thirdparty.googledocs.repository.GooglePageJpaRepository;
@@ -94,10 +95,13 @@ public class GoogleDocsApiService {
 	// 초기 구글문서 연동 생성 시 데이터를 가져오는 것을 다른 쓰레드에 위임
 	private void googleDocsRequestToKafka(GooglePage googlePage) {
 		try {
-			String message = om.writeValueAsString(googlePage);
+			GoogleDocsKafkaRequestDto googleDocsKafkaRequestDto = GoogleDocsKafkaRequestDto.builder()
+				.documentId(googlePage.getDocumentId())
+				.categoryId(googlePage.getCategory().getCategoryId())
+				.build();
 			CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(
 				GOOGLE_DOCS_TOPIC,
-				message
+				om.writeValueAsString(googleDocsKafkaRequestDto)
 			);
 		} catch (JsonProcessingException ignored) {
 		}
