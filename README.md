@@ -63,11 +63,10 @@
 
 
 ## 아키텍쳐
-<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/355174f3-dd9e-4317-b932-27d0cda2bf0a" width="90%"/>
+<img src="https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/a59f9e6d-1c70-47b1-bea2-3263b4868285" width="90%"/>
 
 ## ERD 
 ![image](https://github.com/Step3-kakao-tech-campus/Team9_BE/assets/89145559/72351fa5-3b74-4991-bba7-01b96392809b)
-
 
 ## 주요 기능
 |     기능     | 화면  |             설명              |
