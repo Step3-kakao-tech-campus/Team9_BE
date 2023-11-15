@@ -8,6 +8,7 @@ import com.google.api.services.docs.v1.model.Document;
 import com.google.api.services.docs.v1.model.ParagraphElement;
 import com.google.api.services.docs.v1.model.StructuralElement;
 import com.kakao.linknamu.bookmark.entity.Bookmark;
+import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
 import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.config.GoogleDocsConfig;
@@ -36,6 +37,7 @@ import static com.kakao.linknamu.core.config.GoogleDocsConfig.getCredentials;
 @Service
 public class GoogleDocsProvider {
 	private final BookmarkService bookmarkService;
+	private final BookmarkJpaRepository bookmarkJpaRepository;
 	private final JsoupUtils jsoupUtils;
 
 	public String getGoogleDocsTitle(String documentId) {
@@ -99,7 +101,9 @@ public class GoogleDocsProvider {
 								JsoupResult jsoupResult = jsoupUtils.getTitleAndImgUrl(link);
 								resultBookmarks.add(Bookmark.builder()
 									.bookmarkLink(link)
-									.bookmarkName(jsoupResult.getTitle())
+									.bookmarkName(jsoupResult.getTitle().length() > 100
+										? jsoupResult.getTitle().substring(0, 100) :
+										jsoupResult.getTitle())
 									.bookmarkThumbnail(jsoupResult.getImageUrl())
 									.category(category)
 									.build());
@@ -117,5 +121,60 @@ public class GoogleDocsProvider {
 		}
 
 		return resultBookmarks.stream().toList();
+	}
+
+
+	public void saveLinks(String documentId, Category category) {
+		try {
+			// 서비스 생성
+			final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+			Docs service = new Docs.Builder(
+				httpTransport,
+				GoogleDocsConfig.getJSON_FACTORY(),
+				getCredentials(httpTransport))
+				.setApplicationName(GoogleDocsConfig.getAPPLICATION_NAME())
+				.build();
+
+			// google docs 객체 생성 및 get API를 사용해서 link 항목 불러오기
+			Document response = service.documents().get(documentId).execute();
+			List<StructuralElement> contents = response.getBody().getContent();
+			for (StructuralElement e : contents) {
+				if (e.getParagraph() != null && e.getParagraph().getElements() != null) {
+					List<ParagraphElement> elements = e.getParagraph().getElements();
+					for (ParagraphElement pe : elements) {
+						if (pe.getTextRun() != null && pe.getTextRun().getTextStyle() != null
+							&& pe.getTextRun().getTextStyle().getLink() != null) {
+							String link = pe.getTextRun().getTextStyle().getLink().getUrl();
+							if (link != null) {
+								// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
+								if (bookmarkService.existByBookmarkLinkAndCategoryId(link,
+									category.getCategoryId())) {
+									continue;
+								}
+
+								JsoupResult jsoupResult = jsoupUtils.getTitleAndImgUrl(link);
+								Bookmark bookmark = Bookmark.builder()
+									.bookmarkLink(link)
+									.bookmarkName(jsoupResult.getTitle().length() > 100
+										? jsoupResult.getTitle().substring(0, 100) :
+										jsoupResult.getTitle())
+									.bookmarkThumbnail(jsoupResult.getImageUrl())
+									.category(category)
+									.build();
+
+								bookmarkJpaRepository.save(bookmark);
+							}
+						}
+					}
+				}
+			}
+		} catch (GeneralSecurityException error) {
+			log.error("구글 인증에 문제가 있습니다.");
+			throw new InvalidGoogleDocsApiException();
+		} catch (IOException error) {
+			log.error("구글Docs 연동 중 문제가 발생했습니다.");
+			throw new InvalidGoogleDocsApiException();
+		}
+
 	}
 }
