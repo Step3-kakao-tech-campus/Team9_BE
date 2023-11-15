@@ -1,6 +1,7 @@
 package com.kakao.linknamu.thirdparty.notion.util;
 
 import com.kakao.linknamu.bookmark.entity.Bookmark;
+import com.kakao.linknamu.bookmark.repository.BookmarkJpaRepository;
 import com.kakao.linknamu.bookmark.service.BookmarkService;
 import com.kakao.linknamu.category.entity.Category;
 import com.kakao.linknamu.core.exception.Exception400;
@@ -59,6 +60,7 @@ public class NotionProvider {
 	private final RestTemplate restTemplate;
 	private final ObjectProvider<JSONParser> jsonParserProvider;
 	private final BookmarkService bookmarkService;
+	private final BookmarkJpaRepository bookmarkJpaRepository;
 	private final NotionApiUriBuilder notionApiUriBuilder;
 	private final JsoupUtils jsoupUtils;
 
@@ -120,6 +122,55 @@ public class NotionProvider {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			throw new Exception500(NotionExceptionStatus.NOTION_LINK_ERROR);
+		}
+	}
+
+	public void saveNotionLinks(String pageId, String accessToken, Long categoryId) {
+		Boolean hasMore = true;
+		String nextCursor = null;
+		JSONParser jsonParser = jsonParserProvider.getObject();
+
+		while (hasMore) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Authorization", accessToken);
+			headers.set("Notion-Version", NOTION_VERSION);
+			HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+			String uri = notionApiUriBuilder.getBlockUri(pageId, Optional.ofNullable(nextCursor));
+			try {
+				ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, String.class);
+				JSONObject jsonObject = (JSONObject)jsonParser.parse(response.getBody());
+				JSONArray result = (JSONArray)jsonObject.get("results");
+				hasMore = (Boolean)jsonObject.get("has_more");
+				nextCursor = (String)jsonObject.get("next_cursor");
+
+				for (Object o : result) {
+					JSONObject subObject = (JSONObject)o;
+					String type = (String)subObject.get("type");
+					JSONObject subObjectChild = (JSONObject)subObject.get(type);
+					if (type.equals("bookmark") | type.equals("embed")) {
+						saveBookmarkOrEmbedLink(subObjectChild, categoryId);
+					} else {
+						saveOtherLink(subObjectChild, categoryId);
+					}
+				}
+
+			} catch (HttpClientErrorException e) {
+				if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+					log.error("유효하지 않은 토큰");
+					throw new InvalidNotionApiException();
+				} else if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+					log.error("요청 한도 초과");
+				} else if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+					log.error("잘못된 Page Id");
+					throw new InvalidNotionApiException();
+				} else {
+					log.error(e.getMessage());
+				}
+			} catch (ParserException e) {
+				log.error("올바르지 않은 json parser : " + e.getMessage());
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
 		}
 	}
 
@@ -199,7 +250,9 @@ public class NotionProvider {
 
 		resultBookmarks.add(Bookmark.builder()
 			.bookmarkLink(url)
-			.bookmarkName(jsoupResult.getTitle())
+			.bookmarkName(jsoupResult.getTitle().length() > 100
+				? jsoupResult.getTitle().substring(0, 100) :
+				jsoupResult.getTitle())
 			.category(Category
 				.builder()
 				.categoryId(categoryId)
@@ -208,6 +261,41 @@ public class NotionProvider {
 			.bookmarkThumbnail(jsoupResult.getImageUrl())
 			.build()
 		);
+	}
+
+	private void saveBookmarkOrEmbedLink(
+		JSONObject bookmarkTypeObject,
+		Long categoryId) {
+		JSONArray caption = (JSONArray)bookmarkTypeObject.get("caption");
+		String url = (String)bookmarkTypeObject.get("url");
+		// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
+		if (bookmarkService.existByBookmarkLinkAndCategoryId(url, categoryId)) {
+			return;
+		}
+
+		JsoupResult jsoupResult = jsoupUtils.getTitleAndImgUrl(url);
+		if (!caption.isEmpty()) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < caption.size(); i++) {
+				JSONObject captionObject = (JSONObject)caption.get(i);
+				sb.append(captionObject.get("plain_text"));
+			}
+			jsoupResult.setTitle(sb.toString().strip());
+		}
+
+		Bookmark bookmark = Bookmark.builder()
+			.bookmarkLink(url)
+			.bookmarkName(jsoupResult.getTitle().length() > 100
+				? jsoupResult.getTitle().substring(0, 100) :
+				jsoupResult.getTitle())
+			.category(Category
+				.builder()
+				.categoryId(categoryId)
+				.build()
+			)
+			.bookmarkThumbnail(jsoupResult.getImageUrl())
+			.build();
+		bookmarkJpaRepository.save(bookmark);
 	}
 
 	// 북마크, 임베드 이외의 링크 데이터를 저장한다.
@@ -246,7 +334,9 @@ public class NotionProvider {
 
 				resultBookmarks.add(Bookmark.builder()
 					.bookmarkLink(href.startsWith("/") ? "https://www.notion.so" + href : href)
-					.bookmarkName(jsoupResult.getTitle())
+					.bookmarkName(jsoupResult.getTitle().length() > 100
+						? jsoupResult.getTitle().substring(0, 100) :
+						jsoupResult.getTitle())
 					.bookmarkThumbnail(jsoupResult.getImageUrl())
 					.category(Category
 						.builder()
@@ -254,6 +344,58 @@ public class NotionProvider {
 						.build()
 					)
 					.build());
+			}
+		}
+	}
+
+
+
+	private void saveOtherLink(JSONObject otherTypeObject, Long categoryId) {
+		JSONArray richTexts = (JSONArray)otherTypeObject.get("rich_text");
+		if (Objects.isNull(richTexts)) {
+			return;
+		}
+
+		for (Object richText : richTexts) {
+			String href = (String)((JSONObject)richText).get("href");
+			String title = (String)((JSONObject)richText).get("plain_text");
+			String type = (String)((JSONObject)richText).get("type");
+			JsoupResult jsoupResult = new JsoupResult();
+
+			if (Objects.nonNull(href)) {
+				// 만약 한번 연동한 링크라면 더 이상 진행하지 않는다.
+				if (bookmarkService.existByBookmarkLinkAndCategoryId(href, categoryId)) {
+					continue;
+				}
+
+				jsoupResult = jsoupUtils.getTitleAndImgUrl(href);
+
+				if (!href.equals(title)) {
+					jsoupResult.setTitle(title);
+				}
+
+				if (type.equals("mention")) {
+					if (title.equals("Untitled")) {
+						jsoupResult.setTitle(DEFAULT_NOTION_PAGE_NAME);
+					} else {
+						jsoupResult.setTitle(title);
+						jsoupResult.setImageUrl(DEFAULT_NOTION_IMAGE);
+					}
+				}
+
+				Bookmark bookmark = Bookmark.builder()
+					.bookmarkLink(href.startsWith("/") ? "https://www.notion.so" + href : href)
+					.bookmarkName(jsoupResult.getTitle().length() > 100
+						? jsoupResult.getTitle().substring(0, 100) :
+						jsoupResult.getTitle())
+					.bookmarkThumbnail(jsoupResult.getImageUrl())
+					.category(Category
+						.builder()
+						.categoryId(categoryId)
+						.build()
+					)
+					.build();
+				bookmarkJpaRepository.save(bookmark);
 			}
 		}
 	}
