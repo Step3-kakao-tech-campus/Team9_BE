@@ -53,11 +53,10 @@ public class NotionConsumer {
 	public void notionConsumer(String message) throws JsonProcessingException {
 		NotionKafkaReqeusetDto requsetDto = om.readValue(message, NotionKafkaReqeusetDto.class);
 
-		List<Bookmark> bookmarkList = notionProvider.getPageLinks(
+		notionProvider.saveNotionLinks(
 			requsetDto.pageId(),
 			requsetDto.accessToken(),
 			requsetDto.categoryId()
 		);
-		bookmarkService.batchInsertBookmark(bookmarkList);
 	}
 }

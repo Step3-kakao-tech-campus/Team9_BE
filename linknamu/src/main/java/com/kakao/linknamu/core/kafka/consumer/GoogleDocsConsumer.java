@@ -31,7 +31,6 @@ public class GoogleDocsConsumer {
 		Category category = Category.builder()
 			.categoryId(requestDto.categoryId())
 			.build();
-		List<Bookmark> bookmarkList = googleDocsProvider.getLinks(requestDto.documentId(), category);
-		bookmarkService.batchInsertBookmark(bookmarkList);
+		googleDocsProvider.saveLinks(requestDto.documentId(), category);
 	}
 }
